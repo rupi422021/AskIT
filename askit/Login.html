@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="../Scripts/jquery-3.4.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-firestore.js"></script>
+    <script src="config.js"></script>
+    <style type="text/css">
+        .red-star {
+            color: red;
+        }
+
+        .container {
+            text-align: center;
+            align-items: center;
+        }
+
+        .form-control {
+            width: 50%;
+        }
+
+        #emailTB {
+            margin: 0 auto;
+        }
+
+        #passwordTB {
+            margin: 0 auto;
+        }
+    </style>
+    <script>
+
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                // User is signed in.
+                
+            } else {
+                // No user is signed in.
+            }
+        });
+        //function Init() {
+        //    ref = firebase.database().ref("users");
+        //}
+
+        function storeToLS() {
+            user = { // create a new JSON object
+                email: document.getElementById("emailTB").value,
+                password: document.getElementById("passwordTB").value
+            }
+            // stringify before storing in localstorage
+            localStorage["user"] = JSON.stringify(user);
+            alert("inLS");
+        }
+
+        function Login() {
+            debugger;
+            let _email = $("#emailTB").val();
+            let _password = $("#passwordTB").val();
+            firebase.auth().signInWithEmailAndPassword(_email, _password).then((userCredential) => {
+                    // Signed in
+                var user = userCredential.user;
+                    // ...
+                }).catch((error) => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    console.log(errorMessage);
+                    alert(errorMessage);
+                });
+            storeToLS();
+            alert("התחברת בהצלחה");
+        }
+        function Logout() {
+            firebase.auth().signOut().then(() => {
+  // Sign-out successful.
+                localStorage.clear();
+            }).catch((error) => {
+                alert(error);
+  // An error happened.
+          });
+        }
+        function f1() {
+            Login();
+            return false;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <form id="pForm" onsubmit="f1()">
+            <h2>Login</h2>
+            <div class="form-group">
+                <label for="emailTB"><span class="red-star">★ </span>E-mail</label>
+                <input type="email" class="form-control" id="emailTB" placeholder="Enter your E-mail" required />
+            </div>
+            <div class="form-group">
+                <label for="passwordTB"><span class="red-star">★ </span>Password</label>
+                <input type="password" class="form-control" id="passwordTB" placeholder="Enter your password" minlength="8"
+                       pattern="^(?=.*\d)(?=.*[A-Z]).{8,30}$"
+                       oninvalid="this.setCustomValidity('Password validator Requires min 8 characters and including at least 1 upper alpha, and 1 digit')"
+                       oninput="this.setCustomValidity('')"
+                       required />
+            </div>
+            <input type="submit" value="Login" />
+           <button id="send" onclick="Logout()">התנתק</button>
+        </form>
+    </div>
+</body>
+</html>

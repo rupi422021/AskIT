@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>RegUser</title>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <style type="text/css">
+        .red-star {
+            color: red;
+        }
+
+        a {
+            color: #000;
+            border: solid 1px;
+        }
+
+        #linkhome {
+            text-align: center;
+        }
+
+        #send {
+            padding: 1em 2.5em;
+            text-shadow: none;
+            /*display: inline-block;*/
+            text-decoration: none;
+            font-weight: 700;
+            border: 2px solid #f08c79 !important;
+            border-radius: 50px;
+            background-color: transparent;
+            font-size: 20px;
+        }
+    </style>
+    <!--Your web app's Firebase configuration-->
+    <script src="config.js"></script>
+    <script>
+        function Init() {
+            ref = firebase.database().ref("users");
+        }
+        var id, firstname, lastname, email, phone, birthdate, password;
+
+        function Ready() {
+            id = document.getElementById('idTB').value;
+            firstname = document.getElementById('nameTB').value;
+            lastname = document.getElementById('lastnameTB').value;
+            email = document.getElementById('emailTB').value;
+            phone = document.getElementById('phone').value;
+            birthdate = document.getElementById('birthDateTB').value;
+            password = document.getElementById('passwordTB').value;
+        }
+        //------------Insert Processs-------------------//
+        function insertuser() {
+            //Ready();
+            id = document.getElementById('idTB').value;
+            firstname = document.getElementById('nameTB').value;
+            lastname = document.getElementById('lastnameTB').value;
+            email = document.getElementById('emailTB').value;
+            phone = document.getElementById('phone').value;
+            birthdate = document.getElementById('birthDateTB').value;
+            password = document.getElementById('passwordTB').value;
+            ref.child(id).set({
+                idU: id,
+                firstnameU: firstname,
+                lastnameU: lastname,
+                emailU: email,
+                phoneU: phone,
+                birthdateU: birthdate,
+                passwordU: password
+            });
+        }
+    </script>
+</head>
+<body onload="Init()">
+    <div class="container">
+        <!--<form id="pForm">-->
+            <h2>Registration</h2>
+            <div class="form-group">
+                <label for="idTB"><span class="red-star">★ </span>Id</label>
+                <input type="text" class="form-control" id="idTB" placeholder="Enter your ID"
+                       pattern="[0-9]{9}"
+                       maxlength="9"
+                       oninvalid="this.setCustomValidity('Please enter your ID Max 9 numbers')"
+                       oninput="this.setCustomValidity('')"
+                       required />
+            </div>
+            <div class="form-group">
+                <label for="nameTB"><span class="red-star">★ </span>First Name</label>
+                <input type="text" class="form-control" id="nameTB" placeholder="Enter your First name"
+                       pattern="[A-Z,a-z]{2,10}"
+                       maxlength="10"
+                       oninvalid="this.setCustomValidity('Please enter your first name only in English Max 10 characters')"
+                       oninput="this.setCustomValidity('')"
+                       required />
+            </div>
+            <div class="form-group">
+                <label for="lastnameTB"><span class="red-star">★ </span>Last Name</label>
+                <input type="text" class="form-control" id="lastnameTB" placeholder="Enter your Last name"
+                       pattern="[A-Z,a-z]{2,20}"
+                       maxlength="20"
+                       oninvalid="this.setCustomValidity('Please enter your last name in English Max 20 characters')"
+                       oninput="this.setCustomValidity('')"
+                       required />
+            </div>
+            <div class="form-group">
+                <label for="emailTB"><span class="red-star">★ </span>E-mail</label>
+                <input type="email" class="form-control" id="emailTB" placeholder="Enter your E-mail" required />
+            </div>
+            <div class="form-group">
+                <label for="phone"><span class="red-star">★ </span>Phone</label>
+                <input type="tel" class="form-control" placeholder="Enter your phone ddd-ddddddd" id="phone"
+                       pattern="[0-9]{3}-[0-9]{7}"
+                       oninvalid="this.setCustomValidity('Format should be ddd-ddddddd')"
+                       oninput="this.setCustomValidity('')"
+                       required />
+            </div>
+            <div class="form-group">
+                <label for="birthDateTB"><span class="red-star">★ </span>Birth date</label>
+                <input type="date" class="form-control" placeholder="Enter your Birth date" id="birthDateTB" required />
+            </div>
+            <div class="form-group">
+                <label for="passwordTB"><span class="red-star">★ </span>Password</label>
+                <input type="password" class="form-control" id="passwordTB" placeholder="Enter your password" minlength="8"
+                       pattern="^(?=.*\d)(?=.*[A-Z]).{8,30}$"
+                       oninvalid="this.setCustomValidity('Password validator Requires min 8 characters and including at least 1 upper alpha, and 1 digit')"
+                       oninput="this.setCustomValidity('')"
+                       required />
+            </div>
+
+            <!--<div class="form-group">
+        <label for="files">Image</label>
+        <input type="file" id="files" name="files" multiple="multiple" />
+    </div>-->
+            <div id="ph"> </div>
+            <!--<input type="submit" id="send" value="Send" />-->
+            <button id="send" onclick="insertuser()">Send</button>
+        <!--</form>-->
+    </div>
+    
+ 
+</body>
+</html>

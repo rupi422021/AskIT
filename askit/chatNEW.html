@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    
+    <!--The core Firebase JS SDK is always required and must be listed first-->
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+
+    <!--TODO: Add SDKs for Firebase products that you want to use
+    https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-analytics.js"></script>
+
+
+    <!--**** Remember to add the database script ***-->
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-database.js"></script>
+
+    <!--Your web app's Firebase configuration-->
+    <script src="config.js"></script>
+
+    <script>
+        // TEST GITadgargsergswerg
+        function init() {
+
+            // Import Admin SDK
+          
+            // Get a database reference to our blog
+          
+            instArr = [];
+            depArr = [];
+            db = firebase.database();
+            ref = firebase.database().ref("Institute");
+            dref = firebase.database().ref("departments");
+            console.log(ref);
+            // listen to incoming institutes
+            listenToNewInstitute();
+           // listenToNewDepartments();
+            // listen to removing institutes
+            listenToRemove();
+            ph = document.getElementById("ph");
+        }
+
+        function listenToNewInstitute() {
+            // child_added will be evoked for every child that was added
+            // on the first entry, it will bring all the childs
+            ref.on("child_added", snapshot => {
+                inst = {
+                    id: snapshot.key,
+                    name: snapshot.val().instName,
+                    status: snapshot.val().status,
+                }
+                instArr.push(inst)
+            })
+        }
+
+        //function listenToNewDepartments() {
+        //        dref.on("child_added", snapshot => {
+        //        let dep = {
+        //            id: snapshot.key,
+        //            depName: snapshot.val().depName,
+        //            status: snapshot.val().status,
+        //        }
+        //        depArr.push(dep);
+        //        console.log(depArr);
+        //    })
+        }
+
+
+        function listenToRemove() {
+            ref.on("child_removed", snapshot => {
+                instArr = instArr.filter(m => m.content != snapshot.val().inst);
+                // re-render the institutes
+                printInstitute(instArr);
+            })
+        }
+        /*
+                function getinstfromDB() {
+                    instArr = [];
+                    // once listens to an event and then deletes the listner
+                    // it is usually used to initially bring data
+                    ref.once("value", snapshot => {
+                        snapshot.forEach(element => {
+                            inst = {
+                            name:element.val().name,
+                            content:element.val().inst,
+                        }
+                         instArr.push(inst)
+                        });
+                        printInstitute(instArr);
+                    })
+
+                }
+        */
+        function deleteinstsBySubString() {
+            let subString = document.getElementById("delTB").value;
+            if (subString == "") {
+                alert("substing can not be empty");
+                return;
+            }
+            ref.once("value", snapshot => {
+                snapshot.forEach(element => {
+                    // check if contains the substring
+                    if (element.val().inst.indexOf(subString) > -1) {
+                        ref.child(element.key).remove();
+                    }
+                });
+            })
+        }
+
+        function printMessage(inst) {
+            let str = "name: " + inst.instName + ", content: " + inst.content + "<br/>";
+            ph.innerHTML += str;
+        }
+
+        function printInstitute(instArr) {
+            var str = "";
+            for (let index = 0; index < instArr.length; index++) {
+                const inst = instArr[index];
+                str += "name: " + inst.instName + ", content: " + inst.content + "<br/>";
+            }
+            ph.innerHTML = str;
+        }
+
+        function AddINST() {
+            let inst = document.getElementById("instTB").value;
+
+            if (inst == "") {
+                alert("must enter an institute name");
+                return;
+            }          
+            ref.push().set({ "instName": inst, "status": "Active" });
+
+           // instituteIndex = snapshot.key;
+        }
+
+        //function AddDEP() {
+        //    let inst = document.getElementById("instTB").value;
+        //    let dep = document.getElementById("depTB").value;           
+        //    if (dep == "") {
+        //        alert("must enter a Department");
+        //        return;
+
+        //    }
+           
+        //}
+
+        function AddDEP() {
+
+            let inst = document.getElementById("instTB").value;
+            let dep = document.getElementById("depTB").value; 
+            instituteIndex = "";
+            for (var i = 0; i < instArr.length; i++) {
+                if (instArr[i].name == inst) {
+                    instituteIndex = instArr[i].id;
+                }
+            }
+            console.log(instituteIndex);
+
+            ref.child(instituteIndex).once("value", snapshot => {
+                if (typeof (snapshot.val().departments) == 'undefined') {
+                    departments = []; // in case it is the first player
+                }
+                else {
+                   //  in case it is the second player
+                    departments = snapshot.val().departments;
+                }
+                console.log(snapshot.val());
+                let dep = document.getElementById("depTB").value;
+                console.log(departments);
+                departments.push({
+                    "depName": dep,  
+                    "status": "Active"
+                })
+                // update the database with the players object
+                ref.child(instituteIndex).child("departments").set(departments);
+              
+            })
+
+
+        }
+
+    </script>
+
+
+
+
+
+</head>
+<body onload="init()">
+
+
+    <input type="text" id="instTB" placeholder="Enter Institute Name" />
+    <!--<button onclick="AddName()">Add Name</button>-->
+    <button onclick="AddINST()">Add Institute</button>
+
+    <br />
+    <br />
+
+    <input type="text" id="depTB" placeholder="Enter Department Name" />
+    <button onclick="AddDEP()">Add Department</button>
+
+
+    <br />
+    <br />
+
+    <input type="text" id="delTB" placeholder="enter substring to delete" />
+    <button onclick="deleteInstBySubString()">Delete Institute</button>
+
+
+    <div id="ph"></div>
+
+</body>
+</html>

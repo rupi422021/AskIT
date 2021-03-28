@@ -1,0 +1,68 @@
+﻿{
+  "Institutions": {
+      "רופין": {
+        "statusInstitute": "Active",
+        "Departments": {
+          "הנדסה תעשייה וניהול": {
+            "statusDepartmente": "Active",
+             "Courses": {
+              "SQL": {
+                "statusCourse": "Active",
+                "Subjects": {
+                  "ERD": {
+                    "statusSubject": "Active",
+                    "Questions": [
+                      {
+                        "רובוטריק": {
+                          "type": "Open",
+                          "content": "bla bla bla",
+                          "image": "dgg",
+                          "creationDate": "09-03-2021",
+                          "tags": "update",
+                          "level": 3,
+                          "publish": "True",
+                          "wherepublish": "homework",
+                          "publishdate": "09-03-2021",
+                          "access": "True"
+                        },
+                        "רובוטריקים": {
+                          "type": "Open",
+                          "content": "bla bla bla",
+                          "image": "fgfdg",
+                          "creationDate": "09-03-2021",
+                          "tags": "Select",
+                          "level": 3,
+                          "publish": "True",
+                          "wherepublish": "homework",
+                          "publishdate": "09-03-2021",
+                          "access": "True"
+                        }
+                      }
+                    ]
+                  },
+                  "Queries": {
+                    "statusSubject": "Active",
+                    "Questions":{
+                        "ספיידרמן": {
+                          "type": "Open",
+                          "content": "הצג את כל הספיידרמנים בכחול",
+                          "image": "gggg",
+                          "creationDate": "10-03-2021",
+                          "tags": "Select,update,triger",
+                          "level": 1,
+                          "publish": "True",
+                          "wherepublish": "homework",
+                          "publishdate": "09-03-2021",
+                          "access": "True"
+                        }
+                      }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+}
+  
