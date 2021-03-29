@@ -30,7 +30,7 @@
     <script src="config.js"></script>
     <script>
         function init() {
-            debugger;
+            
             var database = firebase.database();
             ref = firebase.database().ref("users");
             if (localStorage["user"] != null) { // check if the entry exists
@@ -149,48 +149,39 @@
                 alert("must enter an institute name");
                     return;
                 }
-                ref.child(inst).set({"status": "Active" });
+                firebase.database().ref("Institute").child(inst).set({"status": "Active" });
                 instituteIndex = snapshot.key;
             }
 
                 function AddDEP() {
                 let inst = document.getElementById("instTB").value;
                 let dep = document.getElementById("depTB").value;
-                instituteIndex = "";
-                for (var i = 0; i < instArr.length; i++) {
-                    if (instArr[i].name == inst) {
-                    instituteIndex = instArr[i].id;
-                    }
-                    }
-                debugger;
-                console.log(instituteIndex);
+               
 
-                ref.child(instituteIndex).on("value", snapshot => {
-                    if (typeof (snapshot.val().departments) == 'undefined') {
-                            departments = []; // in case it is the first player
-                    }
-                    else {
-                            // in case it is the second player
-                            departments = snapshot.val().institute.departments;
-                            //departments = snapshot.val().departments;
-                    }
-                    let dep = document.getElementById("depTB").value;
-                    // let name = document.getElementById("nameTB").value;
-                    debugger;
-                    departments.push({
-                        "dep": dep,
-                        "status": "Active"
-                        })
-                        // update the database with the players object
-                        //ref.child(instituteIndex).child("institute").child("departments").set(departments);
-                    ref('Institute').child(inst).child('Departments').set(departments);
+                    firebase.database().ref("Institute").child(inst).child(dep).set({ "status": "Active" });
+                  }
 
-                    })
-                }
-                function f1() {
-                    AddINST();
-                    return false;
-                }
+                  function AddCourse() {
+                    let inst = document.getElementById("instTB").value;
+                      let dep = document.getElementById("depTB").value;
+                      let course = document.getElementById("CourseTB").value;
+
+
+                      firebase.database().ref("Institute").child(inst).child(dep).child(course).set({ "status": "Active" });
+                    }
+                    function AddSubject() {
+                        let inst = document.getElementById("instTB").value;
+                        let dep = document.getElementById("depTB").value;
+                        let course = document.getElementById("CourseTB").value;
+                        let subject = document.getElementById("SubjectTB").value;
+                        
+
+
+                        firebase.database().ref("Institute").child(inst).child(dep).child(course).child(subject).set({ "status": "Active" });
+                    }
+
+
+               
     </script>
 </head>
 
@@ -251,7 +242,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">ניהול מוסדות</h1>
                                     </div>
-                                    <form class="user">
+                                    <!--<form class="user">-->
                                         <div class="form-group">
                                             <p class="lead">מוסד אקדמי</p>
                                             <input id="instTB" type="text" class="form-control form-control-user"
@@ -287,9 +278,9 @@
             </label>-->
                                             </div>
                                         </div>
-                                        <button onclick="f1()" class="btn btn-primary btn-user btn-block">הוסף</button>
+                                        <button onclick="AddINST()" class="btn btn-primary btn-user btn-block">הוסף</button>
                                         <hr>
-                                    </form>
+                                    <!--</form>-->
                                     <hr>
                                 </div>
                             </div>
