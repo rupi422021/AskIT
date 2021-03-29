@@ -1,0 +1,312 @@
+﻿<!DOCTYPE html>
+<html dir="rtl">
+
+<head>
+    <style>
+        .lead{
+            text-align:right;
+        }
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>System Setting</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--fire base-->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
+    <!--Your web app's Firebase configuration-->
+    <script src="config.js"></script>
+    <script>
+        function init() {
+            debugger;
+            var database = firebase.database();
+            ref = firebase.database().ref("users");
+            if (localStorage["user"] != null) { // check if the entry exists
+                // after getting the localStorage string, parse it to a JSON object
+                user = JSON.parse(localStorage["user"]);
+                //שינוי תעודת זהות לפי אימייל וסיסמה!!!!!!!!!!!!
+                ref.child(205768609).get().then(function (snapshot) {
+                    if (snapshot.exists()) {
+                        console.log(snapshot.val());
+                        userP = snapshot.val();
+                        //הוספת שם בצד ימין
+                        var ProfileName = document.getElementById("ProfileNameid");
+                        ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
+                    }
+                    else {
+                        console.log("No data available");
+                    }
+                }).catch(function (error) {
+                    console.error(error);
+                });
+                //אתחול מערך מוסדות,מחלקות
+                instArr = [];
+                depArr = [];
+                db = firebase.database();
+                ref = firebase.database().ref("Institute");
+                console.log(ref);
+
+                dref = firebase.database().ref("Departments");
+                // listen to incoming institutes
+                listenToNewInstitute();
+                //listenToNewDepartments();
+                // listen to removing institutes
+                listenToRemove();
+                ph = document.getElementById("ph");
+            }
+            else {
+                userA = {};
+            }
+        }
+        function Logout() {
+            firebase.auth().signOut().then(() => {
+                // Sign-out successful.
+                localStorage.clear();
+            }).catch((error) => {
+                alert(error);
+                // An error happened.
+            });
+        }
+//////
+  
+            function listenToNewInstitute() {
+                // child_added will be evoked for every child that was added
+                // on the first entry, it will bring all the childs
+                ref.on("child_added", snapshot => {
+                    inst = {
+                        name: snapshot.val().name,
+                        content: snapshot.val().inst,
+                    }
+                    instArr.push(inst)
+                    printMessage(inst);
+
+                })
+            }
+            //function listenToNewDepartments() {
+            //    pref.on("child_added", snapshot => {
+            //        let par = {
+            //            name: snapshot.val().name,
+            //            status: snapshot.val().status,
+            //        }
+            //        depArr.push(par);
+            //        printDepartment(par);
+            //    })
+            //}
+
+
+            function listenToRemove() {
+                ref.on("child_removed", snapshot => {
+                    instArr = instArr.filter(m => m.content != snapshot.val().inst);
+                    // re-render the institutes
+                    printInstitute(instArr);
+                })
+            }
+            function deleteinstsBySubString() {
+                let subString = document.getElementById("delTB").value;
+                if (subString == "") {
+                alert("substing can not be empty");
+                    return;
+                }
+                ref.once("value", snapshot => {
+                snapshot.forEach(element => {
+                    // check if contains the substring
+                    if (element.val().inst.indexOf(subString) > -1) {
+                        ref.child(element.key).remove();
+                    }
+                });
+                })
+            }
+            function printMessage(inst) {
+                let str = "name: " + inst.name + ", content: " + inst.content + "<br />";
+                ph.innerHTML += str;
+            }
+
+            function printInstitute(instArr) {
+                var str = "";
+                for (let index = 0; index < instArr.length; index++){
+                    const inst = instArr[index];
+                    str += "name: " + inst.name + ", content: " + inst.content + "<br />";
+                }
+                ph.innerHTML = str;
+            }
+
+            function AddINST() {
+                let inst = document.getElementById("instTB").value;
+
+                if (inst == "") {
+                alert("must enter an institute name");
+                    return;
+                }
+                ref.child(inst).set({"status": "Active" });
+                instituteIndex = snapshot.key;
+            }
+
+                function AddDEP() {
+                let inst = document.getElementById("instTB").value;
+                let dep = document.getElementById("depTB").value;
+                instituteIndex = "";
+                for (var i = 0; i < instArr.length; i++) {
+                    if (instArr[i].name == inst) {
+                    instituteIndex = instArr[i].id;
+                    }
+                    }
+                debugger;
+                console.log(instituteIndex);
+
+                ref.child(instituteIndex).on("value", snapshot => {
+                    if (typeof (snapshot.val().departments) == 'undefined') {
+                            departments = []; // in case it is the first player
+                    }
+                    else {
+                            // in case it is the second player
+                            departments = snapshot.val().institute.departments;
+                            //departments = snapshot.val().departments;
+                    }
+                    let dep = document.getElementById("depTB").value;
+                    // let name = document.getElementById("nameTB").value;
+                    debugger;
+                    departments.push({
+                        "dep": dep,
+                        "status": "Active"
+                        })
+                        // update the database with the players object
+                        //ref.child(instituteIndex).child("institute").child("departments").set(departments);
+                    ref('Institute').child(inst).child('Departments').set(departments);
+
+                    })
+                }
+                function f1() {
+                    AddINST();
+                    return false;
+                }
+    </script>
+</head>
+
+<body onload="init()">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                <img class="img-profile rounded-circle" src="image/undraw_profile.svg">
+                <p id="ProfileNameid"></p>
+            </a>
+            <a class="navbar-brand" href="Admin.html"><img src="image/logo.svg" /></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            בית
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">הגדרות מערכת</a>
+                        <span class="sr-only">(current)</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">ניהול משתמשים</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1 class="mt-5">הגדרות מערכת</h1>
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">ניהול מוסדות</h1>
+                                    </div>
+                                    <form class="user">
+                                        <div class="form-group">
+                                            <p class="lead">מוסד אקדמי</p>
+                                            <input id="instTB" type="text" class="form-control form-control-user"
+                                                   aria-describedby="emailHelp"
+                                                   placeholder="הזן מוסד אקדמי">
+                                        </div>
+                                        <div class="form-group">
+                                            <p class="lead">מחלקה</p>
+                                            <input type="text" id="depTB" class="form-control form-control-user"
+                                                   placeholder="הזן מחלקה">
+                                            <button onclick="AddDEP()">הוסף מחלקה</button>
+                                        </div>
+                                        <div class="form-group">
+                                            <p class="lead">קורס</p>
+                                            <input type="text" id="CourseTB" class="form-control form-control-user"
+                                                   placeholder="הזן קורס">
+                                            <button onclick="AddCourse()">הוסף קורס</button>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <p class="lead">נושא</p>
+                                            <input type="text" id="SubjectTB" class="form-control form-control-user"
+                                                   placeholder="הזן נושא">
+                                            <button onclick="AddSubject()">הוסף נושא</button>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <!--<input type="checkbox" class="custom-control-input" id="customCheck">
+            <label class="custom-control-label" for="customCheck">
+                Remember
+                Me
+            </label>-->
+                                            </div>
+                                        </div>
+                                        <button onclick="f1()" class="btn btn-primary btn-user btn-block">הוסף</button>
+                                        <hr>
+                                    </form>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.slim.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <div id="ph"></div>
+
+</body>
+
+</html>
