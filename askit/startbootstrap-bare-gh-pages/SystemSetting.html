@@ -149,7 +149,7 @@
                 alert("must enter an institute name");
                     return;
                 }
-                firebase.database().ref("Institute").child(inst).set({"status": "Active" });
+                firebase.database().ref("Institutes").child(inst).set({"status": "Active" });
                 instituteIndex = snapshot.key;
             }
 
@@ -158,7 +158,7 @@
                 let dep = document.getElementById("depTB").value;
                
 
-                    firebase.database().ref("Institute").child(inst).child(dep).set({ "status": "Active" });
+                    firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).set({ "status": "Active" });
                   }
 
                   function AddCourse() {
@@ -167,7 +167,7 @@
                       let course = document.getElementById("CourseTB").value;
 
 
-                      firebase.database().ref("Institute").child(inst).child(dep).child(course).set({ "status": "Active" });
+                      firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).set({ "status": "Active" });
                     }
                     function AddSubject() {
                         let inst = document.getElementById("instTB").value;
@@ -177,7 +177,7 @@
                         
 
 
-                        firebase.database().ref("Institute").child(inst).child(dep).child(course).child(subject).set({ "status": "Active" });
+                        firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).set({ "status": "Active" });
                     }
 
 
