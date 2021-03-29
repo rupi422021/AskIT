@@ -3,22 +3,78 @@
 
 <head>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  <title>Bare - Start Bootstrap Template</title>
+    <title>Bare - Start Bootstrap Template</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--fire base-->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
+    <!--Your web app's Firebase configuration-->
+    <script src="config.js"></script>
+    <script>
+        function init() {
+            debugger; 
+            var database = firebase.database();
+            ref = firebase.database().ref("users");
+            if (localStorage["user"] != null) { // check if the entry exists
+                alert("getfromls");
+                // after getting the localStorage string, parse it to a JSON object
+                user = JSON.parse(localStorage["user"]);
+                //שינוי תעודת זהות לפי אימייל וסיסמה!!!!!!!!!!!!
+                ref.child(205768609).get().then(function (snapshot) {
+                    if (snapshot.exists()) {
+                        console.log(snapshot.val());
+                        userP = snapshot.val();
+                        console.log(userP);
+                        //הוספת שם בצד ימין 
+                        var ProfileName = document.getElementById("ProfileNameid");
+                        ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
+                    }
+                    else {
+                        console.log("No data available");
+                    }
+                }).catch(function (error) {
+                    console.error(error);
+                });
+            }
+            else {
+                userA = {};
+            }
+        }
+        function Logout() {
+            firebase.auth().signOut().then(() => {
+                // Sign-out successful.
+                localStorage.clear();
+            }).catch((error) => {
+                alert(error);
+                // An error happened.
+            });
+        }
+    </script>
 </head>
 
-<body>
+<body onload="init()">
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
         <div class="container">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                <img class="img-profile rounded-circle" src="image/undraw_profile.svg">
+                <p id="ProfileNameid"></p>
+            </a>
             <a class="navbar-brand" href="Admin.html"><img src="image/logo.svg" /></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
