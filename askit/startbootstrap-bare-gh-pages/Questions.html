@@ -1,0 +1,265 @@
+﻿<!DOCTYPE html>
+<html dir="rtl">
+
+<head>
+    <style>
+        .lead {
+            text-align: right;
+        }
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Create Question</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--fire base-->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
+    <!--Your web app's Firebase configuration-->
+    <script src="config.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+      
+        function init() {
+
+            var database = firebase.database();
+            ref = firebase.database().ref("users");
+            if (localStorage["user"] != null) { // check if the entry exists
+                // after getting the localStorage string, parse it to a JSON object
+                user = JSON.parse(localStorage["user"]);
+                //שינוי תעודת זהות לפי אימייל וסיסמה!!!!!!!!!!!!
+                ref.child(205768609).get().then(function (snapshot) {
+                    if (snapshot.exists()) {
+                        console.log(snapshot.val());
+                        userP = snapshot.val();
+                        //הוספת שם בצד ימין
+                        var ProfileName = document.getElementById("ProfileNameid");
+                        ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
+                    }
+                    else {
+                        console.log("No data available");
+                    }
+                }).catch(function (error) {
+                    console.error(error);
+                });
+                //אתחול מערך מוסדות,מחלקות
+                instArr = [];
+                depArr = [];
+                db = firebase.database();
+                ref = firebase.database().ref("Institute");
+                console.log(ref);
+
+                dref = firebase.database().ref("Departments");
+                // listen to incoming institutes
+                listenToNewInstitute();
+                //listenToNewDepartments();
+                // listen to removing institutes
+                listenToRemove();
+                ph = document.getElementById("ph");
+            }
+            else {
+                userA = {};
+            }
+            //הורדת העפרון ברגע שעולה הדף
+            document.getElementById("PencilIcon").style.display = "none";
+
+        }
+        function Logout() {
+            firebase.auth().signOut().then(() => {
+                // Sign-out successful.
+                localStorage.clear();
+            }).catch((error) => {
+                alert(error);
+                // An error happened.
+            });
+        }
+        //////
+
+
+        function AddQuestion() {
+            let inst = document.getElementById("instTB").value;
+            let dep = document.getElementById("depTB").value;
+            let course = document.getElementById("CourseTB").value;
+            let subject = document.getElementById("SubjectTB").value;
+            let quesName = document.getElementById("quesTB").value;
+            let quesType = document.getElementById("quesTypeTB").value;
+            let quesContent = document.getElementById("quesContentTB").value;
+
+
+            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({"type": quesType, "content": quesContent });
+        }
+
+
+    </script>
+</head>
+
+<body onload="init()">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                <img class="img-profile rounded-circle" src="image/undraw_profile.svg">
+                <p id="ProfileNameid"></p>
+            </a>
+            <a class="navbar-brand" href="Admin.html"><img src="image/logo.svg" /></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            בית
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">הגדרות מערכת</a>
+                        <span class="sr-only">(current)</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">ניהול משתמשים</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1 class="mt-5">הגדרות מערכת</h1>
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">יצירת שאלה</h1>
+                                    </div>
+                                    <!--<form class="user">-->
+                                    <div class="form-group">
+                                        <p class="lead">מוסד אקדמי</p>
+                                        <!--<input id="instTB" type="text" class="form-control form-control-user"
+        aria-describedby="emailHelp"
+        placeholder="הזן מוסד אקדמי">-->
+                                        <div>
+                                            <div id="PencilIcon" onclick="notDisable()"><img src="image/pencil.svg" /></div>
+                                            <select name="Institute" id="instTB" class="form-control form-control-user" ">
+                                                <option value="-1"> בחר מוסד</option>
+                                                <option value="Ruppin">המרכז האקדמי רופין</option>
+                                                <option value="Afeka">אפקה</option>
+                                                <option value="Ben-Gurion-University">אוניברסיטת בן גוריון</option>
+                                                <option value="Ort-Braude">מכללת אורט בראודה</option>
+                                                <option value="Tel-Aviv-University">אוניברסיטת תל אביב</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="lead">מחלקה</p>
+                                        <input type="text" id="depTB" class="form-control form-control-user"
+                                               placeholder="הזן מחלקה">
+                                        <!--<button onclick="AddDEP()">הוסף מחלקה</button>-->
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="lead">קורס</p>
+                                        <input type="text" id="CourseTB" class="form-control form-control-user"
+                                               placeholder="הזן קורס">
+                                        <!--<button onclick="AddCourse()">הוסף קורס</button>-->
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p class="lead">נושא</p>
+                                        <input type="text" id="SubjectTB" class="form-control form-control-user"
+                                               placeholder="הזן נושא">
+                                        <!--<button onclick="AddSubject()">הוסף נושא</button>-->
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p class="lead">שם שאלה</p>
+                                        <input type="text" id="quesTB" class="form-control form-control-user"
+                                               placeholder="הזן שם שאלה">
+                                        <!--<button onclick="AddDEP()">הוסף מחלקה</button>-->
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p class="lead">סוג שאלה</p>
+                                        <div>
+                                            <div id="PencilIcon" onclick="notDisable()"></div>
+                                            <select name="quesType" id="quesTypeTB" class="form-control form-control-user" >
+                                                <option value="-1"> בחר סוג שאלה</option>
+                                                <option value="Close">סגורה</option>
+                                                <option value="Open">פתוחה</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p class="lead">תוכן השאלה</p>
+                                        <textarea type="text" id="quesContentTB" class="form-control form-control-user"
+                                                  placeholder="הזן תוכן שאלה">  </textarea>                                
+                                    </div>
+
+                                    <div class="form-input">
+                                        <label for="files">Image</label>
+                                        <input type="file" id="files" name="files" multiple="multiple" />
+                                    </div>
+
+                                    <button onclick="AddQuestion()" class="btn btn-primary btn-user btn-block">צור שאלה</button>
+                                    <hr>
+                                    <!--</form>-->
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.slim.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <div id="ph"></div>
+
+</body>
+
+</html>
