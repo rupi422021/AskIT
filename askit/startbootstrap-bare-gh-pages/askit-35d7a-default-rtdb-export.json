@@ -1,0 +1,65 @@
+{
+  "Institutes" : {
+    "Ruppin" : {
+      "Departments" : {
+        "הנדסה תעשייה וניהול" : {
+          "Courses" : {
+            "BI" : {
+              "Subjects" : {
+                "ETL" : {
+                  "status" : "Active"
+                }
+              },
+              "status" : "Active"
+            },
+            "כלכלה הנדסית" : {
+              "Subjects" : {
+                "מניות" : {
+                  "status" : "Active"
+                }
+              },
+              "status" : "Active"
+            },
+            "ניהול מסדי נתונים" : {
+              "Subjects" : {
+                "SQL" : {
+                  "status" : "Active"
+                }
+              },
+              "status" : "Active"
+            }
+          },
+          "status" : "Active"
+        },
+        "הנדסת מחשבים" : {
+          "Courses" : {
+            "מבוא לתכנות שפת C" : {
+              "Subjects" : {
+                "בנאי" : {
+                  "status" : "Active"
+                }
+              },
+              "status" : "Active"
+            },
+            "פיזיקה 1" : {
+              "Subjects" : {
+                "חוקי ניוטון" : {
+                  "status" : "Active"
+                },
+                "כוח הכבידה" : {
+                  "status" : "Active"
+                },
+                "כוח המשיכה" : {
+                  "status" : "Active"
+                }
+              },
+              "status" : "Active"
+            }
+          },
+          "status" : "Active"
+        }
+      },
+      "status" : "Active"
+    }
+  }
+}

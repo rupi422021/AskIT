@@ -41,92 +41,7 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script>
-        ///הוספת רינדור
-        //function init() {
-
-        //    attackTypes = [];
-
-        //    for (var i = 0; i < moves.length; i++) {
-        //        let t = moves[i].type;
-        //        if (attackTypes[t] == undefined)
-        //            attackTypes[t] = [];
-        //        attackTypes[t].push(i);
-        //    }
-
-        //    renderAttackType(attackTypes);
-
-        //}
-
-
-        //function renderAttackType(arr) {
-        //    var str = "<option value = '-1'>select</option>";
-        //    for (k in arr) {
-        //        str += "<option value = '" + k + "'>" + k + "</option>";
-        //    }
-        //    document.getElementById("moves").innerHTML = str;
-        //}
-
-        //function renderMoves(attack, min) {
-        //    var sum = 0;
-        //    var counter = 0;
-        //    var str = "";
-        //    for (var i = 0; i < attackTypes[attack].length; i++) {
-        //        indexInMoves = attackTypes[attack][i];
-        //        let name = moves[indexInMoves].ename;
-        //        let accuracy = moves[indexInMoves].accuracy;
-        //        if (accuracy == null)
-        //            accuracy = 0;
-        //        else {
-        //            sum += accuracy;
-        //            counter++;
-        //        }
-        //        let power = moves[indexInMoves].power;
-        //        if (power == null)
-        //            power = 0;
-        //        if (power < min)
-        //            continue;
-
-        //        str += "<div class='attack'>";
-        //        str += "<p>name: " + name + "</p>";
-        //        str += "<p>power: " + power + "</p>";
-        //        str += "<p>accuracy: " + accuracy + "</p>";
-        //        str += "</div>";
-        //    }
-        //    document.getElementById("ph").innerHTML = str;
-        //    let avg = sum / counter;
-        //    document.getElementById("averageAccuracy").innerHTML = "The average is : " + avg;
-        //}
-
-        //function show2(min) {
-        //    let attack = document.getElementById("moves").value;
-        //    renderMoves(attack, min);
-        //}
-        ///הוספת רינדור
-
-
-        //....add
-        //function init() {
-        //    str = "";
-        //    str += "<option value =-1>select stock</option>";
-        //    for (k in stocks) {
-        //        str += "<option value='" + k + "'>" + k + "</option>";
-        //    }
-        //    document.getElementById("stocksDDL").innerHTML = str;
-
-        //    if (localStorage["buys"] != null) {  // check if the entry exists
-        //        // after getting the localStorage string, parse it to a JSON object
-        //        buys = JSON.parse(localStorage["buys"]);
-        //        budjet = JSON.parse(localStorage["budjet"]);
-        //    }
-        //    else {
-        //        buys = [];
-        //        budjet = 1000;
-        //    }
-
-        //}
-        //....add
         function init() {
-
             var database = firebase.database();
             ref = firebase.database().ref("users");
             if (localStorage["user"] != null) { // check if the entry exists
@@ -147,182 +62,54 @@
                 }).catch(function (error) {
                     console.error(error);
                 });
-                //אתחול מערך מוסדות,מחלקות
-                instArr = [];
-                depArr = [];
-                db = firebase.database();
-                ref = firebase.database().ref("Institute");
-                console.log(ref);
-
-                dref = firebase.database().ref("Departments");
-                // listen to incoming institutes
-                listenToNewInstitute();
-                //listenToNewDepartments();
-                // listen to removing institutes
-                listenToRemove();
-                ph = document.getElementById("ph");
             }
-            else {
-                userA = {};
-            }
-            //הורדת העפרון ברגע שעולה הדף 
-            document.getElementById("PencilIcon").style.display = "none";
 
-        }
-        function Logout() {
-            firebase.auth().signOut().then(() => {
-                // Sign-out successful.
-                localStorage.clear();
+        function register(email, password) {
+            firebase.auth().createUserWithEmailAndPassword(email, password).then((userCredential) => {
+                // Signed in
+                debugger;
+                var user = userCredential.user;
+                console.log(user);
             }).catch((error) => {
-                alert(error);
-                // An error happened.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                console.log(errorMessage);
+                // ..
             });
         }
-        //////
 
-        function listenToNewInstitute() {
-            // child_added will be evoked for every child that was added
-            // on the first entry, it will bring all the childs
-            ref.on("child_added", snapshot => {
-                inst = {
-                    name: snapshot.val().name,
-                    content: snapshot.val().inst,
-                }
-                instArr.push(inst)
-                printMessage(inst);
 
-            })
-        }
+            //------------Insert Processs-------------------//
+            function insertuser() {
+                debugger;
+                let idU = document.getElementById('idTB').value;
+                let firstnameU = document.getElementById('nameTB').value;
+                let lastnameU = document.getElementById('lastnameTB').value;
+                let emailU = document.getElementById('emailTB').value;
+                let passwordU = document.getElementById('passwordTB').value;
+                let instituteU = document.getElementById('InstituteTB').value;
+                //קריאה לAUT
 
-        function listenToRemove() {
-            ref.on("child_removed", snapshot => {
-                instArr = instArr.filter(m => m.content != snapshot.val().inst);
-                // re-render the institutes
-                printInstitute(instArr);
-            })
-        }
-        function deleteinstsBySubString() {
-            let subString = document.getElementById("delTB").value;
-            if (subString == "") {
-                alert("substing can not be empty");
-                return;
-            }
-            ref.once("value", snapshot => {
-                snapshot.forEach(element => {
-                    // check if contains the substring
-                    if (element.val().inst.indexOf(subString) > -1) {
-                        ref.child(element.key).remove();
-                    }
+
+                ref.child(idU).set({
+                    id: idU,
+                    firstname: firstnameU,
+                    lastname: lastnameU,
+                    email: emailU,
+                    password: passwordU,
+                    institute: instituteU,
+                    status: "waiting for approvel"
                 });
-            })
-        }
-        function printMessage(inst) {
-            let str = "name: " + inst.name + ", content: " + inst.content + "<br />";
-            ph.innerHTML += str;
-        }
-
-        function printInstitute(instArr) {
-            var str = "";
-            for (let index = 0; index < instArr.length; index++) {
-                const inst = instArr[index];
-                str += "name: " + inst.name + ", content: " + inst.content + "<br />";
+                register(emailU, passwordU);
             }
-            ph.innerHTML = str;
-        }
-
-        function AddINST() {
-            let inst = document.getElementById("instTB").value;
-            let dep = document.getElementById("depTB").value;
-            //let course = document.getElementById("CourseTB").value;
-            //let subject = document.getElementById("SubjectTB").value;
-
-            if (inst == -1) {
-                alert("must enter an institute name");
-                return;
+            function f1() {
+                insertuser();
+                return false;
             }
-            firebase.database().ref("Institutes").child(inst).set({ "status": "Active" });
-
-            if (dep != null) {
-                AddDEP();
-            }
-            
-
-            //if (inst != -1 && dep != null) {
-            //    firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).update(dep, { "status": "Active" });
-            //}
-            //instituteIndex = snapshot.key;
-
-            //if (dep == "") {
-            //    alert("must enter an Departments name");
-            //    return;
-            //}
-            //firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).setValue({ "status": "Active" });
-
-            //if (course == "") {
-            //    alert("must enter an Courses name");
-            //    return;
-            //}
-            //firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).set({ "status": "Active" });
-
-            //if (subject == "") {
-            //    alert("must enter an Subjects name");
-            //    return;
-            //}
-            //firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).set({ "status": "Active" });
-        }
-
-        // Get the button, and when the user clicks on it, execute myFunction
-        //document.getElementById("myBtn").onclick = function () { myFunction() };
-
-        function AddDEP() {
-            let inst = document.getElementById("instTB").value;
-            let dep = document.getElementById("depTB").value;
-            department = {
-                "dep": dep,
-                "status": "Active"
-            }
-            if (inst != -1 && dep != null) {
-                firebase.database().ref("Institutes").child(inst).child("Departments").update(department);
-            }
-            else
-                return;
-
-        }
-
-        function AddCourse() {
-            let inst = document.getElementById("instTB").value;
-            let dep = document.getElementById("depTB").value;
-            let course = document.getElementById("CourseTB").value;
-
-
-            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).set({ "status": "Active" });
-        }
-        function AddSubject() {
-            let inst = document.getElementById("instTB").value;
-            let dep = document.getElementById("depTB").value;
-            let course = document.getElementById("CourseTB").value;
-            let subject = document.getElementById("SubjectTB").value;
-
-
-
-            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).set({ "status": "Active" });
-        }
-
-        function funcDisabel() {
-            document.getElementById("instTB").disabled = true;
-            document.getElementById("PencilIcon").style.display = "block";
-            
-        }
-        function notDisable() {
-            document.getElementById("instTB").disabled = false;
-            document.getElementById("PencilIcon").style.display = "none";
-
-        }
-
     </script>
 </head>
 
-<body onload="init()">
+<body onload="Init()">
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
         <div class="container">
