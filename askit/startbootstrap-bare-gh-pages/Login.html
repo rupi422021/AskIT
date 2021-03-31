@@ -68,28 +68,27 @@
         }
 
         function Login() {
+
             let _id = $("#idTB").val();
             let _password = $("#passwordTB").val();
-       
-            firebase.database().ref("users").once("value")
-                .then(function (snapshot) {
-                    if (snapshot.child(_id).exists()) {
-                        console.log(snapshot.child(_id /_password).exists())
+            ref = firebase.database().ref("users");
+            ref.child(_id).get().then(function (snapshot) {
+                if (snapshot.exists()) {
+                    u = snapshot.val();
+                    console.log(u);
+                    if (u.password == _password) {
+                        storeToLS();
+                        alert("התחברת בהצלחה");
                     }
+                }
+                else {
+                   alert("אתה לא קיים יא אפס");
+                }
+            }).catch(function (error) {
+                console.error(error);
+            });
 
-                });
-            //firebase.auth().signInWithEmailAndPassword(_email, _password).then((userCredential) => {
-            //        // Signed in
-            //    var user = userCredential.user;
-            //        // ...
-            //    }).catch((error) => {
-            //        var errorCode = error.code;
-            //        var errorMessage = error.message;
-            //        console.log(errorMessage);
-            //        alert(errorMessage);
-            //    });
-            storeToLS();
-            alert("התחברת בהצלחה");
+            
         }
         function Logout() {
             firebase.auth().signOut().then(() => {
@@ -100,35 +99,35 @@
   // An error happened.
           });
         }
-        function f1() {
-            Login();
-            return false;
-        }
+        //function f1() {
+        //    Login();
+        //    return false;
+        //}
     </script>
 </head>
 <body>
     <div class="container">
-        <form id="pForm" onsubmit="f1()">
-            <h2>Login user</h2>
-            <div class="form-group">
-                <label for="idTB"><span class="red-star">★ </span>תעודת זהות</label>
-                <input type="text" class="form-control" id="idTB" placeholder="הכנס תעודת זהות" pattern="[0-9]{9}"
-                       maxlength="9"
-                       oninvalid="this.setCustomValidity('אנא הכנס תעודת זהות כולל ספרת ביקורת')"
-                       oninput="this.setCustomValidity('')"
-                       required />
-            </div>
-            <div class="form-group">
-                <label for="passwordTB"><span class="red-star">★ </span>סיסמה</label>
-                <input type="password" class="form-control" id="passwordTB" placeholder="הכנס סיסמה" minlength="8"
-                       pattern="^(?=.*\d)(?=.*[A-Z]).{8,30}$"
-                       oninvalid="this.setCustomValidity('Password validator Requires min 8 characters and including at least 1 upper alpha, and 1 digit')"
-                       oninput="this.setCustomValidity('')"
-                       required />
-            </div>
-            <input type="submit" value="Login" />
-            <button id="send" onclick="Logout()">התנתק</button>
-        </form>
+        <!--<form id="pForm" onsubmit="f1()">-->
+        <h2>Login user</h2>
+        <div class="form-group">
+            <label for="idTB"><span class="red-star">★ </span>תעודת זהות</label>
+            <input type="text" class="form-control" id="idTB" placeholder="הכנס תעודת זהות" pattern="[0-9]{9}"
+                   maxlength="9"
+                   oninvalid="this.setCustomValidity('אנא הכנס תעודת זהות כולל ספרת ביקורת')"
+                   oninput="this.setCustomValidity('')"
+                   required />
+        </div>
+        <div class="form-group">
+            <label for="passwordTB"><span class="red-star">★ </span>סיסמה</label>
+            <input type="password" class="form-control" id="passwordTB" placeholder="הכנס סיסמה" minlength="8"
+                   pattern="^(?=.*\d)(?=.*[A-Z]).{8,30}$"
+                   oninvalid="this.setCustomValidity('Password validator Requires min 8 characters and including at least 1 upper alpha, and 1 digit')"
+                   oninput="this.setCustomValidity('')"
+                   required />
+        </div>
+        <button  onclick="Login()">Login</button>
+        <button id="send" onclick="Logout()">התנתק</button>
+        <!--</form>-->
     </div>
 </body>
 </html>

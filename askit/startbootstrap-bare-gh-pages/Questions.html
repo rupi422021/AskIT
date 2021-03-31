@@ -43,17 +43,21 @@
     <script>
       
         function init() {
-
             var database = firebase.database();
             ref = firebase.database().ref("users");
             if (localStorage["user"] != null) { // check if the entry exists
                 // after getting the localStorage string, parse it to a JSON object
                 user = JSON.parse(localStorage["user"]);
+                console.log(user);
                 //שינוי תעודת זהות לפי אימייל וסיסמה!!!!!!!!!!!!
-                ref.child(205768609).get().then(function (snapshot) {
+                ref.child(user.id).get().then(function (snapshot) {
                     if (snapshot.exists()) {
                         console.log(snapshot.val());
                         userP = snapshot.val();
+                        userInst = userP.institute;
+                        userEmail = userP.email;                        
+                        SelectUserInstitute(userP);
+                        
                         //הוספת שם בצד ימין
                         var ProfileName = document.getElementById("ProfileNameid");
                         ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
@@ -70,6 +74,7 @@
                 db = firebase.database();
                 ref = firebase.database().ref("Institute");
                 console.log(ref);
+                
 
                 dref = firebase.database().ref("Departments");
                 // listen to incoming institutes
@@ -110,6 +115,102 @@
 
             firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({"type": quesType, "content": quesContent });
         }
+
+        function SelectUserInstitute(userP) {
+            debugger;
+            let inst = userP.institute;
+            let depList = [];
+            document.getElementById("instTB").value = inst;
+
+            // Set the Departments on the Select Options
+            refI = firebase.database().ref("Institutes");
+            refI.child(inst).get().then(function (snapshot) {
+                if (snapshot.exists()) {
+                    instData = snapshot.val();
+                    console.log(instData);
+                    for (var i = 0; i < Object.keys(instData.Departments).length; i++) {
+                        depList.push(Object.keys(instData.Departments)[i]);
+                    }
+                    console.log(depList);
+                    var str = "<option value = '-1'>בחר מחלקה</option>";
+                    for (k in depList) {
+                        str += "<option value = '" + depList[k] + "'>" + depList[k] + "</option>";
+                    }
+                    document.getElementById("depTB").innerHTML = str;
+                }
+                else {
+                    console.log("No data available");
+                }
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+
+
+            function SetCourses() {
+                let inst = document.getElementById("instTB").value;
+                let dep = document.getElementById("depTB").value;
+                let courseList = [];
+
+                refD = firebase.database().ref("Institutes").child(inst).child("Departments");
+                refD.child(dep).get().then(function (snapshot) {
+                    if (snapshot.exists()) {
+                        depData = snapshot.val();
+                        console.log(depData);
+                        for (var i = 0; i < Object.keys(depData.Courses).length; i++) {
+                            courseList.push(Object.keys(depData.Courses)[i]);
+                        }
+                        console.log(courseList);
+                        var str = "<option value = '-1'>בחר קורס</option>";
+                        for (k in courseList) {
+                            str += "<option value = '" + courseList[k] + "'>" + courseList[k] + "</option>";
+                        }
+                        document.getElementById("CourseTB").innerHTML = str;
+                    }
+                    else {
+                        console.log("No data available");
+                    }
+                }).catch(function (error) {
+                    console.error(error);
+                });
+
+        }
+
+        function SetSubjects() {
+            let inst = document.getElementById("instTB").value;
+            let dep = document.getElementById("depTB").value;
+            let course = document.getElementById("CourseTB").value;
+            let subjectList = [];
+
+            refC = firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses");
+            refC.child(course).get().then(function (snapshot) {
+                if (snapshot.exists()) {
+                    courseData = snapshot.val();
+                    console.log(courseData);
+                    for (var i = 0; i < Object.keys(courseData.Subjects).length; i++) {
+                        subjectList.push(Object.keys(courseData.Subjects)[i]);                       
+                    }
+                    subjectList.push("אחר");  
+                    console.log(subjectList);
+                    var str = "<option value = '-1'>בחר נושא</option>";
+                    
+                    for (k in subjectList) {
+                        str += "<option value = '" + subjectList[k] + "'>" + subjectList[k] + "</option>";
+                       
+                    }
+                    
+                    document.getElementById("SubjectTB").innerHTML = str;
+                }
+                else {
+                    console.log("No data available");
+                }
+            }).catch(function (error) {
+                console.error(error);
+            });
+
+        }
+
+        
 
 
     </script>
@@ -174,77 +275,68 @@
                                     </div>
                                     <!--<form class="user">-->
                                     <div class="form-group">
-                                        <p class="lead">מוסד אקדמי</p>
-                                        <!--<input id="instTB" type="text" class="form-control form-control-user"
-        aria-describedby="emailHelp"
-        placeholder="הזן מוסד אקדמי">-->
-                                        <div>
-                                            <div id="PencilIcon" onclick="notDisable()"><img src="image/pencil.svg" /></div>
-                                            <select name="Institute" id="instTB" class="form-control form-control-user" ">
-                                                <option value="-1"> בחר מוסד</option>
-                                                <option value="Ruppin">המרכז האקדמי רופין</option>
-                                                <option value="Afeka">אפקה</option>
-                                                <option value="Ben-Gurion-University">אוניברסיטת בן גוריון</option>
-                                                <option value="Ort-Braude">מכללת אורט בראודה</option>
-                                                <option value="Tel-Aviv-University">אוניברסיטת תל אביב</option>
+
+                                        <div class="form-group">
+                                            <p class="lead">מוסד אקדמי</p>
+                                            <input type="text" id="instTB" class="form-control form-control-user"
+                                                   placeholder="">
+                                            <!--<button onclick="AddDEP()">הוסף מחלקה</button>-->
+                                        </div>
+
+                                        <div class="form-group">
+                                            <p class="lead">מחלקה</p>
+                                            <select name="Department" id="depTB" class="form-control form-control-user" onchange="SetCourses()">
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <p class="lead">מחלקה</p>
-                                        <input type="text" id="depTB" class="form-control form-control-user"
-                                               placeholder="הזן מחלקה">
-                                        <!--<button onclick="AddDEP()">הוסף מחלקה</button>-->
-                                    </div>
-                                    <div class="form-group">
-                                        <p class="lead">קורס</p>
-                                        <input type="text" id="CourseTB" class="form-control form-control-user"
-                                               placeholder="הזן קורס">
-                                        <!--<button onclick="AddCourse()">הוסף קורס</button>-->
-                                    </div>
 
-                                    <div class="form-group">
-                                        <p class="lead">נושא</p>
-                                        <input type="text" id="SubjectTB" class="form-control form-control-user"
-                                               placeholder="הזן נושא">
-                                        <!--<button onclick="AddSubject()">הוסף נושא</button>-->
-                                    </div>
-
-                                    <div class="form-group">
-                                        <p class="lead">שם שאלה</p>
-                                        <input type="text" id="quesTB" class="form-control form-control-user"
-                                               placeholder="הזן שם שאלה">
-                                        <!--<button onclick="AddDEP()">הוסף מחלקה</button>-->
-                                    </div>
-
-                                    <div class="form-group">
-                                        <p class="lead">סוג שאלה</p>
-                                        <div>
-                                            <div id="PencilIcon" onclick="notDisable()"></div>
-                                            <select name="quesType" id="quesTypeTB" class="form-control form-control-user" >
-                                                <option value="-1"> בחר סוג שאלה</option>
-                                                <option value="Close">סגורה</option>
-                                                <option value="Open">פתוחה</option>
+                                        <div class="form-group">
+                                            <p class="lead">קורס</p>
+                                            <select name="Course" id="CourseTB" class="form-control form-control-user" onchange="SetSubjects()">
                                             </select>
                                         </div>
-                                    </div>
 
-                                    <div class="form-group">
-                                        <p class="lead">תוכן השאלה</p>
-                                        <textarea type="text" id="quesContentTB" class="form-control form-control-user"
-                                                  placeholder="הזן תוכן שאלה">  </textarea>                                
-                                    </div>
+                                        <div class="form-group">
+                                            <p class="lead">נושא</p>
+                                            <select name="Subject" id="SubjectTB" class="form-control form-control-user">
+                                            </select>
+                                        </div>
 
-                                    <div class="form-input">
-                                        <label for="files">Image</label>
-                                        <input type="file" id="files" name="files" multiple="multiple" />
-                                    </div>
 
-                                    <button onclick="AddQuestion()" class="btn btn-primary btn-user btn-block">צור שאלה</button>
-                                    <hr>
-                                    <!--</form>-->
-                                    <hr>
-                                </div>
+                                        <div class="form-group">
+                                            <p class="lead">שם שאלה</p>
+                                            <input type="text" id="quesTB" class="form-control form-control-user"
+                                                   placeholder="הזן שם שאלה">
+                                            <!--<button onclick="AddDEP()">הוסף מחלקה</button>-->
+                                        </div>
+
+                                        <div class="form-group">
+                                            <p class="lead">סוג שאלה</p>
+                                            <div>
+                                                <div id="PencilIcon" onclick="notDisable()"></div>
+                                                <select name="quesType" id="quesTypeTB" class="form-control form-control-user">
+                                                    <option value="-1"> בחר סוג שאלה</option>
+                                                    <option value="Close">סגורה</option>
+                                                    <option value="Open">פתוחה</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <p class="lead">תוכן השאלה</p>
+                                            <textarea type="text" id="quesContentTB" class="form-control form-control-user"
+                                                      placeholder="הזן תוכן שאלה">  </textarea>
+                                        </div>
+
+                                        <div class="form-input">
+                                            <label for="files">Image</label>
+                                            <input type="file" id="files" name="files" multiple="multiple" />
+                                        </div>
+
+                                        <button onclick="AddQuestion()" class="btn btn-primary btn-user btn-block">צור שאלה</button>
+                                        <hr>
+                                        <!--</form>-->
+                                        <hr>
+                                    </div>
                             </div>
                         </div>
                     </div>

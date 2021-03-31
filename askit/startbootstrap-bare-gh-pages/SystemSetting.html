@@ -230,21 +230,21 @@
             ph.innerHTML = str;
         }
 
-        function AddINST() {
-            let inst = document.getElementById("instTB").value;
-            let dep = document.getElementById("depTB").value;
-            //let course = document.getElementById("CourseTB").value;
-            //let subject = document.getElementById("SubjectTB").value;
+        //function AddINST() {
+        //    let inst = document.getElementById("instTB").value;
+        //    let dep = document.getElementById("depTB").value;
+        //    //let course = document.getElementById("CourseTB").value;
+        //    //let subject = document.getElementById("SubjectTB").value;
 
-            if (inst == -1) {
-                alert("must enter an institute name");
-                return;
-            }
-            firebase.database().ref("Institutes").child(inst).set({ "status": "Active" });
+        //    if (inst == -1) {
+        //        alert("must enter an institute name");
+        //        return;
+        //    }
+        //    firebase.database().ref("Institutes").child(inst).set({ "status": "Active" });
 
-            if (dep != null) {
-                AddDEP();
-            }
+        //    if (dep != null) {
+        //        AddDEP();
+        //    }
             
 
             //if (inst != -1 && dep != null) {
@@ -269,34 +269,34 @@
             //    return;
             //}
             //firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).set({ "status": "Active" });
-        }
+        //}
 
         // Get the button, and when the user clicks on it, execute myFunction
         //document.getElementById("myBtn").onclick = function () { myFunction() };
 
-        function AddDEP() {
-            let inst = document.getElementById("instTB").value;
-            let dep = document.getElementById("depTB").value;
-            department = {
-                "dep": dep,
-                "status": "Active"
-            }
-            if (inst != -1 && dep != null) {
-                firebase.database().ref("Institutes").child(inst).child("Departments").update(department);
-            }
-            else
-                return;
+        //function AddDEP() {
+        //    let inst = document.getElementById("instTB").value;
+        //    let dep = document.getElementById("depTB").value;
+        //    department = {
+        //        "dep": dep,
+        //        "status": "Active"
+        //    }
+        //    if (inst != -1 && dep != null) {
+        //        firebase.database().ref("Institutes").child(inst).child("Departments").update(department);
+        //    }
+        //    else
+        //        return;
 
-        }
+        //}
 
-        function AddCourse() {
-            let inst = document.getElementById("instTB").value;
-            let dep = document.getElementById("depTB").value;
-            let course = document.getElementById("CourseTB").value;
+        //function AddCourse() {
+        //    let inst = document.getElementById("instTB").value;
+        //    let dep = document.getElementById("depTB").value;
+        //    let course = document.getElementById("CourseTB").value;
 
 
-            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).set({ "status": "Active" });
-        }
+        //    firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).set({ "status": "Active" });
+        //}
         function AddSubject() {
             let inst = document.getElementById("instTB").value;
             let dep = document.getElementById("depTB").value;
@@ -426,7 +426,7 @@
             </label>-->
                                             </div>
                                         </div>
-                                        <button onclick="AddINST()" class="btn btn-primary btn-user btn-block">הוסף</button>
+                                        <button onclick="AddSubject()" class="btn btn-primary btn-user btn-block">הוסף</button>
                                         <hr>
                                     <!--</form>-->
                                     <hr>
