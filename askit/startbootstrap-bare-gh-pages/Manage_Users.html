@@ -1,10 +1,25 @@
 ﻿<!DOCTYPE html>
-<html dir="rtl">
+<html dir="ltl">
 
 <head>
     <style>
         .lead {
             text-align: right;
+        }
+
+        button {
+            margin-left: 10px;
+        }
+
+        .colorDiv {
+            height: 30px;
+            width: 70px;
+            border: 2px solid black
+        }
+
+        #newBTN {
+            background-color: blueviolet;
+            margin-bottom: 10px;
         }
     </style>
     <meta charset="utf-8">
@@ -16,6 +31,20 @@
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--jq-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <!--fire base-->
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
@@ -29,133 +58,221 @@
     <!--Your web app's Firebase configuration-->
     <script src="config.js"></script>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
 
     <script>
-        ///הוספת רינדור
-        //function init() {
+        var uId = null;
+        $(document).ready(function () {
 
-        //    attackTypes = [];
-
-        //    for (var i = 0; i < moves.length; i++) {
-        //        let t = moves[i].type;
-        //        if (attackTypes[t] == undefined)
-        //            attackTypes[t] = [];
-        //        attackTypes[t].push(i);
-        //    }
-
-        //    renderAttackType(attackTypes);
-
-        //}
-
-
-        //function renderAttackType(arr) {
-        //    var str = "<option value = '-1'>select</option>";
-        //    for (k in arr) {
-        //        str += "<option value = '" + k + "'>" + k + "</option>";
-        //    }
-        //    document.getElementById("moves").innerHTML = str;
-        //}
-
-        //function renderMoves(attack, min) {
-        //    var sum = 0;
-        //    var counter = 0;
-        //    var str = "";
-        //    for (var i = 0; i < attackTypes[attack].length; i++) {
-        //        indexInMoves = attackTypes[attack][i];
-        //        let name = moves[indexInMoves].ename;
-        //        let accuracy = moves[indexInMoves].accuracy;
-        //        if (accuracy == null)
-        //            accuracy = 0;
-        //        else {
-        //            sum += accuracy;
-        //            counter++;
-        //        }
-        //        let power = moves[indexInMoves].power;
-        //        if (power == null)
-        //            power = 0;
-        //        if (power < min)
-        //            continue;
-
-        //        str += "<div class='attack'>";
-        //        str += "<p>name: " + name + "</p>";
-        //        str += "<p>power: " + power + "</p>";
-        //        str += "<p>accuracy: " + accuracy + "</p>";
-        //        str += "</div>";
-        //    }
-        //    document.getElementById("ph").innerHTML = str;
-        //    let avg = sum / counter;
-        //    document.getElementById("averageAccuracy").innerHTML = "The average is : " + avg;
-        //}
-
-        //function show2(min) {
-        //    let attack = document.getElementById("moves").value;
-        //    renderMoves(attack, min);
-        //}
-        ///הוספת רינדור
-
-
-        //....add
-        //function init() {
-        //    str = "";
-        //    str += "<option value =-1>select stock</option>";
-        //    for (k in stocks) {
-        //        str += "<option value='" + k + "'>" + k + "</option>";
-        //    }
-        //    document.getElementById("stocksDDL").innerHTML = str;
-
-        //    if (localStorage["buys"] != null) {  // check if the entry exists
-        //        // after getting the localStorage string, parse it to a JSON object
-        //        buys = JSON.parse(localStorage["buys"]);
-        //        budjet = JSON.parse(localStorage["budjet"]);
-        //    }
-        //    else {
-        //        buys = [];
-        //        budjet = 1000;
-        //    }
-
-        //}
-        //....add
-        function init() {
-
+            init();
+        });
+        function init() { 
+            usersList = [];
             var database = firebase.database();
             ref = firebase.database().ref("users");
-            if (localStorage["user"] != null) { // check if the entry exists
-                // after getting the localStorage string, parse it to a JSON object
-                user = JSON.parse(localStorage["user"]);
-                //שינוי תעודת זהות לפי אימייל וסיסמה!!!!!!!!!!!!
-                ref.child(205768609).get().then(function (snapshot) {
-                    if (snapshot.exists()) {
-                        console.log(snapshot.val());
-                        userP = snapshot.val();
-                        //הוספת שם בצד ימין
-                        var ProfileName = document.getElementById("ProfileNameid");
-                        ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
+            debugger;
+            ref.get().then(function (snapshot) {
+                if (snapshot.exists()) {
+                    users = snapshot.val();
+                    for (var i = 0; i < Object.values(users).length; i++) {
+                        usersList.push(Object.values(users)[i]);
                     }
-                    else {
-                        console.log("No data available");
-                    }
-                }).catch(function (error) {
-                    console.error(error);
-                });
-            //הורדת העפרון ברגע שעולה הדף 
-            document.getElementById("PencilIcon").style.display = "none";
+                    console.log(usersList);
+                    SelectUserInstitute(usersList);
+                    mode = "";
+                    document.getElementById("editDiv").style.display = "none";
+                    buttonEvents();
+                }
+                else {
+                    console.log("No data available");
+                }
+            }).catch(function (error) {
+                console.error(error);
+            });
+
 
         }
 
+        function cancelSaveFunc() {
+            //בכל פעם שלוחצים על הכפתור זה קורא לפונקציה
+            data = null;
+            document.getElementById("editDiv").style.display = "none";
+            if (mode == "new") {
+                document.getElementById("pForm").style.display = "block";
+            }
+            mode = "";
+        }
+
+        function NewUserfunc() {
+            data = null;
+            mode = "new";
+            document.getElementById("pForm").style.display = "none";
+            document.getElementById("editDiv").style.display = "block";
+            clearFields();
+            document.getElementById("editDiv").disabled = false;
+        }
+
+        function buttonEvents() {
+
+            $(document).on("click", ".editBtn", function () {
+                mode = "edit";
+                markSelected(this);
+                $("#editDiv").show();
+                $("#editDiv :input").prop("disabled", false); // edit mode: enable all controls in the form
+                populateFields(this.getAttribute('data-Id')); // fill the form fields according to the selected row
+            });
+
+            $(document).on("click", ".viewBtn", function () {
+                mode = "view";
+                markSelected(this);
+                $("#editDiv").show();
+                $("#editDiv :input").attr("disabled", "disabled"); // view mode: disable all controls in the form
+                populateFields(this.getAttribute('data-Id'));
+            });
+
+            $(document).on("click", ".deleteBtn", function () {
+                mode = "delete";
+                markSelected(this);
+                var carId = this.getAttribute('data-Id');
+                swal({ // this will open a dialouge
+                    title: "Are you sure ??",
+                    text: "",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                })
+                    .then(function (willDelete) {
+                        if (willDelete) DeleteUser(uId);
+                        else swal("Not Deleted!");
+                    });
+            });
+        }
+        function redrawTable(tbl, data) {
+            tbl.clear();
+            for (var i = 0; i < data.length; i++) {
+                tbl.row.add(data[i]);
+            }
+            tbl.draw();
+        }
+
+        function DeleteUser(id) {
+            //לעשות מחיקה מהפיירבייס
+            alert("לעשות מחיקה" + id);
+        }
+        function clearFields() {
+            document.getElementById("FullName").value = "";
+            document.getElementById("RegistrationDate").value = "";
+            document.getElementById("instTB").value = "";
+            document.getElementById("statusTB").value = "";
+        }
+
+        function populateFields(Id) {
+            user = getUser(Id);
+            console.log(user);
+            document.getElementById("FullName").value = user.firstname;
+            document.getElementById("RegistrationDate").value = user.dateReg;
+            document.getElementById("instTB").value = user.institute;
+            document.getElementById("statusTB").value = user.status;
+        }
+        // get a user according to its Id
+        function getUser(id) {
+            debugger;
+            for (i in dataU) {
+                if (dataU[i].id == id)
+                    return dataU[i];
+            }
+            return null;
+        }
+
+        function markSelected(btn) {
+            $("#UsersTable tr").removeClass("selected"); // remove seleced class from rows that were selected before
+            row = (btn.parentNode).parentNode; // button is in TD which is in Row
+            row.className = 'selected'; // mark as selected
+        }
+
+        function onSubmitFunc() {
+
+            var Id = -1;
+            if (mode == "edit") {
+                Id = dataU.Id;
+            }
+
+            //let UsertoSave = {
+            //    Id: Id,
+            //    FullName: document.getElementById("FullName").value,
+            //    RegistrationDate: document.getElementById("RegistrationDate").value,
+            //    inst: document.getElementById("instTB").value,
+            //    status: document.getElementById("statusTB").value
+            //}
+        }
+        //function onSubmitFunc() {
+
+        //    var Id = -1;
+        //    var Image = "car.jpg";
+        //    if (mode == "edit") {
+        //        Id = car.Id;
+        //        Image = car.Image;
+        //    }
+
+
+        //    let cartoSave = {
+        //        Id: Id,
+        //        Image: Image, // for now we do not change the image
+        //        Manufacturer: $("#manufacturer").val(),
+        //        Model: $("#model").val(),
+        //        Year: $("#year").val(),
+        //        Price: $("#price").val(),
+        //        Color: $("#color").val(),
+        //        Hand: $("#hand").val(),
+        //        Description: $("#description").val(),
+        //        Automatic: $("#automatic").is(":checked")
+        //    }
+
+        //    // add a new Car record to the server
+        //    if (mode == "edit")
+        //        ajaxCall("PUT", "../api/cars", JSON.stringify(cartoSave), updateSuccess, error);
+        //    else if (mode == "new")
+        //        ajaxCall("POST", "../api/cars", JSON.stringify(cartoSave), insertSuccess, error);
+        //    return false;
+        //}
+
+
+        function SelectUserInstitute(usersList) {
+            dataU = usersList;
+            try {
+                tbl = $('#UsersTable').DataTable({
+                    data: usersList,
+                    pageLength: 5,
+                    columns: [
+                        {
+                            render: function (data, type, row, meta) {
+                                let dataUser = "data-Id='" + row.Id + "'";
+                                editBtn = "<button type='button' class = 'editBtn btn btn-success' " + dataUser + "> Edit </button>";
+                                viewBtn = "<button type='button' class = 'viewBtn btn btn-info' " + dataUser + "> View </button>";
+                                deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' " + dataUser + "> Delete </button>";
+                                return editBtn + viewBtn + deleteBtn;
+                            }
+                        },
+                        { data: "id" },
+                        { data: "firstname" },
+                        { data: "dateReg" },
+                        { data: "institute" },
+                        { data: "status" }
+                    ],
+                });
+                //redrawTable(tbl, usersList);
+            }
+            catch (err) {
+
+                alert(err);
+            }
+        }
     </script>
 </head>
 
-<body onload="init()">
+<body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
         <div class="container">
@@ -196,86 +313,111 @@
             </div>
         </div>
     </div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+        </div>
+    </nav>
+
     <div class="container">
+        <input type="button" value="New" class="btn btn-primary btn-lg" id="newBTN" onclick="NewUserfunc()"/>
+        <form id="pForm">
+            <table id="UsersTable" class="display nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>תעודת זהות</th>
+                        <th>שם מלא</th>
+                        <th>תאריך הרשמה</th>
+                        <th>מוסד אקדמי</th>
+                        <th>סטטוס</th>
+                    </tr>
+                </thead>
+            </table>
 
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
+        </form>
 
-            <div class="col-xl-10 col-lg-12 col-md-9">
-
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">ניהול מוסדות</h1>
-                                    </div>
-                                    <!--<form class="user">-->
-                                    <div class="form-group">
-                                        <p class="lead">מוסד אקדמי</p>
-                                        <!--<input id="instTB" type="text" class="form-control form-control-user"
-                                               aria-describedby="emailHelp"
-                                               placeholder="הזן מוסד אקדמי">-->
-                                        <div>
-                                            <div id="PencilIcon" onclick="notDisable()"><img src="image/pencil.svg" /></div>
-                                            <select name="Institute" id="instTB" class="form-control form-control-user" onchange="funcDisabel()">
-                                                <option value="-1"> בחר מוסד</option>
-                                                <option value="Ruppin">המרכז האקדמי רופין</option>
-                                                <option value="Afeka">אפקה</option>
-                                                <option value="Ben-Gurion-University">אוניברסיטת בן גוריון</option>
-                                                <option value="Ort-Braude">מכללת אורט בראודה</option>
-                                                <option value="Tel-Aviv-University">אוניברסיטת תל אביב</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <p class="lead">מחלקה</p>
-                                        <input type="text" id="depTB" class="form-control form-control-user" 
-                                               placeholder="הזן מחלקה">
-                                        <!--<button onclick="AddDEP()">הוסף מחלקה</button>-->
-                                    </div>
-                                        <div class="form-group">
-                                            <p class="lead">קורס</p>
-                                            <input type="text" id="CourseTB" class="form-control form-control-user"
-                                                   placeholder="הזן קורס">
-                                            <!--<button onclick="AddCourse()">הוסף קורס</button>-->
-                                        </div>
-
-                                        <div class="form-group">
-                                            <p class="lead">נושא</p>
-                                            <input type="text" id="SubjectTB" class="form-control form-control-user"
-                                                   placeholder="הזן נושא">
-                                            <!--<button onclick="AddSubject()">הוסף נושא</button>-->
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <!--<input type="checkbox" class="custom-control-input" id="customCheck">
-            <label class="custom-control-label" for="customCheck">
-                Remember
-                Me
-            </label>-->
-                                            </div>
-                                        </div>
-                                        <button onclick="AddINST()" class="btn btn-primary btn-user btn-block">הוסף</button>
-                                        <hr>
-                                    <!--</form>-->
-                                    <hr>
-                                </div>
-                            </div>
-                        </div>
+        <div id="editDiv">
+            <form id="USERSForm" onsubmit="onSubmitFunc()">
+                <div class="form-group row">
+                    <div class="form-group col-sm-3">
+                        <label for="FullName"><span class="red-star">★ </span>שם מלא</label>
+                        <input type="text" class="form-control" id="FullName" placeholder="Enter the Full Name" required>
                     </div>
+
+
+                    <div class="form-group col-sm-3">
+                        <label for="RegistrationDate"><span class="red-star">★ </span>תאריך הרשמה</label>
+                        <input type="date" class="form-control" id="RegistrationDate" required>
+                    </div>
+
+
+                    <div class="form-group col-sm-3">
+                        <label for="AcademicInstitution"><span class="red-star">★ </span>מוסד אקדמי</label>
+                        <select id="instTB" class="form-control" required>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-3">
+                        <label for="status"><span class="red-star">★ </span>סטטוס</label>
+                        <input type="number" class="form-control" id="statusTB" placeholder="Enter the price" required />
+                    </div>
+
+
                 </div>
 
-            </div>
+                <div class="form-group row">
 
+
+                    <!--<div class="form-group col-sm-3">
+                        <label for="color"><span class="red-star">★ </span>Color</label>
+                        <select class="form-control" id="color" required>
+                            <option value="">Choose Color</option>
+                            <option value="White"> White </option>
+                            <option value="Blue"> Blue </option>
+                            <option value="Black"> Black </option>
+                            <option value="Red"> Red </option>
+                            <option value="Grey"> Grey </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-3">
+                        <label for="hand"><span class="red-star">★ </span>Hand</label>
+                        <select class="form-control" id="hand" required>
+                            <option value="">Choose Hand</option>
+                            <option value="1"> 1 </option>
+                            <option value="2"> 2 </option>
+                            <option value="3"> 3 </option>
+                            <option value="4"> 4 </option>
+                            <option value="5"> 5 </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-3">
+                        <label for="automatic"><span class="red-star">★ </span>Automatic?</label>
+                        <input type="checkbox" class="form-control" id="automatic" checked />
+                    </div>-->
+
+                </div>
+                <div class="form-group row">
+                    <div class="form-group col-sm-8">
+                        <label for="description">Description</label>
+                        <textarea rows="6" class="form-control" id="description" placeholder="Enter the description"></textarea>
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <img src="images/car.jpg" id="image" />
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg" id="saveBTN">Save</button>
+                <input type="button" class="btn btn-warning btn-lg" id="cancelSaveBTN" value="Cancel" onclick="cancelSaveFunc()"/>
+            </form>
         </div>
 
     </div>
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.slim.min.js"></script>
+    <!--<script src="vendor/jquery/jquery.slim.min.js"></script>-->
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <div id="ph"></div>
 

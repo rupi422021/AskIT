@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <!--css-->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            console.log("type: " + typeof $('#UsersTable').DataTable());
+            return;
+        });
+    </script>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                <img class="img-profile rounded-circle" src="image/undraw_profile.svg">
+                <p id="ProfileNameid"></p>
+            </a>
+            <a class="navbar-brand" href="Admin.html"><img src="image/logo.svg" /></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            בית
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">הגדרות מערכת</a>
+                        <span class="sr-only">(current)</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">ניהול משתמשים</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1 class="mt-5">הגדרות מערכת</h1>
+
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+        </div>
+    </nav>
+
+    <div class="container">
+        <input type="button" value="New" class="btn btn-primary btn-lg" id="newBTN" onclick="NewUserfunc()" />
+        <form id="pForm">
+            <table id="UsersTable" class="display nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Id</th>
+                        <th>שם מלא</th>
+                        <th>תאריך הרשמה</th>
+                        <th>מוסד אקדמי</th>
+                        <th>סטטוס</th>
+                    </tr>
+                </thead>
+            </table>
+
+        </form>
+
+        <div id="editDiv">
+            <form id="USERSForm" onsubmit="onSubmitFunc()">
+                <div class="form-group row">
+                    <div class="form-group col-sm-3">
+                        <label for="FullName"><span class="red-star">★ </span>שם מלא</label>
+                        <input type="text" class="form-control" id="FullName" placeholder="Enter the Full Name" required>
+                    </div>
+
+
+                    <div class="form-group col-sm-3">
+                        <label for="RegistrationDate"><span class="red-star">★ </span>תאריך הרשמה</label>
+                        <input type="date" class="form-control" id="RegistrationDate" required>
+                    </div>
+
+
+                    <div class="form-group col-sm-3">
+                        <label for="AcademicInstitution"><span class="red-star">★ </span>מוסד אקדמי</label>
+                        <select id="instTB" class="form-control" required>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-3">
+                        <label for="status"><span class="red-star">★ </span>סטטוס</label>
+                        <input type="number" class="form-control" id="statusTB" placeholder="Enter the price" required />
+                    </div>
+
+
+                </div>
+
+                <div class="form-group row">
+
+
+                    <!--<div class="form-group col-sm-3">
+                        <label for="color"><span class="red-star">★ </span>Color</label>
+                        <select class="form-control" id="color" required>
+                            <option value="">Choose Color</option>
+                            <option value="White"> White </option>
+                            <option value="Blue"> Blue </option>
+                            <option value="Black"> Black </option>
+                            <option value="Red"> Red </option>
+                            <option value="Grey"> Grey </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-3">
+                        <label for="hand"><span class="red-star">★ </span>Hand</label>
+                        <select class="form-control" id="hand" required>
+                            <option value="">Choose Hand</option>
+                            <option value="1"> 1 </option>
+                            <option value="2"> 2 </option>
+                            <option value="3"> 3 </option>
+                            <option value="4"> 4 </option>
+                            <option value="5"> 5 </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-3">
+                        <label for="automatic"><span class="red-star">★ </span>Automatic?</label>
+                        <input type="checkbox" class="form-control" id="automatic" checked />
+                    </div>-->
+
+                </div>
+                <div class="form-group row">
+                    <div class="form-group col-sm-8">
+                        <label for="description">Description</label>
+                        <textarea rows="6" class="form-control" id="description" placeholder="Enter the description"></textarea>
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <img src="images/car.jpg" id="image" />
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg" id="saveBTN">Save</button>
+                <input type="button" class="btn btn-warning btn-lg" id="cancelSaveBTN" value="Cancel" onclick="cancelSaveFunc()" />
+            </form>
+        </div>
+
+    </div>
+     Bootstrap core JavaScript 
+    <!--<script src="vendor/jquery/jquery.slim.min.js"></script>-->
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <div id="ph"></div>
+</body>
+</html>

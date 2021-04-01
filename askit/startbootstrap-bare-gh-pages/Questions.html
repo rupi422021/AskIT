@@ -41,7 +41,7 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script>
-      
+
         function init() {
             var database = firebase.database();
             ref = firebase.database().ref("users");
@@ -49,7 +49,6 @@
                 // after getting the localStorage string, parse it to a JSON object
                 user = JSON.parse(localStorage["user"]);
                 console.log(user);
-                //שינוי תעודת זהות לפי אימייל וסיסמה!!!!!!!!!!!!
                 ref.child(user.id).get().then(function (snapshot) {
                     if (snapshot.exists()) {
                         console.log(snapshot.val());
@@ -78,10 +77,10 @@
 
                 dref = firebase.database().ref("Departments");
                 // listen to incoming institutes
-                listenToNewInstitute();
+                //listenToNewInstitute();
                 //listenToNewDepartments();
                 // listen to removing institutes
-                listenToRemove();
+                //listenToRemove();
                 ph = document.getElementById("ph");
             }
             else {
@@ -118,17 +117,24 @@
 
         function SelectUserInstitute(userP) {
             debugger;
+            //לוקח את המוסד של המשתמש
             let inst = userP.institute;
+            //רשימת מחלקות
             let depList = [];
+            //תכתוב את הערך של המשתמש בתוך תיבת הטקסט של המוסד
             document.getElementById("instTB").value = inst;
 
             // Set the Departments on the Select Options
             refI = firebase.database().ref("Institutes");
+            //מוסד של אותו הלקוח
+            //רינדור מחלקות של אותו מוסד שהלקוח רשום אליו
             refI.child(inst).get().then(function (snapshot) {
                 if (snapshot.exists()) {
+                    //הבאת האובייקט
                     instData = snapshot.val();
                     console.log(instData);
                     for (var i = 0; i < Object.keys(instData.Departments).length; i++) {
+                        //דחיפה לרשימת מחלקות
                         depList.push(Object.keys(instData.Departments)[i]);
                     }
                     console.log(depList);
@@ -147,7 +153,8 @@
         }
 
 
-            function SetCourses() {
+        function SetCourses() {
+                //פונקציה זהה למחלקות
                 let inst = document.getElementById("instTB").value;
                 let dep = document.getElementById("depTB").value;
                 let courseList = [];
