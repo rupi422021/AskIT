@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html dir="rtl">
+
+<head>
+    <style>
+        .lead {
+            text-align: right;
+        }
+        #ProfileNameid {
+            color: #337ab7;
+        }
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>System Setting</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--fire base-->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
+    <!--Your web app's Firebase configuration-->
+    <script src="config.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            document.getElementById("logout").style.display = "none";
+
+        }); 
+
+        function storeToLS() {
+            user = { // create a new JSON object
+                id: document.getElementById("idTB").value,
+                password: document.getElementById("passwordTB").value
+            }
+            // stringify before storing in localstorage
+            //הערה
+            localStorage["user"] = JSON.stringify(user);
+        }
+        function Login() {
+
+            let _id = $("#idTB").val();
+            let _password = $("#passwordTB").val();
+            ref = firebase.database().ref("users");
+            ref.child(_id).get().then(function (snapshot) {
+                if (snapshot.exists()) {
+                    u = snapshot.val();
+                    if (u.password == _password) {
+                        storeToLS();
+                        //swal("התחברת בהצלחה", "success");
+                        document.location.href = "Questions.html";
+                        document.getElementById("logout").style.display = "block";
+
+                    }
+                    else {
+                        swal({
+                            icon: 'error',
+                            title: 'הסיסמה אינה נכונה'
+                        });
+                    }
+                }
+                else {
+                    swal({
+                        icon: 'error',
+                        title: 'התעודת זהות אינה קיימת במערכת'
+                    });
+                }
+            }).catch(function (error) {
+                console.error(error);
+            });
+
+
+        }
+        function Logout() {
+            localStorage.clear();
+            document.getElementById("logout").style.display = "none";
+        }
+
+
+
+    </script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+            <!--<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+            <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+            <!--<img class="img-profile rounded-circle" src="image/undraw_profile.svg">-->
+            <!--<a class="navbar-brand" href="Admin.html"><img src="image/logo.svg" /></a>-->
+            <a href="Admin.html"><img src="image/logo.svg" /></a>
+            <p id="ProfileNameid">שלום אורח!</p>
+            <!--</a>-->
+            <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>-->
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <!--<li class="nav-item">
+                <a class="nav-link" href="#">
+                    בית
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">התחברות</a>
+                <span class="sr-only">(current)</span>
+            </li>-->
+                    <!--<li class="nav-item">
+                <a class="nav-link" href="#">התחברות</a>
+            </li>-->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1 class="mt-5">התחברות</h1>
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="p-5">
+
+                                    <div class="form-group">
+                                        <p class="lead">תעודת זהות</p>
+                                        <input type="text" class="form-control" id="idTB" placeholder="הכנס תעודת זהות" pattern="[0-9]{9}"
+                                               maxlength="9"
+                                               oninvalid="this.setCustomValidity('אנא הכנס תעודת זהות כולל ספרת ביקורת')"
+                                               oninput="this.setCustomValidity('')"
+                                               required />
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="lead">סיסמה</p>
+
+                                        <input type="password" class="form-control form-control-user" id="passwordTB" placeholder="הכנס סיסמה" minlength="8"
+                                               pattern="^(?=.*\d)(?=.*[A-Z]).{8,30}$"
+                                               oninvalid="this.setCustomValidity('Password validator Requires min 8 characters and including at least 1 upper alpha, and 1 digit')"
+                                               oninput="this.setCustomValidity('')"
+                                               required />
+
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                        </div>
+                                    </div>
+                                    <!--<button onclick="AddSubject()" class="btn btn-primary btn-user btn-block">הוסף</button>-->
+                                    <button onclick="Login()"  class="btn btn-primary btn-user btn-block">Login</button>
+                                    <button id="logout" onclick="Logout()">התנתק</button>
+                                    <hr>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.slim.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <div id="ph"></div>
+
+</body>
+
+</html>

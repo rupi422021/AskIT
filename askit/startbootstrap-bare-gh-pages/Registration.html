@@ -182,11 +182,11 @@
                                     <!--<div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">הרשמה</h1>
                                     </div>-->
-                                    <!--<form class="user">-->
+                                    <form class="user" onsubmit="insertuser()">
                                     <div class="form-group">
                                         <p class="lead">תעודת זהות</p>
                                         <!--<label for="idTB">תעודת זהות</label>-->
-                                        <input class="form-control form-control-user" type="text" id="idTB" placeholder="אנא מלא תעודת זהות" pattern="[0-9]{9}"
+                                        <input class="form-control form-control-user" type="text" id="idTB" placeholder="אנא מלא תעודת זהות" pattern="[0-9]{9}" minlength="9"
                                                maxlength="9"
                                                oninvalid="this.setCustomValidity('אנא הכנס תעודת זהות כולל ספרת ביקורת')"
                                                oninput="this.setCustomValidity('')"
@@ -239,8 +239,9 @@
                                         <div class="custom-control custom-checkbox small">
                                         </div>
                                     </div>
-                                    <button id="send" onclick="insertuser()"class="btn btn-primary btn-user btn-block">שלח</button>
+                                    <button id="send" class="btn btn-primary btn-user btn-block">שלח</button>
                                     <hr>
+                                   </form>
                                 </div>
                             </div>
                         </div>
@@ -253,88 +254,9 @@
 
     </div>
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.slim.min.js"></script>
+    <!--<script src="vendor/jquery/jquery.slim.min.js"></script>-->
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <div id="ph"></div>
-    <!--/////-->
-
-    <!--<div id="preloader-active">
-        <div class="preloader d-flex align-items-center justify-content-center">
-            <div class="preloader-inner position-relative">
-                <div class="preloader-circle"></div>
-                <div class="preloader-img pere-text">
-                    <img src="assets/img/logo/loder.svg" alt="">
-                </div>
-            </div>
-        </div>
-    </div>-->
-    <!-- Preloader Start-->
-    <!--<main class="login-body" data-vide-bg="assets/img/login-bg.mp4">
-        <div class="login-form">-->
-            <!-- logo-login -->
-            <!--<div class="logo-login">
-                <a href="index.html"><img src="assets/img/logo/loder.svg" alt=""></a>
-            </div>
-            <form id="pForm" onsubmit="f1()">
-                <h2>הרשמה</h2>
-                <div class="form-input">
-                    <label for="idTB">תעודת זהות</label>
-                    <input type="text" name="name" id="idTB" placeholder="אנא מלא תעודת זהות" pattern="[0-9]{9}"
-                           maxlength="9"
-                           oninvalid="this.setCustomValidity('אנא הכנס תעודת זהות כולל ספרת ביקורת')"
-                           oninput="this.setCustomValidity('')"
-                           required />
-                </div>
-                <div class="form-input">
-                    <label for="nameTB">שם פרטי</label>
-                    <input type="text" name="name" id="nameTB" placeholder="אנא הכנס שם פרטי" pattern="[A-Z,a-z]{2,10}"
-                           maxlength="10"
-                           oninvalid="this.setCustomValidity('אנא הכנס את השם בעברית עד 10 תווים')"
-                           oninput="this.setCustomValidity('')"
-                           required />
-                </div>
-                <div class="form-input">
-                    <label for="lastnameTB">שם משפחה</label>
-                    <input type="text" name="name" id="lastnameTB" placeholder="אנא הכנס שם משפחה"
-                           pattern="[A-Z,a-z]{2,10}"
-                           maxlength="20"
-                           oninvalid="this.setCustomValidity('אנא הכנס את השם בעברית עד 20 תווים')"
-                           oninput="this.setCustomValidity('')"
-                           required />
-                </div>
-                <div class="form-input">
-                    <label for="emailTB">אימייל</label>
-                    <input type="email" id="emailTB" name="email" placeholder="אנא הכנס את האימייל שלך" required />
-                </div>
-                <div class="form-input">
-                    <label for="passwordTB">סיסמה</label>
-                    <input type="password" name="password" id="passwordTB" placeholder="אנא הכנס את הסיסמה שלך" minlength="8"
-                           pattern="^(?=.*\d)(?=.*[A-Z]).{8,30}$"
-                           oninvalid="this.setCustomValidity('הסיסמה צריכה להכיל מינימום 8 תווים ושתכלול לפחות אות גדולה וסיפרה')"
-                           oninput="this.setCustomValidity('')"
-                           required />
-                </div>
-                <div class="form-input">
-                    <label for="Institute">מוסד אקדמי שהינך מלמד</label>
-                    <br>
-                    <select name="Institute" id="InstituteTB">
-                        <option value="-1"> בחר מוסד</option>
-                        <option value="Ruppin">המרכז האקדמי רופין</option>
-                        <option value="Afeka">אפקה</option>
-                        <option value="Ben-Gurion-University">אוניברסיטת בן גוריון</option>
-                        <option value="Ort-Braude">מכללת אורט בראודה</option>
-                        <option value="Tel-Aviv-University">אוניברסיטת תל אביב</option>
-                    </select>
-                </div>
-                <div class="form-input pt-30">-->
-                    <!--<button id="send" onclick="insertuser()">Send</button>-->
-                    <!--<input type="submit" value="שלח" />
-                </div>
-            </form>-->
-            <!-- Forget Password -->
-            <!--<a href="login.html" class="registration">התחברות</a>
-        </div>
-    </main>-->
 
 
 </body>

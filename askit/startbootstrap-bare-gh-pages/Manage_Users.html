@@ -67,6 +67,8 @@
         $(document).ready(function () {
 
             init();
+            $("#USERSForm").submit(onSubmitFunc);
+
         });
         function init() { 
             usersList = [];
@@ -84,6 +86,7 @@
                     mode = "";
                     document.getElementById("editDiv").style.display = "none";
                     buttonEvents();
+                    BuildSelectInstitute();
                 }
                 else {
                     console.log("No data available");
@@ -135,7 +138,7 @@
             $(document).on("click", ".deleteBtn", function () {
                 mode = "delete";
                 markSelected(this);
-                var carId = this.getAttribute('data-Id');
+                var uId = this.getAttribute('data-Id');
                 swal({ // this will open a dialouge
                     title: "Are you sure ??",
                     text: "",
@@ -158,23 +161,44 @@
         }
 
         function DeleteUser(id) {
-            //לעשות מחיקה מהפיירבייס
-            alert("לעשות מחיקה" + id);
+            //מחיקה משתמש
+            ref.child(id).remove();
+            deleteSuccess(dataU);
         }
+
+        // success callback function after delete
+        function deleteSuccess(dataU)
+        {
+            debugger;
+            tbl.clear();
+            redrawTable(tbl, dataU);
+            buttonEvents(); // after redrawing the table, we must wire the new buttons
+            $("#editDiv").hide();
+            swal("Deleted Successfuly!", "Great Job", "success");
+            mode = "";
+            init();
+        }
+
         function clearFields() {
             document.getElementById("FullName").value = "";
             document.getElementById("RegistrationDate").value = "";
             document.getElementById("instTB").value = "";
             document.getElementById("statusTB").value = "";
         }
-
         function populateFields(Id) {
-            user = getUser(Id);
-            console.log(user);
-            document.getElementById("FullName").value = user.firstname;
-            document.getElementById("RegistrationDate").value = user.dateReg;
-            document.getElementById("instTB").value = user.institute;
-            document.getElementById("statusTB").value = user.status;
+            data = getUser(Id);
+            console.log(data.status);
+            //$("#FullName").val(data.firstname);
+            document.getElementById("FullName").value = data.firstname;
+            document.getElementById("RegistrationDate").value = data.dateReg;
+            document.getElementById("instTB").value = data.institute;
+            //$("#statusTB").val(data.status);
+            var x = data.status;
+            document.getElementById("statusTB").text= x;
+
+           
+            console.log(data.status);
+
         }
         // get a user according to its Id
         function getUser(id) {
@@ -196,48 +220,75 @@
 
             var Id = -1;
             if (mode == "edit") {
-                Id = dataU.Id;
+                Id = dataU.id;
             }
 
-            //let UsertoSave = {
-            //    Id: Id,
-            //    FullName: document.getElementById("FullName").value,
-            //    RegistrationDate: document.getElementById("RegistrationDate").value,
-            //    inst: document.getElementById("instTB").value,
-            //    status: document.getElementById("statusTB").value
-            //}
+            let UsertoSave = {
+                Id: Id,
+                //FullName: document.getElementById("FullName").value,
+                //RegistrationDate: document.getElementById("RegistrationDate").value,
+                inst: document.getElementById("instTB").value,
+                status: document.getElementById("statusTB").value
+            }
+            if (mode == "edit") {
+                firebase.database().ref("users").child(Id).child("institute").update(UsertoSave);
+                updateSuccess();
+
+            }
+
+            }
+            function savefunction() {
+                //Id = dataU.id;
+                debugger;
+                let UsertoSave = {
+                    "id": data.id,
+                    //FullName: document.getElementById("FullName").value,
+                    //RegistrationDate: document.getElementById("RegistrationDate").value,
+                    "institute": document.getElementById("instTB").value,
+                    "status": document.getElementById("statusTB").value
+                }
+                firebase.database().ref("users").child(data.id).update(UsertoSave);
+                updateSuccess();
+            }
+            // success callback function after update
+            function updateSuccess(dataU) {
+                tbl.clear();
+                redrawTable(tbl, dataU);
+                buttonEvents();
+                $("#editDiv").hide();
+                swal("Updated Successfuly!", "Great Job", "success");
+                mode = "";
+            }
+
+        function BuildSelectInstitute() {
+            InstitutesList = [];
+            var database = firebase.database();
+            //הבאת ערכים מהפיירבייס
+            refInst = firebase.database().ref("Institutes");
+            debugger;
+            refInst.get().then(function (snapshot) {
+                if (snapshot.exists()) {
+                    ObjectInstitute = snapshot.val();
+                    //פונקציה שמביאה אובייקט מהפייר בייס
+                    for (var i = 0; i < Object.keys(ObjectInstitute).length; i++) {
+                        InstitutesList.push(Object.keys(ObjectInstitute)[i]);
+                    }
+                    console.log(InstitutesList);
+                    //רינדור למסך
+                    var str = "<option value = '-1'>בחר מוסד</option>";
+                    for (k in InstitutesList) {
+                        str += "<option value = '" + InstitutesList[k] + "'>" + InstitutesList[k] + "</option>";
+                    }
+                    document.getElementById("instTB").innerHTML = str;
+                }
+                else {
+                    console.log("No data available");
+                }
+            }).catch(function (error) {
+                console.error(error);
+            });
+
         }
-        //function onSubmitFunc() {
-
-        //    var Id = -1;
-        //    var Image = "car.jpg";
-        //    if (mode == "edit") {
-        //        Id = car.Id;
-        //        Image = car.Image;
-        //    }
-
-
-        //    let cartoSave = {
-        //        Id: Id,
-        //        Image: Image, // for now we do not change the image
-        //        Manufacturer: $("#manufacturer").val(),
-        //        Model: $("#model").val(),
-        //        Year: $("#year").val(),
-        //        Price: $("#price").val(),
-        //        Color: $("#color").val(),
-        //        Hand: $("#hand").val(),
-        //        Description: $("#description").val(),
-        //        Automatic: $("#automatic").is(":checked")
-        //    }
-
-        //    // add a new Car record to the server
-        //    if (mode == "edit")
-        //        ajaxCall("PUT", "../api/cars", JSON.stringify(cartoSave), updateSuccess, error);
-        //    else if (mode == "new")
-        //        ajaxCall("POST", "../api/cars", JSON.stringify(cartoSave), insertSuccess, error);
-        //    return false;
-        //}
-
 
         function SelectUserInstitute(usersList) {
             dataU = usersList;
@@ -248,7 +299,8 @@
                     columns: [
                         {
                             render: function (data, type, row, meta) {
-                                let dataUser = "data-Id='" + row.Id + "'";
+                                let dataUser = "data-Id='" + row.id + "'";
+                                console.log(dataUser);
                                 editBtn = "<button type='button' class = 'editBtn btn btn-success' " + dataUser + "> Edit </button>";
                                 viewBtn = "<button type='button' class = 'viewBtn btn btn-info' " + dataUser + "> View </button>";
                                 deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' " + dataUser + "> Delete </button>";
@@ -292,12 +344,13 @@
                             בית
                         </a>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">הגדרות מערכת</a>
-                        <span class="sr-only">(current)</span>
-                    </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="#">הגדרות מערכת</a>
+                        <!--<span class="sr-only">(current)</span>-->
+                    </li>
+                    <li class="nav-item active">
                         <a class="nav-link" href="#">ניהול משתמשים</a>
+                        <span class="sr-only">(current)</span>
                     </li>
                 </ul>
             </div>
@@ -308,7 +361,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h1 class="mt-5">הגדרות מערכת</h1>
+                <h1 class="mt-5">ניהול משתמשים</h1>
 
             </div>
         </div>
@@ -337,7 +390,7 @@
         </form>
 
         <div id="editDiv">
-            <form id="USERSForm" onsubmit="onSubmitFunc()">
+            <form id="USERSForm">
                 <div class="form-group row">
                     <div class="form-group col-sm-3">
                         <label for="FullName"><span class="red-star">★ </span>שם מלא</label>
@@ -358,45 +411,20 @@
                     </div>
 
                     <div class="form-group col-sm-3">
-                        <label for="status"><span class="red-star">★ </span>סטטוס</label>
-                        <input type="number" class="form-control" id="statusTB" placeholder="Enter the price" required />
+                        <label for="statusTB"><span class="red-star">★ </span>סטטוס</label>
+                        <!--<input type="number" class="form-control" id="statusTB" placeholder="Enter the price" required />-->
+                        <select id="statusTB" class="form-control" required>
+                            <option value="-1">בחר סטטוס</option>
+                            <option value="waiting for approvel">waiting for approvel</option>
+                            <option value="Decline">Decline</option>
+                            <option value="Approved">Approved</option>
+                        </select>
                     </div>
 
 
                 </div>
 
                 <div class="form-group row">
-
-
-                    <!--<div class="form-group col-sm-3">
-                        <label for="color"><span class="red-star">★ </span>Color</label>
-                        <select class="form-control" id="color" required>
-                            <option value="">Choose Color</option>
-                            <option value="White"> White </option>
-                            <option value="Blue"> Blue </option>
-                            <option value="Black"> Black </option>
-                            <option value="Red"> Red </option>
-                            <option value="Grey"> Grey </option>
-                        </select>
-                    </div>
-
-                    <div class="form-group col-sm-3">
-                        <label for="hand"><span class="red-star">★ </span>Hand</label>
-                        <select class="form-control" id="hand" required>
-                            <option value="">Choose Hand</option>
-                            <option value="1"> 1 </option>
-                            <option value="2"> 2 </option>
-                            <option value="3"> 3 </option>
-                            <option value="4"> 4 </option>
-                            <option value="5"> 5 </option>
-                        </select>
-                    </div>
-
-                    <div class="form-group col-sm-3">
-                        <label for="automatic"><span class="red-star">★ </span>Automatic?</label>
-                        <input type="checkbox" class="form-control" id="automatic" checked />
-                    </div>-->
-
                 </div>
                 <div class="form-group row">
                     <div class="form-group col-sm-8">
@@ -404,13 +432,9 @@
                         <textarea rows="6" class="form-control" id="description" placeholder="Enter the description"></textarea>
                     </div>
 
-                    <div class="form-group col-sm-4">
-                        <img src="images/car.jpg" id="image" />
-                    </div>
-
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-lg" id="saveBTN">Save</button>
+                <button class="btn btn-primary btn-lg" id="saveBTN" onclick="savefunction()">Save</button>
                 <input type="button" class="btn btn-warning btn-lg" id="cancelSaveBTN" value="Cancel" onclick="cancelSaveFunc()"/>
             </form>
         </div>

@@ -56,7 +56,6 @@
                         userInst = userP.institute;
                         userEmail = userP.email;                        
                         SelectUserInstitute(userP);
-                        
                         //הוספת שם בצד ימין
                         var ProfileName = document.getElementById("ProfileNameid");
                         ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
@@ -216,7 +215,12 @@
             });
 
         }
+        function Logout() {
+            localStorage.clear();
+            document.getElementById("logout").style.display = "none";
+            document.location.href = "Login-New.html";
 
+        }
         
 
 
@@ -227,12 +231,15 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
         <div class="container">
+            <a href="Admin.html"><img src="image/logo.svg" /></a>
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
                 <img class="img-profile rounded-circle" src="image/undraw_profile.svg">
                 <p id="ProfileNameid"></p>
+
             </a>
-            <a class="navbar-brand" href="Admin.html"><img src="image/logo.svg" /></a>
+            <!--<button id="logout" onclick="Logout()">התנתק</button>-->
+            <!--<a  href="Admin.html"><img src="image/logo.svg" /></a>-->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -241,6 +248,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             בית
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logout" onclick="Logout()">
+                            התנתק
                         </a>
                     </li>
                     <li class="nav-item active">
