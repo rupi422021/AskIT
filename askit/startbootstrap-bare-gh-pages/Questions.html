@@ -29,6 +29,8 @@
     <!--Your web app's Firebase configuration-->
     <script src="config.js"></script>
 
+
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
@@ -40,10 +42,23 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="cards.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="bootstrap-tagsinput.min.js"></script>
+
+
     <script>
+
+        var questionList = [];
 
         function init() {
             var database = firebase.database();
+
             ref = firebase.database().ref("users");
             if (localStorage["user"] != null) { // check if the entry exists
                 // after getting the localStorage string, parse it to a JSON object
@@ -54,7 +69,7 @@
                         console.log(snapshot.val());
                         userP = snapshot.val();
                         userInst = userP.institute;
-                        userEmail = userP.email;                        
+                        userEmail = userP.email;
                         SelectUserInstitute(userP);
                         //הוספת שם בצד ימין
                         var ProfileName = document.getElementById("ProfileNameid");
@@ -71,8 +86,8 @@
                 depArr = [];
                 db = firebase.database();
                 ref = firebase.database().ref("Institute");
-                console.log(ref);
-                
+
+
 
                 dref = firebase.database().ref("Departments");
                 // listen to incoming institutes
@@ -84,6 +99,8 @@
             }
             else {
                 userA = {};
+                alert("You are not signed in! Please log in to continue.");
+                RedirectToLogin();
             }
             //הורדת העפרון ברגע שעולה הדף
             document.getElementById("PencilIcon").style.display = "none";
@@ -99,7 +116,9 @@
             });
         }
         //////
-
+        function RedirectToLogin() {
+            location.replace("Login-New.html");
+        }
 
         function AddQuestion() {
             let inst = document.getElementById("instTB").value;
@@ -109,9 +128,16 @@
             let quesName = document.getElementById("quesTB").value;
             let quesType = document.getElementById("quesTypeTB").value;
             let quesContent = document.getElementById("quesContentTB").value;
+            let difficulty = document.getElementById("diffTB").value;
+            let tags = document.getElementById("tagTB").value;
+            let isPublished = document.getElementById("isPublishedTB").value;
+            let publishType = document.getElementById("pubTypeTB").value;
+            let publishYear = document.getElementById("pubYearTB").value;
+            let publishAttempt = document.getElementById("pubAttemptTB").value;
 
 
-            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({"type": quesType, "content": quesContent });
+
+            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt });
         }
 
         function SelectUserInstitute(userP) {
@@ -131,12 +157,12 @@
                 if (snapshot.exists()) {
                     //הבאת האובייקט
                     instData = snapshot.val();
-                    console.log(instData);
+
                     for (var i = 0; i < Object.keys(instData.Departments).length; i++) {
                         //דחיפה לרשימת מחלקות
                         depList.push(Object.keys(instData.Departments)[i]);
                     }
-                    console.log(depList);
+
                     var str = "<option value = '-1'>בחר מחלקה</option>";
                     for (k in depList) {
                         str += "<option value = '" + depList[k] + "'>" + depList[k] + "</option>";
@@ -153,32 +179,32 @@
 
 
         function SetCourses() {
-                //פונקציה זהה למחלקות
-                let inst = document.getElementById("instTB").value;
-                let dep = document.getElementById("depTB").value;
-                let courseList = [];
+            //פונקציה זהה למחלקות
+            let inst = document.getElementById("instTB").value;
+            let dep = document.getElementById("depTB").value;
+            let courseList = [];
 
-                refD = firebase.database().ref("Institutes").child(inst).child("Departments");
-                refD.child(dep).get().then(function (snapshot) {
-                    if (snapshot.exists()) {
-                        depData = snapshot.val();
-                        console.log(depData);
-                        for (var i = 0; i < Object.keys(depData.Courses).length; i++) {
-                            courseList.push(Object.keys(depData.Courses)[i]);
-                        }
-                        console.log(courseList);
-                        var str = "<option value = '-1'>בחר קורס</option>";
-                        for (k in courseList) {
-                            str += "<option value = '" + courseList[k] + "'>" + courseList[k] + "</option>";
-                        }
-                        document.getElementById("CourseTB").innerHTML = str;
+            refD = firebase.database().ref("Institutes").child(inst).child("Departments");
+            refD.child(dep).get().then(function (snapshot) {
+                if (snapshot.exists()) {
+                    depData = snapshot.val();
+                    console.log(depData);
+                    for (var i = 0; i < Object.keys(depData.Courses).length; i++) {
+                        courseList.push(Object.keys(depData.Courses)[i]);
                     }
-                    else {
-                        console.log("No data available");
+
+                    var str = "<option value = '-1'>בחר קורס</option>";
+                    for (k in courseList) {
+                        str += "<option value = '" + courseList[k] + "'>" + courseList[k] + "</option>";
                     }
-                }).catch(function (error) {
-                    console.error(error);
-                });
+                    document.getElementById("CourseTB").innerHTML = str;
+                }
+                else {
+                    console.log("No data available");
+                }
+            }).catch(function (error) {
+                console.error(error);
+            });
 
         }
 
@@ -192,19 +218,19 @@
             refC.child(course).get().then(function (snapshot) {
                 if (snapshot.exists()) {
                     courseData = snapshot.val();
-                    console.log(courseData);
+
                     for (var i = 0; i < Object.keys(courseData.Subjects).length; i++) {
-                        subjectList.push(Object.keys(courseData.Subjects)[i]);                       
+                        subjectList.push(Object.keys(courseData.Subjects)[i]);
                     }
-                    subjectList.push("אחר");  
-                    console.log(subjectList);
+                    subjectList.push("אחר");
+
                     var str = "<option value = '-1'>בחר נושא</option>";
-                    
+
                     for (k in subjectList) {
                         str += "<option value = '" + subjectList[k] + "'>" + subjectList[k] + "</option>";
-                       
+
                     }
-                    
+
                     document.getElementById("SubjectTB").innerHTML = str;
                 }
                 else {
@@ -221,7 +247,137 @@
             document.location.href = "Login-New.html";
 
         }
-        
+
+
+        function showSimilarQuestions() {
+
+            let inst = document.getElementById("instTB").value;
+            let dep = document.getElementById("depTB").value;
+            let course = document.getElementById("CourseTB").value;
+            let subject = document.getElementById("SubjectTB").value;
+            let quesName = document.getElementById("quesTB").value;
+            let quesType = document.getElementById("quesTypeTB").value;
+            let questionData = '';
+            questionList = [];
+
+
+
+
+            refQ = firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject);
+            refQ.child("Questions").get().then(function (snapshot) {
+                if (snapshot.exists()) {
+                    questionData = snapshot.val();
+
+                    for (var i = 0; i < Object.keys(questionData).length; i++) {
+                        questionList.push(Object.keys(questionData)[i]);
+                    }
+
+                    score = CalculateScore(questionData);
+                }
+
+                else {
+                    console.log("No data available");
+                }
+            }).catch(function (error) {
+                console.error(error);
+            });
+
+        }
+
+
+        function CalculateScore(quesData) {
+
+            debugger;
+            var match = '';
+            let strSplit = '';
+            let score = 0;
+            let quesName = document.getElementById("quesTB").value;
+            let quesType = document.getElementById("quesTypeTB").value;
+            let quesContent = document.getElementById("quesContentTB").value.trim();
+            let difficulty = document.getElementById("diffTB").value;
+            let tags = document.getElementById("tagTB").value.split(",");
+            let quesTags = [];
+            quesNameSplit = quesName.split(" ");
+            quesContentSplit = quesContent.split(" ");
+            let questionsByScore = [];
+            // quesData[Object.keys(quesData)].publish_type
+            for (var i = 0; i < Object.keys(quesData).length; i++) {
+                for (var j = 0; j < quesNameSplit.length; j++) {
+                    match = Object.keys(quesData)[i].match(quesNameSplit[j]);
+                    if (match != null && quesNameSplit[j] != "") {
+                        score = score + match.length * 2;
+                    }
+                    match = '';
+                }
+                if (quesType == quesData[Object.keys(quesData)[i]].type) {
+                    score = score + 1
+                }
+                if (difficulty == quesData[Object.keys(quesData)[i]].difficulty) {
+                    score = score + 1
+                }
+
+                for (var k = 0; k < quesContentSplit.length; k++) {
+                    match = quesData[Object.keys(quesData)[i]].content.match(quesContentSplit[k]);
+                    if (match != null && quesContentSplit[k] != "") {
+                        score = score + match.length;
+                    }
+                    match = '';
+                }
+                quesTags = quesData[Object.keys(quesData)[i]].tags.split(",");
+                for (var m = 0; m < quesTags.length; m++) {
+                    for (var n = 0; n < tags.length; n++) {
+                        if (quesTags[m] == tags[n]) {
+                            score = score + 2
+                        }
+                    }
+
+                }
+
+                if (score>2) {
+                    questionsByScore.push({
+                        score: score,
+                        questionTitle: Object.keys(quesData)[i],
+                        question: quesData[Object.keys(quesData)[i]]
+                    });
+                }
+              
+
+                score = 0;
+            }
+            console.log(questionsByScore);
+            ShowRelatedQuestions(questionsByScore);
+            
+        }
+
+        function ShowRelatedQuestions(questionsByScore) {
+            debugger;
+            questionsByScore.sort((a, b) => (a.score > b.score) ? -1 : 1);
+            if (questionsByScore.length >0) {
+                var str = "<div class='row'>" + "<h3>" + "אולי יעניין אותך גם:" + "</h3><br>";
+                for (var i = 0; i < questionsByScore.length; i++) {
+                    str += "<div class='column'>"
+                        + "<div class='card'>"
+                        + "<h3>" + questionsByScore[i].questionTitle + "</h3>"
+                        + "<p>" + "רמת קושי: " + questionsByScore[i].question.difficulty + "</p>"
+                        + "<p>" + questionsByScore[i].question.content + "</p>"
+                        + "<p>" + "ציון התאמה: " + questionsByScore[i].score + "</p>"
+                        + "</div>"
+                        + "</div>"
+
+                }
+
+                str += "</div> <br>"
+                document.getElementById("placeholder").innerHTML = str;
+            }
+           
+
+        }
+
+
+
+
+
+
 
 
     </script>
@@ -256,11 +412,8 @@
                         </a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">הגדרות מערכת</a>
+                        <a class="nav-link" href="#">יצירת שאלה</a>
                         <span class="sr-only">(current)</span>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">ניהול משתמשים</a>
                     </li>
                 </ul>
             </div>
@@ -268,11 +421,13 @@
     </nav>
 
     <!-- Page Content -->
+  
+    
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h1 class="mt-5">הגדרות מערכת</h1>
-
+                <h1 class="mt-5">יצירת שאלה</h1>
+               
             </div>
         </div>
     </div>
@@ -287,11 +442,9 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-8">
                                 <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">יצירת שאלה</h1>
-                                    </div>
+
                                     <!--<form class="user">-->
                                     <div class="form-group">
 
@@ -323,7 +476,7 @@
 
                                         <div class="form-group">
                                             <p class="lead">שם שאלה</p>
-                                            <input type="text" id="quesTB" class="form-control form-control-user"
+                                            <input type="text" id="quesTB" class="form-control form-control-user" onchange="showSimilarQuestions()"
                                                    placeholder="הזן שם שאלה">
                                             <!--<button onclick="AddDEP()">הוסף מחלקה</button>-->
                                         </div>
@@ -332,23 +485,97 @@
                                             <p class="lead">סוג שאלה</p>
                                             <div>
                                                 <div id="PencilIcon" onclick="notDisable()"></div>
-                                                <select name="quesType" id="quesTypeTB" class="form-control form-control-user">
+                                                <select name="quesType" id="quesTypeTB" class="form-control form-control-user" onchange="showSimilarQuestions()">
                                                     <option value="-1"> בחר סוג שאלה</option>
-                                                    <option value="Close">סגורה</option>
-                                                    <option value="Open">פתוחה</option>
+                                                    <option value="סגורה">סגורה</option>
+                                                    <option value="פתוחה">פתוחה</option>
                                                 </select>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <p class="lead">תוכן השאלה</p>
-                                            <textarea type="text" id="quesContentTB" class="form-control form-control-user"
-                                                      placeholder="הזן תוכן שאלה">  </textarea>
+                                            <textarea type="text" id="quesContentTB" class="form-control form-control-user" onkeyup="showSimilarQuestions()"
+                                                      placeholder="הזן תוכן שאלה"></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <p class="lead">רמת קושי</p>
+                                            <select name="Difficulty" id="diffTB" class="form-control form-control-user" onchange="showSimilarQuestions()">
+                                                <option value="-1">בחר רמת קושי</option>
+                                                <option value="קל">קל</option>
+                                                <option value="בינוני">בינוני</option>
+                                                <option value="קשה">קשה</option>
+                                                <option value="אחר">אחר</option>
+                                            </select>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <p class="lead">הוספת תגיות</p>
+                                            <input data-role="tagsinput" type="text" name="Tags" id="tagTB" placeholder="הוסף תגיות" class="form-control form-control-user" onchange="showSimilarQuestions()"
+                                                   required />
+                                        </div>
+
+                                        
+
+
+                                        <div class="form-group">
+                                            <p class="lead">?האם פורסמה בעבר</p>
+                                            <select name="isPublished" id="isPublishedTB" class="form-control form-control-user">
+                                                <option value="-1">בחר</option>
+                                                <option value="כן">כן</option>
+                                                <option value="לא">לא</option>
+                                            </select>
+                                        </div>
+
+                                        <div id="ShowHistory">
+                                            <div class="form-group">
+                                                <p class="lead">היכן פורסמה</p>
+                                                <select name="Publish Type" id="pubTypeTB" class="form-control form-control-user">
+                                                    <option value="-1">בחר</option>
+                                                    <option value="מבחן">מבחן</option>
+                                                    <option value="תרגיל בית">תרגיל בית</option>
+                                                    <option value="תרגיל כיתה">תרגיל כיתה</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <p class="lead">שנת פרסום</p>
+                                                <select name="Publish Year" id="pubYearTB" class="form-control form-control-user">
+                                                    <option value="-1">בחר</option>
+                                                    <option value="תשפא">תשפ"א</option>
+                                                    <option value="תשפג">תשפ"ג</option>
+                                                    <option value="תשפד">תשפ"ד</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <p class="lead">מועד</p>
+                                                <select name="Publish Attempt" id="pubAttemptTB" class="form-control form-control-user">
+                                                    <option value="-1">בחר</option>
+                                                    <option value="א">א</option>
+                                                    <option value="ב">ב</option>
+                                                    <option value="ג">ג</option>
+                                                </select>
+                                            </div>
                                         </div>
 
                                         <div class="form-input">
-                                            <label for="files">Image</label>
+                                            <p class="lead">הוספת תמונה</p>
                                             <input type="file" id="files" name="files" multiple="multiple" />
+                                        </div>
+                                        <br />
+                                        <br />
+
+
+
+                                        <div class="form-group">
+                                            <div class="btn-group">
+                                                <button id="Save_Show" onclick="AddQuestion()">שמור והצג</button>
+                                                <button id="Save_Share" onclick="AddQuestion()">שמור ושתף</button>
+                                                <button id="Save and add another question" onclick="AddQuestion()">שמור והוסף שאלה נוספת</button>
+                                            </div>
                                         </div>
 
                                         <button onclick="AddQuestion()" class="btn btn-primary btn-user btn-block">צור שאלה</button>
@@ -356,16 +583,23 @@
                                         <!--</form>-->
                                         <hr>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                             
+                                    <p id="placeholder"></p>
+                        
                             </div>
                         </div>
-                    </div>
+
                 </div>
 
             </div>
 
         </div>
-
+        <p id="placeholder"></p>
     </div>
+
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.slim.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

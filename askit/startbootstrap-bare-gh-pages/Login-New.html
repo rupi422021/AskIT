@@ -67,10 +67,16 @@
                 if (snapshot.exists()) {
                     u = snapshot.val();
                     if (u.password == _password) {
-                        storeToLS();
-                        //swal("התחברת בהצלחה", "success");
-                        document.location.href = "Questions.html";
-                        document.getElementById("logout").style.display = "block";
+                        if (u.status == "Approved") {
+                            storeToLS();
+                            //swal("התחברת בהצלחה", "success");
+                            document.location.href = "Questions.html";
+                            document.getElementById("logout").style.display = "block";
+                        }
+                        else {
+                            alert("Your user is not yet approved in the system. Please contact your administrator.");
+                            return;
+                        }
 
                     }
                     else {
@@ -97,6 +103,9 @@
             document.getElementById("logout").style.display = "none";
         }
 
+        function RedirectToRegistration() {
+            location.replace("Registration.html");
+        }
 
 
     </script>
@@ -182,7 +191,8 @@
                                         </div>
                                     </div>
                                     <!--<button onclick="AddSubject()" class="btn btn-primary btn-user btn-block">הוסף</button>-->
-                                    <button onclick="Login()"  class="btn btn-primary btn-user btn-block">Login</button>
+                                    <button onclick="Login()" class="btn btn-primary btn-user btn-block">Login</button>
+                                    <button onclick="RedirectToRegistration()" class="btn btn-primary btn-user btn-block">Register</button>
                                     <button id="logout" onclick="Logout()">התנתק</button>
                                     <hr>
                                     <hr>

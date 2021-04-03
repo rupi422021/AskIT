@@ -41,6 +41,9 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script>
+
+        var isRegistrationComplete = 0;
+
         function register(email, password) {
             firebase.auth().createUserWithEmailAndPassword(email, password).then((userCredential) => {
                 // Signed in
@@ -57,7 +60,7 @@
 
         function Init() {
             ref = firebase.database().ref("users");
-            SelectUserInstitute();
+           InitInstitutes();
         }
         //------------Insert Processs-------------------//
 
@@ -81,22 +84,24 @@
                 password: passwordU,
                 institute: instituteU,
                 dateReg: getDateString(today),
-                status: "waiting for approvel"
+                status: "Waiting for approval"
             });
+            alert("User Created Successfully!");
             register(emailU, passwordU);
+
         }
 
         function getDateString(date) {
             return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
         }
 
-        function f1() {
+
+        function f1() {       
             insertuser();
-            return false;
+            
         }
 
-        function SelectUserInstitute() {
-            debugger;
+        function InitInstitutes() {
             let instList = [];
             refI = firebase.database().ref("Institutes");
             refI.get().then(function (snapshot) {
@@ -180,68 +185,69 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <!--<div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">הרשמה</h1>
-                                    </div>-->
-                                    <form class="user" onsubmit="insertuser()">
-                                    <div class="form-group">
-                                        <p class="lead">תעודת זהות</p>
-                                        <!--<label for="idTB">תעודת זהות</label>-->
-                                        <input class="form-control form-control-user" type="text" id="idTB" placeholder="אנא מלא תעודת זהות" pattern="[0-9]{9}" minlength="9"
-                                               maxlength="9"
-                                               oninvalid="this.setCustomValidity('אנא הכנס תעודת זהות כולל ספרת ביקורת')"
-                                               oninput="this.setCustomValidity('')"
-                                               required />
-                                    </div>
-
-                                    <!--//updated-->
-
-                                    <div class="form-group">
-                                        <p class="lead">שם פרטי</p>
-                                        <input class="form-control form-control-user" type="text" id="nameTB" placeholder="אנא הכנס שם פרטי" pattern="[A-Z,a-z]{2,10}"
-                                               maxlength="10"
-                                               oninvalid="this.setCustomValidity('אנא הכנס את השם בעברית עד 10 תווים')"
-                                               oninput="this.setCustomValidity('')"
-                                               required />
-                                    </div>
-                                    <div class="form-group">
-                                        <p class="lead">שם משפחה</p>
-                                        <input class="form-control form-control-user" type="text" id="lastnameTB" placeholder="אנא הכנס שם משפחה"
-                                               pattern="[A-Z,a-z]{2,10}"
-                                               maxlength="20"
-                                               oninvalid="this.setCustomValidity('אנא הכנס את השם בעברית עד 20 תווים')"
-                                               oninput="this.setCustomValidity('')"
-                                               required />
-                                    </div>
-
-                                    <div class="form-group">
-                                        <p class="lead">אימייל</p>
-                                        <input class="form-control form-control-user" type="email" id="emailTB" name="email" placeholder="אנא הכנס את האימייל שלך" required />
-                                        <!--<button onclick="AddSubject()">הוסף נושא</button>-->
-                                    </div>
-
-                                    <div class="form-group">
-                                        <p class="lead">סיסמה</p>
-                                        <input class="form-control form-control-user" type="password" name="password" id="passwordTB" placeholder="אנא הכנס את הסיסמה שלך" minlength="8"
-                                               pattern="^(?=.*\d)(?=.*[A-Z]).{8,30}$"
-                                               oninvalid="this.setCustomValidity('הסיסמה צריכה להכיל מינימום 8 תווים ושתכלול לפחות אות גדולה וסיפרה')"
-                                               oninput="this.setCustomValidity('')"
-                                               required />
-                                    </div>
-
-                                    <div class="form-group">
-                                        <p class="lead">מוסד לימודי</p>
-                                        <select class="form-control form-control-user" name="Institute" id="InstituteTB">
-                                        </select>
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox small">
+        <h1 class="h4 text-gray-900 mb-4">הרשמה</h1>
+    </div>-->
+                              
+                                    <form class="user" onsubmit="f1()" action="Login-New.html">
+                                        <div class="form-group">
+                                            <p class="lead">תעודת זהות</p>
+                                            <!--<label for="idTB">תעודת זהות</label>-->
+                                            <input class="form-control form-control-user" type="text" id="idTB" placeholder="אנא מלא תעודת זהות" pattern="[0-9]{9}" minlength="9"
+                                                   maxlength="9"
+                                                   oninvalid="this.setCustomValidity('אנא הכנס תעודת זהות כולל ספרת ביקורת')"
+                                                   oninput="this.setCustomValidity('')"
+                                                   required />
                                         </div>
-                                    </div>
-                                    <button id="send" class="btn btn-primary btn-user btn-block">שלח</button>
-                                    <hr>
-                                   </form>
+
+                                        <!--//updated-->
+
+                                        <div class="form-group">
+                                            <p class="lead">שם פרטי</p>
+                                            <input class="form-control form-control-user" type="text" id="nameTB" placeholder="אנא הכנס שם פרטי" pattern="[A-Z,a-z]{2,10}"
+                                                   maxlength="10"
+                                                   oninvalid="this.setCustomValidity('אנא הכנס את השם בעברית עד 10 תווים')"
+                                                   oninput="this.setCustomValidity('')"
+                                                   required />
+                                        </div>
+                                        <div class="form-group">
+                                            <p class="lead">שם משפחה</p>
+                                            <input class="form-control form-control-user" type="text" id="lastnameTB" placeholder="אנא הכנס שם משפחה"
+                                                   pattern="[A-Z,a-z]{2,10}"
+                                                   maxlength="20"
+                                                   oninvalid="this.setCustomValidity('אנא הכנס את השם בעברית עד 20 תווים')"
+                                                   oninput="this.setCustomValidity('')"
+                                                   required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <p class="lead">אימייל</p>
+                                            <input class="form-control form-control-user" type="email" id="emailTB" name="email" placeholder="אנא הכנס את האימייל שלך" required />
+                                            <!--<button onclick="AddSubject()">הוסף נושא</button>-->
+                                        </div>
+
+                                        <div class="form-group">
+                                            <p class="lead">סיסמה</p>
+                                            <input class="form-control form-control-user" type="password" name="password" id="passwordTB" placeholder="אנא הכנס את הסיסמה שלך" minlength="8"
+                                                   pattern="^(?=.*\d)(?=.*[A-Z]).{8,30}$"
+                                                   oninvalid="this.setCustomValidity('הסיסמה צריכה להכיל מינימום 8 תווים ושתכלול לפחות אות גדולה וסיפרה')"
+                                                   oninput="this.setCustomValidity('')"
+                                                   required />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <p class="lead">מוסד לימודי</p>
+                                            <select class="form-control form-control-user" name="Institute" id="InstituteTB">
+                                            </select>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                            </div>
+                                        </div>
+                                        <button id="send" class="btn btn-primary btn-user btn-block">שלח</button>
+                                        <hr>
+                                    </form>
                                 </div>
                             </div>
                         </div>
