@@ -74,7 +74,7 @@
             usersList = [];
             var database = firebase.database();
             ref = firebase.database().ref("users");
-            debugger;
+            
             ref.get().then(function (snapshot) {
                 if (snapshot.exists()) {
                     users = snapshot.val();
@@ -170,7 +170,7 @@
         // success callback function after delete
         function deleteSuccess(dataU)
         {
-            debugger;
+        
             tbl.clear();
             redrawTable(tbl, dataU);
             buttonEvents(); // after redrawing the table, we must wire the new buttons
@@ -187,6 +187,7 @@
             document.getElementById("statusTB").value = "";
         }
         function populateFields(Id) {
+            debugger;
             data = getUser(Id);
             console.log(data.status);
             //$("#FullName").val(data.firstname);
@@ -195,7 +196,7 @@
             document.getElementById("instTB").value = data.institute;
             //$("#statusTB").val(data.status);
             var x = data.status;
-            document.getElementById("statusTB").text= x;
+            document.getElementById("statusTB").value = data.status;
 
            
             console.log(data.status);
@@ -203,7 +204,7 @@
         }
         // get a user according to its Id
         function getUser(id) {
-            debugger;
+      
             for (i in dataU) {
                 if (dataU[i].id == id)
                     return dataU[i];
@@ -240,7 +241,7 @@
             }
             function savefunction() {
                 //Id = dataU.id;
-                debugger;
+               
                 let UsertoSave = {
                     "id": data.id,
                     //FullName: document.getElementById("FullName").value,
@@ -266,7 +267,7 @@
             var database = firebase.database();
             //הבאת ערכים מהפיירבייס
             refInst = firebase.database().ref("Institutes");
-            debugger;
+          
             refInst.get().then(function (snapshot) {
                 if (snapshot.exists()) {
                     ObjectInstitute = snapshot.val();
@@ -416,7 +417,7 @@
                         <!--<input type="number" class="form-control" id="statusTB" placeholder="Enter the price" required />-->
                         <select id="statusTB" class="form-control" required>
                             <option value="-1">בחר סטטוס</option>
-                            <option value="waiting for approvel">waiting for approvel</option>
+                            <option value="Waiting for approval">Waiting for approval</option>
                             <option value="Decline">Decline</option>
                             <option value="Approved">Approved</option>
                         </select>
