@@ -109,51 +109,41 @@
             })
         }
 
-        function listenToRemove() {
-            ref.on("child_removed", snapshot => {
-                instArr = instArr.filter(m => m.content != snapshot.val().inst);
-                // re-render the institutes
-                printInstitute(instArr);
-            })
-        }
-        function deleteinstsBySubString() {
-            let subString = document.getElementById("delTB").value;
-            if (subString == "") {
-                alert("substing can not be empty");
-                return;
-            }
-            ref.once("value", snapshot => {
-                snapshot.forEach(element => {
-                    // check if contains the substring
-                    if (element.val().inst.indexOf(subString) > -1) {
-                        ref.child(element.key).remove();
-                    }
-                });
-            })
-        }
-        function printMessage(inst) {
-            let str = "name: " + inst.name + ", content: " + inst.content + "<br />";
-            ph.innerHTML += str;
-        }
 
-        function printInstitute(instArr) {
-            var str = "";
-            for (let index = 0; index < instArr.length; index++) {
-                const inst = instArr[index];
-                str += "name: " + inst.name + ", content: " + inst.content + "<br />";
-            }
-            ph.innerHTML = str;
-        }
 
         function AddSubject() {
             let inst = document.getElementById("instTB").value;
             let dep = document.getElementById("depTB").value;
             let course = document.getElementById("CourseTB").value;
             let subject = document.getElementById("SubjectTB").value;
+            let subjectData = '';
+            console.log(dep);
+            console.log(course);
+            console.log(subject);
+            
+            if (dep == "" || course == "" || subject == "") {
+                alert("Please fill all of the missing fields!");
+                return;
+            }
+
+            refC = firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects");
+            refC.child(subject).get().then(function (snapshot) {
+                if (snapshot.exists()) {
+                    alert("This subject already exists!");
+                    return;
+                }
+
+                else {
+                    firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).set({ "status": "Active" });
+                    alert("Subject Added Successfully!");
+                }
+            }).catch(function (error) {
+                console.error(error);
+            });
 
 
 
-            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).set({ "status": "Active" });
+
         }
 
         function funcDisabel() {

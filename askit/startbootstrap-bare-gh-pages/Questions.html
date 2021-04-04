@@ -293,9 +293,9 @@
             let score = 0;
             let quesName = document.getElementById("quesTB").value;
             let quesType = document.getElementById("quesTypeTB").value;
-            let quesContent = document.getElementById("quesContentTB").value.trim();
+            let quesContent = document.getElementById("quesContentTB").value.trim(); // Using the trim function to avoid counting matching value of " "
             let difficulty = document.getElementById("diffTB").value;
-            let tags = document.getElementById("tagTB").value.split(",");
+            let tags = document.getElementById("tagTB").value.split(","); 
             let quesTags = [];
             quesNameSplit = quesName.split(" ");
             quesContentSplit = quesContent.split(" ");
@@ -340,7 +340,6 @@
                         question: quesData[Object.keys(quesData)[i]]
                     });
                 }
-              
 
                 score = 0;
             }
@@ -522,7 +521,7 @@
 
 
                                         <div class="form-group">
-                                            <p class="lead">?האם פורסמה בעבר</p>
+                                            <p class="lead">האם פורסמה בעבר?</p>
                                             <select name="isPublished" id="isPublishedTB" class="form-control form-control-user">
                                                 <option value="-1">בחר</option>
                                                 <option value="כן">כן</option>
