@@ -9,22 +9,10 @@
         #logout {
             color: #fff;
             text-shadow: 0 -1px 0 rgb(0 0 0 / 25%);
-            background-color: lightgray; 
+            background-color: #006dcc;
+            *background-color: #04c;
             border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
             border-radius:20px;
-        }
-        #ProfileNameid {
-            color: #337ab7;
-        }
-        .btn_three {
-            color: #fff;
-            text-shadow: 0 -1px 0 rgb(0 0 0 / 25%);
-            background-color: #006dcc;
-            border-radius: 20px;
-            background-repeat: repeat-x;
-            border-color: #04c #04c #002a80;
-            border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
-            margin: 2.5px;
         }
     </style>
     <meta charset="utf-8">
@@ -78,7 +66,7 @@
 
         function init() {
             var database = firebase.database();
-            document.getElementById("published").style.display = "none";
+
             ref = firebase.database().ref("users");
             if (localStorage["user"] != null) { // check if the entry exists
                 // after getting the localStorage string, parse it to a JSON object
@@ -284,7 +272,7 @@
 
 
             refQ = firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject);
-            refQ.child("Questions").get().then(function (snapshot) {
+            refQ.child("Questions").child().get().then(function (snapshot) {
                 if (snapshot.exists()) {
                     questionData = snapshot.val();
 
@@ -393,14 +381,7 @@
 
         }
 
-        function showpublish() {
-            let p = document.getElementById("isPublishedTB").value;
-            if (p == "כן") {
-                document.getElementById("published").style.display = "block";
-            }
-            else
-                document.getElementById("published").style.display = "none";
-        }
+
 
 
 
@@ -554,49 +535,49 @@
 
                                         <div class="form-group">
                                             <p class="lead">האם פורסמה בעבר?</p>
-                                            <select name="isPublished" id="isPublishedTB" onchange="showpublish()" class="form-control form-control-user">
+                                            <select name="isPublished" id="isPublishedTB" class="form-control form-control-user">
                                                 <option value="-1">בחר</option>
                                                 <option value="כן">כן</option>
                                                 <option value="לא">לא</option>
                                             </select>
                                         </div>
-                                        <div id="published">
-                                            <div id="ShowHistory">
-                                                <div class="form-group">
-                                                    <p class="lead">היכן פורסמה</p>
-                                                    <select name="Publish Type" id="pubTypeTB" class="form-control form-control-user">
-                                                        <option value="-1">בחר</option>
-                                                        <option value="מבחן">מבחן</option>
-                                                        <option value="תרגיל בית">תרגיל בית</option>
-                                                        <option value="תרגיל כיתה">תרגיל כיתה</option>
-                                                    </select>
-                                                </div>
 
-                                                <div class="form-group">
-                                                    <p class="lead">שנת פרסום</p>
-                                                    <select name="Publish Year" id="pubYearTB" class="form-control form-control-user">
-                                                        <option value="-1">בחר</option>
-                                                        <option value="תשפא">תשפ"א</option>
-                                                        <option value="תשפג">תשפ"ג</option>
-                                                        <option value="תשפד">תשפ"ד</option>
-                                                    </select>
-                                                </div>
+                                        <div id="ShowHistory">
+                                            <div class="form-group">
+                                                <p class="lead">היכן פורסמה</p>
+                                                <select name="Publish Type" id="pubTypeTB" class="form-control form-control-user">
+                                                    <option value="-1">בחר</option>
+                                                    <option value="מבחן">מבחן</option>
+                                                    <option value="תרגיל בית">תרגיל בית</option>
+                                                    <option value="תרגיל כיתה">תרגיל כיתה</option>
+                                                </select>
+                                            </div>
 
-                                                <div class="form-group">
-                                                    <p class="lead">מועד</p>
-                                                    <select name="Publish Attempt" id="pubAttemptTB" class="form-control form-control-user">
-                                                        <option value="-1">בחר</option>
-                                                        <option value="א">א</option>
-                                                        <option value="ב">ב</option>
-                                                        <option value="ג">ג</option>
-                                                    </select>
-                                                </div>
+                                            <div class="form-group">
+                                                <p class="lead">שנת פרסום</p>
+                                                <select name="Publish Year" id="pubYearTB" class="form-control form-control-user">
+                                                    <option value="-1">בחר</option>
+                                                    <option value="תשפא">תשפ"א</option>
+                                                    <option value="תשפג">תשפ"ג</option>
+                                                    <option value="תשפד">תשפ"ד</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <p class="lead">מועד</p>
+                                                <select name="Publish Attempt" id="pubAttemptTB" class="form-control form-control-user">
+                                                    <option value="-1">בחר</option>
+                                                    <option value="א">א</option>
+                                                    <option value="ב">ב</option>
+                                                    <option value="ג">ג</option>
+                                                </select>
                                             </div>
                                         </div>
-                                        <!--<div class="form-input">
+
+                                        <div class="form-input">
                                             <p class="lead">הוספת תמונה</p>
                                             <input type="file" id="files" name="files" multiple="multiple" />
-                                        </div>-->
+                                        </div>
                                         <br />
                                         <br />
 
@@ -604,9 +585,9 @@
 
                                         <div class="form-group">
                                             <div class="btn-group">
-                                                <button id="Save_Show" class="btn_three" onclick="AddQuestion()">שמור והצג</button>
-                                                <button id="Save_Share" class="btn_three" onclick="AddQuestion()">שמור ושתף</button>
-                                                <button id="Save and add another question" class="btn_three" onclick="AddQuestion()">שמור והוסף שאלה נוספת</button>
+                                                <button id="Save_Show" onclick="AddQuestion()">שמור והצג</button>
+                                                <button id="Save_Share" onclick="AddQuestion()">שמור ושתף</button>
+                                                <button id="Save and add another question" onclick="AddQuestion()">שמור והוסף שאלה נוספת</button>
                                             </div>
                                         </div>
 
