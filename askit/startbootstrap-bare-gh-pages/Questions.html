@@ -6,6 +6,14 @@
         .lead {
             text-align: right;
         }
+        #logout {
+            color: #fff;
+            text-shadow: 0 -1px 0 rgb(0 0 0 / 25%);
+            background-color: #006dcc;
+            *background-color: #04c;
+            border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+            border-radius:20px;
+        }
     </style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -388,12 +396,12 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
         <div class="container">
             <a href="Admin.html"><img src="image/logo.svg" /></a>
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <!--<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
-                <img class="img-profile rounded-circle" src="image/undraw_profile.svg">
+                <!--<img class="img-profile rounded-circle" src="image/undraw_profile.svg">-->
                 <p id="ProfileNameid"></p>
 
-            </a>
+            <!--</a>-->
             <!--<button id="logout" onclick="Logout()">התנתק</button>-->
             <!--<a  href="Admin.html"><img src="image/logo.svg" /></a>-->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -407,13 +415,18 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" id="logout" onclick="Logout()">
-                            התנתק
+                        <a class="nav-link" href="#">
+                            השאלות שלי
                         </a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="#">יצירת שאלה</a>
                         <span class="sr-only">(current)</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logout" onclick="Logout()">
+                            התנתק
+                        </a>
                     </li>
                 </ul>
             </div>

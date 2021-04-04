@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html dir="ltl">
+<html dir="rtl">
 
 <head>
     <style>
@@ -21,13 +21,19 @@
             background-color: blueviolet;
             margin-bottom: 10px;
         }
+        #ProfileNameid {
+            color: #337ab7;
+        }
+        .right {
+            margin-left: 820px;
+        }
     </style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>System Setting</title>
+    <title>ManagerUsers</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -339,12 +345,12 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
         <div class="container">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
-                <img class="img-profile rounded-circle" src="image/undraw_profile.svg">
-                <p id="ProfileNameid"></p>
-            </a>
-            <a class="navbar-brand" href="Admin.html"><img src="image/logo.svg" /></a>
+            <a href="Admin.html"><img src="image/logo.svg" /></a>
+            <!--<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+            <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+            <!--<img class="img-profile rounded-circle" src="image/undraw_profile.svg">-->
+            <p id="ProfileNameid">שלום מנהל</p>
+
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -356,11 +362,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">הגדרות מערכת</a>
+                        <a class="nav-link" href="SystemSetting.html">הגדרות מערכת</a>
                         <!--<span class="sr-only">(current)</span>-->
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">ניהול משתמשים</a>
+                        <a class="nav-link" href="Manage_Users.html">ניהול משתמשים</a>
                         <span class="sr-only">(current)</span>
                     </li>
                 </ul>
