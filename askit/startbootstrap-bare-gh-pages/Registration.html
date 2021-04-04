@@ -203,7 +203,7 @@
 
                                         <div class="form-group">
                                             <p class="lead">שם פרטי</p>
-                                            <input class="form-control form-control-user" type="text" id="nameTB" placeholder="אנא הכנס שם פרטי" pattern="[A-Z,a-z]{2,10}"
+                                            <input class="form-control form-control-user" type="text" id="nameTB" placeholder="אנא הכנס שם פרטי" pattern="[A-Z\a-z\u0590-\u05fe]{2,10}"
                                                    maxlength="10"
                                                    oninvalid="this.setCustomValidity('אנא הכנס את השם בעברית עד 10 תווים')"
                                                    oninput="this.setCustomValidity('')"
@@ -212,7 +212,7 @@
                                         <div class="form-group">
                                             <p class="lead">שם משפחה</p>
                                             <input class="form-control form-control-user" type="text" id="lastnameTB" placeholder="אנא הכנס שם משפחה"
-                                                   pattern="[A-Z,a-z]{2,10}"
+                                                   pattern="[A-Z\a-z\u0590-\u05fe]{2,10}"
                                                    maxlength="20"
                                                    oninvalid="this.setCustomValidity('אנא הכנס את השם בעברית עד 20 תווים')"
                                                    oninput="this.setCustomValidity('')"

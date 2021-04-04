@@ -41,90 +41,6 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script>
-        ///הוספת רינדור
-        //function init() {
-
-        //    attackTypes = [];
-
-        //    for (var i = 0; i < moves.length; i++) {
-        //        let t = moves[i].type;
-        //        if (attackTypes[t] == undefined)
-        //            attackTypes[t] = [];
-        //        attackTypes[t].push(i);
-        //    }
-
-        //    renderAttackType(attackTypes);
-
-        //}
-
-
-        //function renderAttackType(arr) {
-        //    var str = "<option value = '-1'>select</option>";
-        //    for (k in arr) {
-        //        str += "<option value = '" + k + "'>" + k + "</option>";
-        //    }
-        //    document.getElementById("moves").innerHTML = str;
-        //}
-
-        //function renderMoves(attack, min) {
-        //    var sum = 0;
-        //    var counter = 0;
-        //    var str = "";
-        //    for (var i = 0; i < attackTypes[attack].length; i++) {
-        //        indexInMoves = attackTypes[attack][i];
-        //        let name = moves[indexInMoves].ename;
-        //        let accuracy = moves[indexInMoves].accuracy;
-        //        if (accuracy == null)
-        //            accuracy = 0;
-        //        else {
-        //            sum += accuracy;
-        //            counter++;
-        //        }
-        //        let power = moves[indexInMoves].power;
-        //        if (power == null)
-        //            power = 0;
-        //        if (power < min)
-        //            continue;
-
-        //        str += "<div class='attack'>";
-        //        str += "<p>name: " + name + "</p>";
-        //        str += "<p>power: " + power + "</p>";
-        //        str += "<p>accuracy: " + accuracy + "</p>";
-        //        str += "</div>";
-        //    }
-        //    document.getElementById("ph").innerHTML = str;
-        //    let avg = sum / counter;
-        //    document.getElementById("averageAccuracy").innerHTML = "The average is : " + avg;
-        //}
-
-        //function show2(min) {
-        //    let attack = document.getElementById("moves").value;
-        //    renderMoves(attack, min);
-        //}
-        ///הוספת רינדור
-
-
-        //....add
-        //function init() {
-        //    str = "";
-        //    str += "<option value =-1>select stock</option>";
-        //    for (k in stocks) {
-        //        str += "<option value='" + k + "'>" + k + "</option>";
-        //    }
-        //    document.getElementById("stocksDDL").innerHTML = str;
-
-        //    if (localStorage["buys"] != null) {  // check if the entry exists
-        //        // after getting the localStorage string, parse it to a JSON object
-        //        buys = JSON.parse(localStorage["buys"]);
-        //        budjet = JSON.parse(localStorage["budjet"]);
-        //    }
-        //    else {
-        //        buys = [];
-        //        budjet = 1000;
-        //    }
-
-        //}
-        //....add
         function init() {
 
             var database = firebase.database();
@@ -258,12 +174,13 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
         <div class="container">
+            <a href="Admin.html"><img src="image/logo.svg" /></a>
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
                 <img class="img-profile rounded-circle" src="image/undraw_profile.svg">
                 <p id="ProfileNameid"></p>
             </a>
-            <a class="navbar-brand" href="Admin.html"><img src="image/logo.svg" /></a>
+            <!--<a href="Admin.html"><img src="image/logo.svg" /></a>-->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>

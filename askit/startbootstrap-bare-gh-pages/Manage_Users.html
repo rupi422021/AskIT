@@ -115,16 +115,25 @@
             document.getElementById("editDiv").style.display = "block";
             clearFields();
             document.getElementById("editDiv").disabled = false;
+            document.getElementById("RegistrationDate").disabled = false;
+            document.getElementById("FirstName").disabled = false;
+            document.getElementById("LastName").disabled = false;
+            //document.getElementById("pForm").style.display = "none";
+
         }
-
+        
         function buttonEvents() {
-
+            //כפתור של עריכה 
             $(document).on("click", ".editBtn", function () {
                 mode = "edit";
                 markSelected(this);
                 $("#editDiv").show();
-                $("#editDiv :input").prop("disabled", false); // edit mode: enable all controls in the form
-                populateFields(this.getAttribute('data-Id')); // fill the form fields according to the selected row
+                $("#editDiv :input").prop("disabled", false);// edit mode: enable all controls in the form
+                $("#RegistrationDate").prop("disabled", true);
+                $("#FirstName").prop("disabled", true);
+                $("#LastName").prop("disabled", true);
+                populateFields(this.getAttribute('data-Id'));
+
             });
 
             $(document).on("click", ".viewBtn", function () {
@@ -181,7 +190,8 @@
         }
 
         function clearFields() {
-            document.getElementById("FullName").value = "";
+            document.getElementById("FirstName").value = "";
+            document.getElementById("LastName").value = "";
             document.getElementById("RegistrationDate").value = "";
             document.getElementById("instTB").value = "";
             document.getElementById("statusTB").value = "";
@@ -190,11 +200,10 @@
             debugger;
             data = getUser(Id);
             console.log(data.status);
-            //$("#FullName").val(data.firstname);
-            document.getElementById("FullName").value = data.firstname;
+            document.getElementById("FirstName").value = data.firstname;
+            document.getElementById("LastName").value = data.lastname;
             document.getElementById("RegistrationDate").value = data.dateReg;
             document.getElementById("instTB").value = data.institute;
-            //$("#statusTB").val(data.status);
             var x = data.status;
             document.getElementById("statusTB").value = data.status;
 
@@ -311,6 +320,7 @@
                         },
                         { data: "id" },
                         { data: "firstname" },
+                        { data: "lastname" },
                         { data: "dateReg" },
                         { data: "institute" },
                         { data: "status" }
@@ -381,7 +391,8 @@
                     <tr>
                         <th></th>
                         <th>תעודת זהות</th>
-                        <th>שם מלא</th>
+                        <th>שם פרטי</th>
+                        <th>שם משפחה</th>
                         <th>תאריך הרשמה</th>
                         <th>מוסד אקדמי</th>
                         <th>סטטוס</th>
@@ -395,8 +406,12 @@
             <form id="USERSForm">
                 <div class="form-group row">
                     <div class="form-group col-sm-3">
-                        <label for="FullName"><span class="red-star">★ </span>שם מלא</label>
-                        <input type="text" class="form-control" id="FullName" placeholder="Enter the Full Name" required>
+                        <label for="FirstName"><span class="red-star">★ </span>שם פרטי</label>
+                        <input type="text" class="form-control" id="FirstName" placeholder="Enter the First Name" required>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label for="LastName"><span class="red-star">★ </span>שם משפחה</label>
+                        <input type="text" class="form-control" id="LastName" placeholder="Enter the last Name" required>
                     </div>
 
 
@@ -428,13 +443,13 @@
 
                 <div class="form-group row">
                 </div>
-                <div class="form-group row">
+                <!--<div class="form-group row">
                     <div class="form-group col-sm-8">
                         <label for="description">Description</label>
                         <textarea rows="6" class="form-control" id="description" placeholder="Enter the description"></textarea>
                     </div>
 
-                </div>
+                </div>-->
 
                 <button class="btn btn-primary btn-lg" id="saveBTN" onclick="savefunction()">Save</button>
                 <input type="button" class="btn btn-warning btn-lg" id="cancelSaveBTN" value="Cancel" onclick="cancelSaveFunc()"/>
