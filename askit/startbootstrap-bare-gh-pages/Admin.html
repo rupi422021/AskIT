@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Bare - Start Bootstrap Template</title>
+    <title>Admin</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -24,24 +24,43 @@
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
     <!--Your web app's Firebase configuration-->
     <script src="config.js"></script>
+    <style>
+        #logout {
+            color: #fff;
+            text-shadow: 0 -1px 0 rgb(0 0 0 / 25%);
+            background-color: lightgray; 
+            border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+            border-radius:20px;
+        }
+        #ProfileNameid {
+            color: #fff;
+        }
+        .btn_three {
+            color: #fff;
+            text-shadow: 0 -1px 0 rgb(0 0 0 / 25%);
+            background-color: #006dcc;
+            border-radius: 20px;
+            background-repeat: repeat-x;
+            border-color: #04c #04c #002a80;
+            border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+            margin: 2.5px;
+        }
+    </style>
     <script>
         function init() {
-            debugger; 
-            var database = firebase.database();
-            ref = firebase.database().ref("users");
-            if (localStorage["user"] != null) { // check if the entry exists
-                alert("getfromls");
+            ref = firebase.database().ref("Admins");
+            if (localStorage["Admin"] != null) { // check if the entry exists
                 // after getting the localStorage string, parse it to a JSON object
-                user = JSON.parse(localStorage["user"]);
-                //שינוי תעודת זהות לפי אימייל וסיסמה!!!!!!!!!!!!
-                ref.child(205768609).get().then(function (snapshot) {
+                Admin = JSON.parse(localStorage["Admin"]);
+                ref.child(Admin.id).get().then(function (snapshot) {
                     if (snapshot.exists()) {
                         console.log(snapshot.val());
-                        userP = snapshot.val();
-                        console.log(userP);
+                        AdminP = snapshot.val();
+                        console.log(AdminP);
                         //הוספת שם בצד ימין 
+                        document.getElementById("logout").style.display = "block";
                         var ProfileName = document.getElementById("ProfileNameid");
-                        ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
+                        ProfileName.innerHTML = AdminP.firstname + " " + AdminP.lastname;
                     }
                     else {
                         console.log("No data available");
@@ -53,15 +72,13 @@
             else {
                 userA = {};
             }
+            document.getElementById("logout").style.display = "none";
         }
-        function Logout() {
-            firebase.auth().signOut().then(() => {
-                // Sign-out successful.
-                localStorage.clear();
-            }).catch((error) => {
-                alert(error);
-                // An error happened.
-            });
+      function Logout() {
+            localStorage.clear();
+            document.getElementById("logout").style.display = "none";
+            document.location.href = "Login-Admin.html";
+
         }
     </script>
 </head>
@@ -70,11 +87,11 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
         <div class="container">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <!--<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
-                <img class="img-profile rounded-circle" src="image/undraw_profile.svg">
+                <!--<img class="img-profile rounded-circle" src="image/undraw_profile.svg">-->
                 <p id="ProfileNameid"></p>
-            </a>
+            <!--</a>-->
             <a class="navbar-brand" href="Admin.html"><img src="image/logo.svg" /></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -82,18 +99,24 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="Admin.html">
                             בית
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">הגדרות מערכת</a>
+                        <a class="nav-link" href="SystemSetting.html">הגדרות מערכת</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">ניהול משתמשים</a>
+                        <a class="nav-link" href="Manage_Users.html">ניהול משתמשים</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logout" onclick="Logout()">
+                            התנתק
+                        </a>
                     </li>
                 </ul>
+
             </div>
         </div>
     </nav>
@@ -102,12 +125,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h1 class="mt-5">ניהול מוסדות </h1>
-                <p class="lead">Complete with pre-defined file paths and responsive navigation!</p>
-                <ul class="list-unstyled">
-                    <li>Bootstrap 4.5.3</li>
-                    <li>jQuery 3.5.1</li>
-                </ul>
+                <h1 class="mt-5">בקשות המשתמש</h1>
+              
             </div>
         </div>
     </div>

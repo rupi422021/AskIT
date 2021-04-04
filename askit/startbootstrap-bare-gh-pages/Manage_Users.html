@@ -70,13 +70,17 @@
 
     <script>
         var uId = null;
+        var today = new Date();
         $(document).ready(function () {
-
+            mode = "";
             init();
-            $("#USERSForm").submit(onSubmitFunc);
+            //$("#USERSForm").submit(onSubmitFunc);
+             
 
         });
+
         function init() { 
+            
             usersList = [];
             var database = firebase.database();
             ref = firebase.database().ref("users");
@@ -121,11 +125,11 @@
             document.getElementById("editDiv").style.display = "block";
             clearFields();
             document.getElementById("editDiv").disabled = false;
-            document.getElementById("RegistrationDate").disabled = false;
+            document.getElementById("RegistrationDate").value = getDateString(today);
+            document.getElementById("RegistrationDate").disabled = true;
             document.getElementById("FirstName").disabled = false;
             document.getElementById("LastName").disabled = false;
-            //document.getElementById("pForm").style.display = "none";
-
+            document.getElementById('addnewU').style.display = "block";
         }
         
         function buttonEvents() {
@@ -138,6 +142,7 @@
                 $("#RegistrationDate").prop("disabled", true);
                 $("#FirstName").prop("disabled", true);
                 $("#LastName").prop("disabled", true);
+                $("#addnewU").hide();
                 populateFields(this.getAttribute('data-Id'));
 
             });
@@ -146,6 +151,7 @@
                 mode = "view";
                 markSelected(this);
                 $("#editDiv").show();
+                $("#addnewU").hide();
                 $("#editDiv :input").attr("disabled", "disabled"); // view mode: disable all controls in the form
                 populateFields(this.getAttribute('data-Id'));
             });
@@ -167,6 +173,7 @@
                     });
             });
         }
+
         function redrawTable(tbl, data) {
             tbl.clear();
             for (var i = 0; i < data.length; i++) {
@@ -185,7 +192,6 @@
         // success callback function after delete
         function deleteSuccess(dataU)
         {
-        
             tbl.clear();
             redrawTable(tbl, dataU);
             buttonEvents(); // after redrawing the table, we must wire the new buttons
@@ -202,8 +208,8 @@
             document.getElementById("instTB").value = "";
             document.getElementById("statusTB").value = "";
         }
+
         function populateFields(Id) {
-            debugger;
             data = getUser(Id);
             console.log(data.status);
             document.getElementById("FirstName").value = data.firstname;
@@ -211,10 +217,6 @@
             document.getElementById("RegistrationDate").value = data.dateReg;
             document.getElementById("instTB").value = data.institute;           
             document.getElementById("statusTB").value = data.status;
-
-           
-            console.log(data.status);
-
         }
         // get a user according to its Id
         function getUser(id) {
@@ -232,39 +234,62 @@
             row.className = 'selected'; // mark as selected
         }
 
-        function onSubmitFunc() {
+        function getDateString(date) {
+            return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+        }
 
+        //function onSubmitFunc() {
+
+        //    var Id = -1;
+        //    if (mode == "edit") {
+        //        Id = dataU.id;
+        //    }
+
+        //    let UsertoSave = {
+        //        Id: Id,
+        //        inst: document.getElementById("instTB").value,
+        //        status: document.getElementById("statusTB").value
+        //    }
+        //    if (mode == "edit") {
+        //        firebase.database().ref("users").child(Id).child("institute").update(UsertoSave);
+        //        updateSuccess();
+
+        //    }
+        //}
+            function savefunction() {
             var Id = -1;
             if (mode == "edit") {
-                Id = dataU.id;
+                Id = data.id;
             }
-
-            let UsertoSave = {
-                Id: Id,
-                //FullName: document.getElementById("FullName").value,
-                //RegistrationDate: document.getElementById("RegistrationDate").value,
-                inst: document.getElementById("instTB").value,
-                status: document.getElementById("statusTB").value
-            }
-            if (mode == "edit") {
-                firebase.database().ref("users").child(Id).child("institute").update(UsertoSave);
-                updateSuccess();
-
-            }
-
-            }
-            function savefunction() {
-                //Id = dataU.id;
-               
                 let UsertoSave = {
                     "id": data.id,
-                    //FullName: document.getElementById("FullName").value,
-                    //RegistrationDate: document.getElementById("RegistrationDate").value,
                     "institute": document.getElementById("instTB").value,
                     "status": document.getElementById("statusTB").value
                 }
-                firebase.database().ref("users").child(data.id).update(UsertoSave);
-                updateSuccess();
+
+                let idu = document.getElementById("idTB").value;
+                let usertoInsert = {
+                id: idu,
+                firstname: document.getElementById("FirstName").value,
+                lastname: document.getElementById("LastName").value,
+                email: document.getElementById("emailTB").value,
+                password: document.getElementById("passwordTB").value,
+                institute: document.getElementById("instTB").value,
+                dateReg: getDateString(today),
+                status: document.getElementById("statusTB").value
+                }
+                console.log(idu);
+                if (mode == "edit") {
+                    firebase.database().ref("users").child(data.id).update(UsertoSave);
+                    updateSuccess(dataU);
+                }
+                else if (mode == "new") {
+                    firebase.database().ref("users").child(idu).set(usertoInsert);
+                    insertSuccess(dataU);
+                }
+                location.reload();
+                //return false;
+            
             }
             // success callback function after update
             function updateSuccess(dataU) {
@@ -274,7 +299,17 @@
                 $("#editDiv").hide();
                 swal("Updated Successfuly!", "Great Job", "success");
                 mode = "";
-            }
+        }
+
+        function insertSuccess(dataU) {
+            $("#pForm").show();
+            tbl.clear();
+            redrawTable(tbl, dataU);
+            buttonEvents();
+            $("#editDiv").hide();
+            swal("Inserted Successfuly!", "Great Job", "success");
+            mode = "";
+        }
 
         function BuildSelectInstitute() {
             InstitutesList = [];
@@ -357,7 +392,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="Admin.html">
                             בית
                         </a>
                     </li>
@@ -418,23 +453,17 @@
                         <label for="LastName"><span class="red-star">★ </span>שם משפחה</label>
                         <input type="text" class="form-control" id="LastName" placeholder="Enter the last Name" required>
                     </div>
-
-
                     <div class="form-group col-sm-3">
                         <label for="RegistrationDate"><span class="red-star">★ </span>תאריך הרשמה</label>
                         <input type="date" class="form-control" id="RegistrationDate" required>
                     </div>
-
-
                     <div class="form-group col-sm-3">
                         <label for="AcademicInstitution"><span class="red-star">★ </span>מוסד אקדמי</label>
                         <select id="instTB" class="form-control" required>
                         </select>
                     </div>
-
                     <div class="form-group col-sm-3">
                         <label for="statusTB"><span class="red-star">★ </span>סטטוס</label>
-                        <!--<input type="number" class="form-control" id="statusTB" placeholder="Enter the price" required />-->
                         <select id="statusTB" class="form-control" required>
                             <option value="-1">בחר סטטוס</option>
                             <option value="Waiting for approval">Waiting for approval</option>
@@ -442,11 +471,28 @@
                             <option value="Approved">Approved</option>
                         </select>
                     </div>
-
-
                 </div>
 
                 <div class="form-group row">
+                    <div id="addnewU">
+                        <div class="form-group col-sm-3">
+                            <label for="idTB"><span class="red-star">★ </span>תעודת זהות</label>
+                            <input type="text" class="form-control" id="idTB" placeholder="אנא מלא תעודת זהות" pattern="[0-9]{9}" minlength="9"
+                                   maxlength="9"
+                                   oninvalid="this.setCustomValidity('אנא הכנס תעודת זהות כולל ספרת ביקורת')"
+                                   oninput="this.setCustomValidity('')"
+                                   required />
+                        </div>
+
+                        <div class="form-group col-sm-3">
+                            <label for="email"><span class="red-star">★ </span>אימייל</label>
+                            <input type="email" class="form-control" id="emailTB" required>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label for="password"><span class="red-star">★ </span>סיסמה</label>
+                            <input type="password" class="form-control" id="passwordTB" required>
+                        </div>
+                    </div>
                 </div>
                 <!--<div class="form-group row">
                     <div class="form-group col-sm-8">

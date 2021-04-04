@@ -15,7 +15,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Login</title>
+    <title>LoginAdmin</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -50,33 +50,26 @@
         }); 
 
         function storeToLS() {
-            user = { // create a new JSON object
+            Admin = { // create a new JSON object
                 id: document.getElementById("idTB").value,
                 password: document.getElementById("passwordTB").value
             }
             // stringify before storing in localstorage
             //הערה
-            localStorage["user"] = JSON.stringify(user);
+            localStorage["Admin"] = JSON.stringify(Admin);
         }
         function Login() {
 
             let _id = $("#idTB").val();
             let _password = $("#passwordTB").val();
-            ref = firebase.database().ref("users");
+            ref = firebase.database().ref("Admins");
             ref.child(_id).get().then(function (snapshot) {
                 if (snapshot.exists()) {
-                    u = snapshot.val();
-                    if (u.password == _password) {
-                        if (u.status == "Approved") {
-                            storeToLS();
-                            document.location.href = "Questions.html";
-                            document.getElementById("logout").style.display = "block";
-                        }
-                        else {
-                            alert("Your user is not yet approved in the system. Please contact your administrator.");
-                            return;
-                        }
-
+                    a = snapshot.val();
+                    if (a.password == _password) {
+                        storeToLS();
+                        document.getElementById("logout").style.display = "block";
+                        document.location.href = "SystemSetting.html";
                     }
                     else {
                         swal({
@@ -103,7 +96,7 @@
         }
 
         function RedirectToRegistration() {
-            location.replace("Registration.html");
+            location.replace("RegistrationAdmin.html");
         }
 
 
@@ -118,7 +111,7 @@
             <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
             <!--<img class="img-profile rounded-circle" src="image/undraw_profile.svg">-->
             <!--<a class="navbar-brand" href="Admin.html"><img src="image/logo.svg" /></a>-->
-            <a href="#"><img src="image/logo.svg" /></a>
+            <a href="Admin.html"><img src="image/logo.svg" /></a>
             <p id="ProfileNameid">שלום אורח!</p>
             <!--</a>-->
             <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,18 +119,7 @@
     </button>-->
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                <a class="nav-link" href="Login-Admim.html">
-                    כניסה למנהל
-                </a>
-            </li>
-            <!--<li class="nav-item active">
-                <a class="nav-link" href="#">התחברות</a>
-                <span class="sr-only">(current)</span>
-            </li>-->
-                    <!--<li class="nav-item">
-                <a class="nav-link" href="#">התחברות</a>
-            </li>-->
+                 
                 </ul>
             </div>
         </div>
@@ -147,7 +129,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h1 class="mt-5">התחברות</h1>
+                <h1 class="mt-5">התחברות מנהל</h1>
 
             </div>
         </div>
@@ -206,7 +188,7 @@
 
     </div>
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.slim.min.js"></script>
+    <!--<script src="vendor/jquery/jquery.slim.min.js"></script>-->
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <div id="ph"></div>
 
