@@ -78,7 +78,9 @@
                         userP = snapshot.val();
                         userInst = userP.institute;
                         userEmail = userP.email;
+                        GetQuestion();
                         SelectUserInstitute(userP);
+                        
                         //הוספת שם בצד ימין
                         var ProfileName = document.getElementById("ProfileNameid");
                         ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
@@ -98,11 +100,6 @@
 
 
                 dref = firebase.database().ref("Departments");
-                // listen to incoming institutes
-                //listenToNewInstitute();
-                //listenToNewDepartments();
-                // listen to removing institutes
-                //listenToRemove();
                 ph = document.getElementById("ph");
             }
             else {
@@ -114,6 +111,58 @@
             document.getElementById("PencilIcon").style.display = "none";
 
         }
+
+        function GetQuestion() {
+            //refQ = firebase.database().ref("Questions");
+            debugger;
+            firebase.database().ref("Institutes").child("Ruppin").child("Departments").child("הנדסה תעשייה וניהול").child("Courses").child("מסד נתונים").child("Subjects").child("SQL").child("Questions").child("update user").get().then(function (snapshot) {
+                    if (snapshot.exists()) {
+                        console.log(snapshot.val());
+                        QuestionObj = snapshot.val();
+                        console.log(QuestionObj);
+                        RenderQuestion();
+                    }
+                    else {
+                        console.log("No data available");
+                    }
+                }).catch(function (error) {
+                    console.error(error);
+                });
+        }
+
+        function RenderQuestion() {
+            document.getElementById("instTB").value = "Ruppin";
+            document.getElementById("depTB").value = "הנדסה תעשייה וניהול";
+            document.getElementById("CourseTB").value = "מסד נתונים";
+            document.getElementById("SubjectTB").value = "SQL";
+            document.getElementById("quesTB").value = "update user";
+            document.getElementById("quesTypeTB").value = QuestionObj.type;
+            document.getElementById("quesContentTB").value = QuestionObj.content;
+            document.getElementById("diffTB").value = QuestionObj.difficulty;
+            document.getElementById("tagTB").value = QuestionObj.tags;
+            document.getElementById("isPublishedTB").value = QuestionObj.is_published;
+            document.getElementById("pubTypeTB").value = QuestionObj.publish_type;
+            document.getElementById("pubYearTB").value = QuestionObj.publish_year;
+            document.getElementById("pubAttemptTB").value = QuestionObj.publish_attempt;
+        }
+        function funcDisabel() {
+            document.getElementById("PencilIcon").style.display = "block";
+            let inst = document.getElementById("instTB").disabled = true;
+            let dep = document.getElementById("depTB").disabled = true;
+            let course = document.getElementById("CourseTB").disabled = true;
+            let subject = document.getElementById("SubjectTB").disabled = true;
+            let quesName = document.getElementById("quesTB").disabled = true;
+            let quesType = document.getElementById("quesTypeTB").disabled = true;
+            let quesContent = document.getElementById("quesContentTB").disabled = true;
+            let difficulty = document.getElementById("diffTB").disabled = true;
+            let tags = document.getElementById("tagTB").disabled = true;
+            let isPublished = document.getElementById("isPublishedTB").disabled = true;
+            let publishType = document.getElementById("pubTypeTB").disabled = true;
+            let publishYear = document.getElementById("pubYearTB").disabled = true;
+            let publishAttempt = document.getElementById("pubAttemptTB").disabled = true;
+         
+        }
+
         function Logout() {
             firebase.auth().signOut().then(() => {
                 // Sign-out successful.
@@ -123,30 +172,30 @@
                 // An error happened.
             });
         }
-        //////
+        
         function RedirectToLogin() {
             location.replace("Login-New.html");
         }
+        ////הוספת שאלה
+        //function AddQuestion() {
+        //    let inst = document.getElementById("instTB").value;
+        //    let dep = document.getElementById("depTB").value;
+        //    let course = document.getElementById("CourseTB").value;
+        //    let subject = document.getElementById("SubjectTB").value;
+        //    let quesName = document.getElementById("quesTB").value;
+        //    let quesType = document.getElementById("quesTypeTB").value;
+        //    let quesContent = document.getElementById("quesContentTB").value;
+        //    let difficulty = document.getElementById("diffTB").value;
+        //    let tags = document.getElementById("tagTB").value;
+        //    let isPublished = document.getElementById("isPublishedTB").value;
+        //    let publishType = document.getElementById("pubTypeTB").value;
+        //    let publishYear = document.getElementById("pubYearTB").value;
+        //    let publishAttempt = document.getElementById("pubAttemptTB").value;
 
-        function AddQuestion() {
-            let inst = document.getElementById("instTB").value;
-            let dep = document.getElementById("depTB").value;
-            let course = document.getElementById("CourseTB").value;
-            let subject = document.getElementById("SubjectTB").value;
-            let quesName = document.getElementById("quesTB").value;
-            let quesType = document.getElementById("quesTypeTB").value;
-            let quesContent = document.getElementById("quesContentTB").value;
-            let difficulty = document.getElementById("diffTB").value;
-            let tags = document.getElementById("tagTB").value;
-            let isPublished = document.getElementById("isPublishedTB").value;
-            let publishType = document.getElementById("pubTypeTB").value;
-            let publishYear = document.getElementById("pubYearTB").value;
-            let publishAttempt = document.getElementById("pubAttemptTB").value;
 
 
-
-            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt });
-        }
+        //    firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt });
+        //}
 
         function SelectUserInstitute(userP) {
             debugger;

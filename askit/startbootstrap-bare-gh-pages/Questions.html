@@ -154,11 +154,23 @@
             let publishType = document.getElementById("pubTypeTB").value;
             let publishYear = document.getElementById("pubYearTB").value;
             let publishAttempt = document.getElementById("pubAttemptTB").value;
-
-
-
             firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt });
+            idQuesName = { // create a new JSON object
+                Qname: document.getElementById("quesTB").value
+            }
+            // stringify before storing in localstorage
+            localStorage["idQuesName"] = JSON.stringify(idQuesName);
         }
+
+        //function storeToLS(quesName) {
+        //    qname = quesName;
+        //    idQuesName = { // create a new JSON object
+        //        Qname: qname
+        //    }
+        //    // stringify before storing in localstorage
+        //    //הערה
+        //    localStorage["idQuesName"] = JSON.stringify(idQuesName);
+        //}
 
         function SelectUserInstitute(userP) {
             debugger;
@@ -510,7 +522,6 @@
                                             <p class="lead">שם שאלה</p>
                                             <input type="text" id="quesTB" class="form-control form-control-user" onchange="showSimilarQuestions()"
                                                    placeholder="הזן שם שאלה">
-                                            <!--<button onclick="AddDEP()">הוסף מחלקה</button>-->
                                         </div>
 
                                         <div class="form-group">
