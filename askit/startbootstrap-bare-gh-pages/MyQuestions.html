@@ -1,0 +1,367 @@
+﻿<!DOCTYPE html>
+<html dir="rtl">
+
+<head>
+    <style>
+        .lead {
+            text-align: right;
+        }
+
+        #logout {
+            color: #fff;
+            text-shadow: 0 -1px 0 rgb(0 0 0 / 25%);
+            background-color: lightgray;
+            border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+            border-radius: 20px;
+        }
+
+        #ProfileNameid {
+            color: #337ab7;
+        }
+
+        .btn_three {
+            color: #fff;
+            text-shadow: 0 -1px 0 rgb(0 0 0 / 25%);
+            background-color: #006dcc;
+            border-radius: 20px;
+            background-repeat: repeat-x;
+            border-color: #04c #04c #002a80;
+            border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+            margin: 2.5px;
+        }
+
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Questions</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--fire base-->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
+    <!--Your web app's Firebase configuration-->
+    <script src="config.js"></script>
+
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="cards.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="bootstrap-tagsinput.min.js"></script>
+
+
+    <script>
+
+        var questionList = [];
+
+        function init() {
+            var userInst = "";
+            var database = firebase.database();        
+            ref = firebase.database().ref("users");
+            if (localStorage["user"] != null) { // check if the entry exists
+                // after getting the localStorage string, parse it to a JSON object
+                user = JSON.parse(localStorage["user"]);
+                console.log(user);
+                ref.child(user.id).get().then(function (snapshot) {
+                    if (snapshot.exists()) {
+                        console.log(snapshot.val());
+                        userP = snapshot.val();
+                        userInst = userP.institute;
+                        userEmail = userP.email;
+                        showUserQuestions();
+                        //הוספת שם בצד ימין
+                        var ProfileName = document.getElementById("ProfileNameid");
+                        ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
+                    }
+                    else {
+                        console.log("No data available");
+                    }
+                }).catch(function (error) {
+                    console.error(error);
+                });
+                //אתחול מערך מוסדות,מחלקות
+                instArr = [];
+                depArr = [];
+                db = firebase.database();
+                ref = firebase.database().ref("Institute");
+
+
+
+                dref = firebase.database().ref("Departments");
+                // listen to incoming institutes
+                //listenToNewInstitute();
+                //listenToNewDepartments();
+                // listen to removing institutes
+                //listenToRemove();
+                ph = document.getElementById("ph");
+            }
+            else {
+                userA = {};
+                alert("You are not signed in! Please log in to continue.");
+                RedirectToLogin();
+            }
+            //הורדת העפרון ברגע שעולה הדף
+           
+
+        }
+        function Logout() {
+            firebase.auth().signOut().then(() => {
+                // Sign-out successful.
+                localStorage.clear();
+            }).catch((error) => {
+                alert(error);
+                // An error happened.
+            });
+        }
+        //////
+        function RedirectToLogin() {
+            location.replace("Login-New.html");
+        }
+
+      
+  
+        function showUserQuestions() {
+          //  debugger;
+            let inst = userP.institute;
+            let userName = userP.firstname + " " + userP.lastname;
+            let userID = userP.id;
+            let courses = "";
+            let subjects = "";
+            let questions = "";
+            let question = "";
+            let questionData = '';
+            let depData = '';
+            let thisDep = "";
+            let thisCourse = "";
+            let thisSubject = "";
+
+            questionList = [];
+
+            refD = firebase.database().ref("Institutes").child(inst).child("Departments");
+            console.log(refD);
+            refD.get().then(function (snapshot) {
+                if (snapshot.exists()) {
+                    console.log("test");
+                    depData = snapshot.val();
+                    console.log(depData);
+                    for (var i = 0; i < Object.keys(depData).length; i++) {  // Running over all of the Departments
+                        console.log("**");
+                        console.log(Object.keys(depData)[i]);                       
+                        console.log(depData[Object.keys(depData)[i]]);
+                        console.log(depData[Object.keys(depData)[i]].Courses);
+                        thisDep = Object.keys(depData)[i];
+                        courses = depData[Object.keys(depData)[i]].Courses;
+
+                        for (var j = 0; j < Object.keys(courses).length; j++) { // Running over all of the Courses
+                            console.log("***");
+                            console.log(Object.keys(courses)[j]);
+                            console.log(courses[Object.keys(courses)[j]]);
+                            console.log(courses[Object.keys(courses)[j]].Subjects);
+                            thisCourse = Object.keys(courses)[j];
+                            subjects = courses[Object.keys(courses)[j]].Subjects;
+
+                            for (var k = 0; k < Object.keys(subjects).length; k++) { // Running over all of the Subjects
+                                console.log("****");
+                                console.log(Object.keys(subjects)[k]);
+                                console.log(subjects[Object.keys(subjects)[k]]);
+                                console.log(subjects[Object.keys(subjects)[k]].Questions);
+                                thisSubject = Object.keys(subjects)[k];
+                                if (subjects[Object.keys(subjects)[k]].Questions != null) {
+                                    questions = subjects[Object.keys(subjects)[k]].Questions;
+                                }
+
+                                for (var m = 0; m < Object.keys(questions).length; m++) { // Running over all of the Questions
+                                    console.log("*****");
+                                    console.log(Object.keys(questions)[m]);
+                                    console.log(questions[Object.keys(questions)[m]]);
+                                    ques = questions[Object.keys(questions)[m]];
+                                    if (ques.creator_id != null && ques.creator_id == userID) {
+                                        questionList.push({
+                                            questionTitle: Object.keys(questions)[m],
+                                            question: ques,
+                                            department: thisDep,
+                                            course: thisCourse,
+                                            subject: thisSubject
+                                        });
+                                    }
+                                    else {
+                                        if (ques.Viewers != null) {
+                                            viewers = ques.Viewers;
+                                            for (var p = 0; p < Object.keys(viewers).length; p++) {
+                                                if (Object.keys(viewers)[p] == userName) {
+                                                    questionList.push({
+                                                        questionTitle: Object.keys(questions)[m],
+                                                        question: ques,
+                                                        department: thisDep,
+                                                        course: thisCourse,
+                                                        subject: thisSubject
+                                                    });
+                                                }
+                                            }
+                                        }
+                                       
+                                        
+                                    }
+
+                                }
+                            }
+                        }
+   
+                    }
+                    console.log(questionList);
+                    ShowQuestionsHTML(questionList);
+                }
+
+                else {
+                    console.log("No data available");
+                }
+            }).catch(function (error) {
+                console.error(error);
+            });
+
+           
+
+        }
+
+        function ShowQuestionsHTML(questionList) {
+            debugger;
+
+            if (questionList.length > 0) {
+                var str = "";
+                for (var i = 0; i < questionList.length; i++) {
+                    str += "<div class='column'>"
+                        + "<div class='card'>"
+                        + "<h3>" + questionList[i].questionTitle + "</h3>"
+                        + "<p>" + "מחלקה: " + questionList[i].department + "</p>"
+                        + "<p>" + "יוצר השאלה: " + questionList[i].question.creator_name + "</p>"
+                        + "<p>" + "קורס: " + questionList[i].course + "</p>"
+                        + "<p>" + "נושא: " + questionList[i].subject + "</p>"
+                        + "<p>" + "רמת קושי: " + questionList[i].question.difficulty + "</p>"
+                        + "<p>" + questionList[i].question.content + "</p>"                     
+                        + "<button class='questionCardButton' id='" + questionList[i].questionTitle + "' onclick='ShowQuestionDetails(this)'>הצג פרטי שאלה מלאים</button>"
+                        + "</div>"
+                        + "</div>"
+
+                }
+
+                str += "</div> <br>"
+                document.getElementById("placeholder").innerHTML = str;
+            }
+
+        }
+
+        function ShowQuestionDetails(quesButton) {
+            console.log(quesButton.id); // Question Title
+            window.location.href = "QuestionDetails.html?questionTitle=" + quesButton.id;
+        }
+
+
+       
+
+        
+
+    
+
+
+
+
+
+    </script>
+</head>
+
+<body onload="init()">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+            <a href="Admin.html"><img src="image/logo.svg" /></a>
+            <!--<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+            <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+            <!--<img class="img-profile rounded-circle" src="image/undraw_profile.svg">-->
+            <p id="ProfileNameid"></p>
+
+            <!--</a>-->
+            <!--<button id="logout" onclick="Logout()">התנתק</button>-->
+            <!--<a  href="Admin.html"><img src="image/logo.svg" /></a>-->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            בית
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            השאלות שלי
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">יצירת שאלה</a>
+                        <span class="sr-only">(current)</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logout" onclick="Logout()">
+                            התנתק
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1 class="mt-5">השאלות שלי</h1>
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+
+        <!-- Outer Row -->
+      
+        <div>
+          
+            <p id="placeholder"></p>
+        </div>
+
+        <!-- Bootstrap core JavaScript -->
+        <script src="vendor/jquery/jquery.slim.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    </div>
+
+</body>
+
+</html>

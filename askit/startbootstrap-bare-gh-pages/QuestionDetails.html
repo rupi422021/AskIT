@@ -1,0 +1,621 @@
+﻿<!DOCTYPE html>
+<html dir="rtl">
+
+<head>
+    <style>
+        .lead {
+            text-align: right;
+        }
+
+        #logout {
+            color: #fff;
+            text-shadow: 0 -1px 0 rgb(0 0 0 / 25%);
+            background-color: lightgray;
+            border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+            border-radius: 20px;
+        }
+
+        #ProfileNameid {
+            color: #337ab7;
+        }
+
+        .btn_three {
+            color: #fff;
+            text-shadow: 0 -1px 0 rgb(0 0 0 / 25%);
+            background-color: #006dcc;
+            border-radius: 20px;
+            background-repeat: repeat-x;
+            border-color: #04c #04c #002a80;
+            border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+            margin: 2.5px;
+        }
+        .form-popup {
+            display: none;
+            position: fixed;
+            bottom: 40%;
+            right: 40%;
+            border: 3px solid #c5c5c7;
+            z-index: 9;
+        }
+
+        /* Add styles to the form container */
+        .form-container {
+            max-width: 300px;
+            padding: 10px;
+            background-color: white;
+        }
+
+            /* Full-width input fields */
+            .form-container input[type=text], .form-container input[type=password] {
+                width: 100%;
+                padding: 15px;
+                margin: 5px 0 22px 0;
+                border: none;
+                background: #f1f1f1;
+            }
+
+                /* When the inputs get focus, do something */
+                .form-container input[type=text]:focus, .form-container input[type=password]:focus {
+                    background-color: #ddd;
+                    outline: none;
+                }
+
+            /* Set a style for the submit/login button */
+            .form-container .btn {
+                background-color: #ffb84d;
+                color: black;
+                padding: 16px 20px;
+                border: none;
+                cursor: pointer;
+                width: 100%;
+                margin-bottom: 10px;
+                opacity: 0.8;
+            }
+
+            /* Add a red background color to the cancel button */
+            .form-container .cancel {
+                background-color: red;
+            }
+
+            /* Add some hover effects to buttons */
+            .form-container .btn:hover, .open-button:hover {
+                opacity: 1;
+            }
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Questions</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--fire base-->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
+    <!--Your web app's Firebase configuration-->
+    <script src="config.js"></script>
+
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="cards.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="bootstrap-tagsinput.min.js"></script>
+
+
+    <script>
+
+        var pageQuestion = [];
+        var isCreator = 0;
+        function init() {
+            var userInst = "";
+            var database = firebase.database();
+            ref = firebase.database().ref("users");
+            if (localStorage["user"] != null) { // check if the entry exists
+                // after getting the localStorage string, parse it to a JSON object
+                user = JSON.parse(localStorage["user"]);
+                console.log(user);
+                ref.child(user.id).get().then(function (snapshot) {
+                    if (snapshot.exists()) {
+                        console.log(snapshot.val());
+                        userP = snapshot.val();
+                        userInst = userP.institute;
+                        userEmail = userP.email;
+                        ShowQuestion();
+                        //הוספת שם בצד ימין
+                        var ProfileName = document.getElementById("ProfileNameid");
+                        ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
+                    }
+                    else {
+                        console.log("No data available");
+                    }
+                }).catch(function (error) {
+                    console.error(error);
+                });
+                //אתחול מערך מוסדות,מחלקות
+                instArr = [];
+                depArr = [];
+                db = firebase.database();
+                ref = firebase.database().ref("Institute");
+
+
+
+                dref = firebase.database().ref("Departments");
+                // listen to incoming institutes
+                //listenToNewInstitute();
+                //listenToNewDepartments();
+                // listen to removing institutes
+                //listenToRemove();
+                ph = document.getElementById("ph");
+            }
+            else {
+                userA = {};
+                alert("You are not signed in! Please log in to continue.");
+                RedirectToLogin();
+            }
+            //הורדת העפרון ברגע שעולה הדף
+
+
+        }
+        function Logout() {
+            firebase.auth().signOut().then(() => {
+                // Sign-out successful.
+                localStorage.clear();
+            }).catch((error) => {
+                alert(error);
+                // An error happened.
+            });
+        }
+        //////
+        function RedirectToLogin() {
+            location.replace("Login-New.html");
+        }
+
+
+
+
+        function EnableEditing() {
+            console.log("Enable Editing!");
+            document.getElementById("quesTypeTB").disabled = false;
+            document.getElementById("quesContentTB").disabled = false;
+            document.getElementById("diffTB").disabled = false;
+            document.getElementById("tagTB").disabled = false;
+            document.getElementById("isPublishedTB").disabled = false;
+            document.getElementById("pubTypeTB").disabled = false;
+            document.getElementById("pubYearTB").disabled = false;
+            document.getElementById("pubAttemptTB").disabled = false;
+            document.getElementById("ShareBTN").disabled = false;
+            document.getElementById("DuplicateBTN").disabled = false;
+            document.getElementById("SaveChangesBTN").disabled = false;
+        }
+
+
+
+
+        function ShowQuestion() {
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            console.log(url_string);
+            questionTitle = url.searchParams.get("questionTitle");
+            console.log(questionTitle);
+
+
+
+            let inst = userP.institute;
+            let userID = userP.id;
+            let courses = "";
+            let subjects = "";
+            let questions = "";
+            let questionData = '';
+            let depData = '';
+            let thisDep = "";
+            let thisCourse = "";
+            let thisSubject = "";
+
+            let question = [];
+
+            refD = firebase.database().ref("Institutes").child(inst).child("Departments");
+            console.log(refD);
+            refD.get().then(function (snapshot) {
+                if (snapshot.exists()) {
+                    depData = snapshot.val();
+                    console.log(depData);
+                    for (var i = 0; i < Object.keys(depData).length; i++) {  // Running over all of the Departments
+                        thisDep = Object.keys(depData)[i];
+                        courses = depData[Object.keys(depData)[i]].Courses;
+                        for (var j = 0; j < Object.keys(courses).length; j++) { // Running over all of the Courses
+                            thisCourse = Object.keys(courses)[j];
+                            subjects = courses[Object.keys(courses)[j]].Subjects;
+                            for (var k = 0; k < Object.keys(subjects).length; k++) { // Running over all of the Subjects
+                                thisSubject = Object.keys(subjects)[k];
+                                if (subjects[Object.keys(subjects)[k]].Questions != null) {
+                                    questions = subjects[Object.keys(subjects)[k]].Questions;
+                                }
+                                for (var m = 0; m < Object.keys(questions).length; m++) { // Running over all of the Questions
+                                    ques = questions[Object.keys(questions)[m]];
+                                    if (ques.creator_id != null && Object.keys(questions)[m] == questionTitle) {
+                                        question.push({
+                                            questionTitle: Object.keys(questions)[m],
+                                            question: ques,
+                                            department: thisDep,
+                                            course: thisCourse,
+                                            subject: thisSubject
+                                        });
+                                    }
+
+                                }
+                            }
+                        }
+
+                    }
+                    console.log(question);
+                    pageQuestion = question;
+                    ShowQuestionHTML(question);
+                }
+
+                else {
+                    console.log("No data available");
+                }
+            }).catch(function (error) {
+                console.error(error);
+            });
+            
+        }
+
+        function ShowQuestionHTML(question) {
+            console.log("*********************");
+            console.log(question); 
+            document.getElementById("instTB").value = userP.institute;
+            document.getElementById("depTB").value  = question[0].department;
+            document.getElementById("CourseTB").value  = question[0].course;
+            document.getElementById("SubjectTB").value  = question[0].subject;
+            document.getElementById("quesTB").value = question[0].questionTitle;
+            document.getElementById("quesTypeTB").value = question[0].question.type;
+            document.getElementById("quesContentTB").value = question[0].question.content;
+            document.getElementById("diffTB").value = question[0].question.difficulty;
+            document.getElementById("tagTB").value = question[0].question.tags;
+            document.getElementById("isPublishedTB").value = question[0].question.is_published;
+            document.getElementById("pubTypeTB").value = question[0].question.publish_type;
+            document.getElementById("pubYearTB").value = question[0].question.publish_year;
+            document.getElementById("pubAttemptTB").value = question[0].question.publish_attempt;
+            let viewers = [];
+            let viewersString = "";
+            let viewers_ = question[0].question.Viewers;
+            for (var i = 0; i < Object.keys(viewers_).length; i++) {
+                viewers.push(Object.keys(viewers_)[i]);
+                viewersString +=  ", " + Object.keys(viewers_)[i] 
+            }
+            console.log(viewers);     
+            console.log(viewersString); 
+            document.getElementById("viewersTB").value = viewersString;
+            let creator = document.getElementById("creatorPH");
+            creator.innerHTML = "נוצרה על ידי: " + question[0].question.creator_name;
+
+            if (userP.id == question[0].question.creator_id) {
+                EnableEditing();
+            }
+
+            
+        }
+
+        function ShareQuestion() {
+            console.log("test");         
+            let userToShare = document.getElementById("userToShareTB").value;
+            let question = pageQuestion;
+            let inst = userP.institute;
+            let dep = question[0].department;
+            let course = question[0].course;
+            let subject = question[0].subject;
+            let quesName = question[0].questionTitle;
+            //let content = question[0].question.content;
+            //let creator_id = question[0].question.creator_id;
+            //let creator_name = question[0].question.creator_name;
+            //let difficulty = question[0].question.difficulty;
+            //let is_published = question[0].question.is_published;
+            //let publish_attempt = question[0].question.publish_attempt;
+            //let publish_type = question[0].question.publish_type;
+            //let publish_year = question[0].question.publish_year;
+            //let tags = question[0].question.tags;
+            //let type = question[0].question.type;
+            //let veiwers = question[0].question.viewers;
+
+
+            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).child("Viewers").child(userToShare).set({ "name": userToShare });
+            alert("השאלה שותפה בהצלחה!");
+            document.getElementById("userToShareTB").value = "";
+
+            ShowQuestion();
+        }
+
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+        }
+
+        function f1() {
+            return false;
+        }
+
+
+    </script>
+</head>
+
+<body onload="init()">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+            <a href="Admin.html"><img src="image/logo.svg" /></a>
+            <!--<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+            <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+            <!--<img class="img-profile rounded-circle" src="image/undraw_profile.svg">-->
+            <p id="ProfileNameid"></p>
+
+            <!--</a>-->
+            <!--<button id="logout" onclick="Logout()">התנתק</button>-->
+            <!--<a  href="Admin.html"><img src="image/logo.svg" /></a>-->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            בית
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="MyQuestions.html">
+                            השאלות שלי
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">יצירת שאלה</a>
+                        <span class="sr-only">(current)</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logout" onclick="Logout()">
+                            התנתק
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1 class="mt-5">צפייה בפרטי שאלה</h1>
+
+            </div>
+        </div>
+    </div>
+  
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="p-5">
+
+                                    <!--<form class="user">-->
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <p class="lead" id="creatorPH"></p>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <p class="lead">מוסד אקדמי</p>
+                                            <input type="text" id="instTB" class="form-control form-control-user" disabled
+                                                   placeholder="">
+                                            <!--<button onclick="AddDEP()">הוסף מחלקה</button>-->
+                                        </div>
+
+                                        <div class="form-group">
+                                            <p class="lead">מחלקה</p>
+                                            <input type="text" id="depTB" class="form-control form-control-user" disabled
+                                                   placeholder="">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <p class="lead">קורס</p>
+                                            <input type="text" id="CourseTB" class="form-control form-control-user" disabled
+                                                   placeholder="">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <p class="lead">נושא</p>
+                                            <input type="text" id="SubjectTB" class="form-control form-control-user" disabled
+                                                   placeholder="">
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <p class="lead">שם שאלה</p>
+                                            <input type="text" id="quesTB" class="form-control form-control-user" onchange="showSimilarQuestions()" disabled
+                                                   placeholder="הזן שם שאלה">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <p class="lead">סוג שאלה</p>
+                                            <div>
+                                                <div id="PencilIcon" onclick="notDisable()"></div>
+                                                <select name="quesType" id="quesTypeTB" class="form-control form-control-user" onchange="showSimilarQuestions()" disabled>
+                                                    <option value="-1"> בחר סוג שאלה</option>
+                                                    <option value="סגורה">סגורה</option>
+                                                    <option value="פתוחה">פתוחה</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <p class="lead">תוכן השאלה</p>
+                                            <textarea type="text" id="quesContentTB" class="form-control form-control-user" onkeyup="showSimilarQuestions()" disabled
+                                                      placeholder="הזן תוכן שאלה"></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <p class="lead">רמת קושי</p>
+                                            <select name="Difficulty" id="diffTB" class="form-control form-control-user" onchange="showSimilarQuestions()" disabled>
+                                                <option value="-1">בחר רמת קושי</option>
+                                                <option value="קל">קל</option>
+                                                <option value="בינוני">בינוני</option>
+                                                <option value="קשה">קשה</option>
+                                                <option value="אחר">אחר</option>
+                                            </select>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <p class="lead">הוספת תגיות</p>
+                                            <input data-role="tagsinput" disabled type="text" name="Tags" id="tagTB" placeholder="הוסף תגיות" class="form-control form-control-user" onchange="showSimilarQuestions()"
+                                                   required />
+                                        </div>
+
+
+
+
+                                        <div class="form-group">
+                                            <p class="lead">האם פורסמה בעבר?</p>
+                                            <select name="isPublished" id="isPublishedTB" onchange="showpublish()" class="form-control form-control-user" disabled>
+                                                <option value="-1">בחר</option>
+                                                <option value="כן">כן</option>
+                                                <option value="לא">לא</option>
+                                            </select>
+                                        </div>
+                                        <div id="published">
+                                            <div id="ShowHistory">
+                                                <div class="form-group">
+                                                    <p class="lead">היכן פורסמה</p>
+                                                    <select name="Publish Type" id="pubTypeTB" class="form-control form-control-user" disabled>
+                                                        <option value="-1">בחר</option>
+                                                        <option value="מבחן">מבחן</option>
+                                                        <option value="תרגיל בית">תרגיל בית</option>
+                                                        <option value="תרגיל כיתה">תרגיל כיתה</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <p class="lead">שנת פרסום</p>
+                                                    <select name="Publish Year" id="pubYearTB" class="form-control form-control-user" disabled>
+                                                        <option value="-1">בחר</option>
+                                                        <option value="תשפא">תשפ"א</option>
+                                                        <option value="תשפג">תשפ"ג</option>
+                                                        <option value="תשפד">תשפ"ד</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <p class="lead">מועד</p>
+                                                    <select name="Publish Attempt" id="pubAttemptTB" class="form-control form-control-user" disabled>
+                                                        <option value="-1">בחר</option>
+                                                        <option value="א">א</option>
+                                                        <option value="ב">ב</option>
+                                                        <option value="ג">ג</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <p class="lead">משתמשים עם גישה לשאלה</p>
+                                                    <textarea type="text" id="viewersTB" class="form-control form-control-user" disabled
+                                                              placeholder="להוספת משתמשים - לחץ על 'ערוך הרשאות'"></textarea>
+                                                    <button id="ShareBTN" class="btn_1" onclick="openForm()" disabled>ערוך הרשאות</button>
+                                                </div>
+
+
+                                                <div class="form-popup" id="myForm">
+                                                    <form action="/action_page.php" class="form-container" onsubmit="f1()">
+                                                        <h1>שתף שאלה</h1>
+
+                                                        <label for="email"><b>עם מי תרצה לשתף?</b></label>
+                                                        <input type="text" id="userToShareTB" placeholder="הכנס שם פרטי + משפחה" name="email" required>
+                                                        <button type="button" class="btn" onclick="ShareQuestion()">שתף שאלה</button>
+                                                        <button type="button" class="btn cancel" onclick="closeForm()">סגור</button>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!--<div class="form-input">
+        <p class="lead">הוספת תמונה</p>
+        <input type="file" id="files" name="files" multiple="multiple" />
+    </div>-->
+                                        <br />
+                                        <br />
+
+
+
+                                        <div class="form-group">
+                                            <div class="btn-group">
+                                                
+                                                <button id="DuplicateBTN" class="btn_three" onclick="DuplicateQuestion()" disabled>שכפל שאלה</button>
+                                            </div>
+                                        </div>
+
+                                        <button id="SaveChangesBTN" onclick="SaveChanges()" class="btn btn-primary btn-user btn-block" disabled>שמור שינויים</button>
+                                        <hr>
+                                        <!--</form>-->
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+
+                                <p id="placeholder"></p>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <p id="placeholder"></p>
+        </div>
+
+        <!-- Bootstrap core JavaScript -->
+        <script src="vendor/jquery/jquery.slim.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <div id="ph"></div>
+
+</body>
+
+</html>

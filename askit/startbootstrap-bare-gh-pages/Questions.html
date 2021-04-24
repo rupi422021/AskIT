@@ -75,8 +75,9 @@
     <script>
 
         var questionList = [];
-
+        var userName = "";
         function init() {
+            debugger;
             var database = firebase.database();
             document.getElementById("published").style.display = "none";
             ref = firebase.database().ref("users");
@@ -89,6 +90,7 @@
                         console.log(snapshot.val());
                         userP = snapshot.val();
                         userInst = userP.institute;
+                        userName = userP.firstname + " " + userP.lastname;
                         userEmail = userP.email;
                         SelectUserInstitute(userP);
                         //הוספת שם בצד ימין
@@ -154,7 +156,9 @@
             let publishType = document.getElementById("pubTypeTB").value;
             let publishYear = document.getElementById("pubYearTB").value;
             let publishAttempt = document.getElementById("pubAttemptTB").value;
-            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt });
+            let creatorID = user.id;
+            let creatorName = userName;
+            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt, "creator_id": creatorID, "creator_name":creatorName });
             idQuesName = { // create a new JSON object
                 Qname: document.getElementById("quesTB").value
             }
@@ -446,7 +450,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="MyQuestions.html">
                             השאלות שלי
                         </a>
                     </li>
@@ -494,7 +498,7 @@
 
                                         <div class="form-group">
                                             <p class="lead">מוסד אקדמי</p>
-                                            <input type="text" id="instTB" class="form-control form-control-user"
+                                            <input type="text" id="instTB" class="form-control form-control-user" 
                                                    placeholder="">
                                             <!--<button onclick="AddDEP()">הוסף מחלקה</button>-->
                                         </div>
