@@ -158,7 +158,8 @@
             let publishAttempt = document.getElementById("pubAttemptTB").value;
             let creatorID = user.id;
             let creatorName = userName;
-            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt, "creator_id": creatorID, "creator_name":creatorName });
+            let isPublic = 0;
+            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt, "creator_id": creatorID, "creator_name": creatorName, "is_public": isPublic });
             idQuesName = { // create a new JSON object
                 Qname: document.getElementById("quesTB").value
             }
@@ -396,7 +397,7 @@
                         + "<p>" + "רמת קושי: " + questionsByScore[i].question.difficulty + "</p>"
                         + "<p>" + questionsByScore[i].question.content + "</p>"
                         + "<p>" + "ציון התאמה: " + questionsByScore[i].score + "</p>"
-                        + "<button class='questionCardButton' id='"+ questionsByScore[i].questionTitle +"' onclick='ShowQuestion()'>הצג שאלה</button>"
+                        + "<button class='questionCardButton' id='" + questionsByScore[i].questionTitle +"' onclick='ShowQuestionDetails(this)'>הצג שאלה</button>"
                         + "</div>"
                         + "</div>"
 
@@ -408,6 +409,12 @@
            
 
         }
+
+        function ShowQuestionDetails(quesButton) {
+            console.log(quesButton.id); // Question Title
+            window.location.href = "QuestionDetails.html?questionTitle=" + quesButton.id;
+        }
+
 
         function showpublish() {
             let p = document.getElementById("isPublishedTB").value;

@@ -37,6 +37,9 @@
             border: 3px solid #c5c5c7;
             z-index: 9;
         }
+        #private{
+            font-size: 10px;
+        }
 
         /* Add styles to the form container */
         .form-container {
@@ -209,8 +212,11 @@
             document.getElementById("pubYearTB").disabled = false;
             document.getElementById("pubAttemptTB").disabled = false;
             document.getElementById("ShareBTN").disabled = false;
+            document.getElementById("PublicBTN").disabled = false;
             document.getElementById("DuplicateBTN").disabled = false;
             document.getElementById("SaveChangesBTN").disabled = false;
+            document.getElementById("PrivateBTN").disabled = false;
+
         }
 
 
@@ -287,6 +293,7 @@
         }
 
         function ShowQuestionHTML(question) {
+     
             console.log("*********************");
             console.log(question); 
             document.getElementById("instTB").value = userP.institute;
@@ -304,11 +311,34 @@
             document.getElementById("pubAttemptTB").value = question[0].question.publish_attempt;
             let viewers = [];
             let viewersString = "";
-            let viewers_ = question[0].question.Viewers;
-            for (var i = 0; i < Object.keys(viewers_).length; i++) {
-                viewers.push(Object.keys(viewers_)[i]);
-                viewersString +=  ", " + Object.keys(viewers_)[i] 
+            if (question[0].question.Viewers != null) {
+                let viewers_ = question[0].question.Viewers;
+                for (var i = 0; i < Object.keys(viewers_).length; i++) {
+                    viewers.push(Object.keys(viewers_)[i]);
+                    viewersString += ", " + Object.keys(viewers_)[i]
+                }
             }
+            console.log("---------------");
+            console.log(question[0].question.is_public);
+
+            if (question[0].question.is_public == 1) {
+                let x = document.getElementById("private");
+                x.style.display = "none";
+                let y = document.getElementById("PublicBTN");
+                y.style.display = "none";
+                let z = document.getElementById("viewersTB");
+                z.style.display = "none";
+                let w = document.getElementById("ShareBTN");
+                w.style.display = "none";              
+            }
+            else {
+                let x = document.getElementById("PrivateBTN");
+                x.style.display = "none";   
+                let y = document.getElementById("public");
+                y.style.display = "none";
+            }
+
+
             console.log(viewers);     
             console.log(viewersString); 
             document.getElementById("viewersTB").value = viewersString;
@@ -320,6 +350,29 @@
             }
 
             
+        }
+
+        function setPublic() {
+            let question = pageQuestion;
+            let inst = userP.institute;
+            let dep = question[0].department;
+            let course = question[0].course;
+            let subject = question[0].subject;
+            let quesName = question[0].questionTitle;
+            let isPublic = 1;
+            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).update({ "is_public": isPublic });
+            location.reload();
+        }
+        function setPrivate() {
+            let question = pageQuestion;
+            let inst = userP.institute;
+            let dep = question[0].department;
+            let course = question[0].course;
+            let subject = question[0].subject;
+            let quesName = question[0].questionTitle;
+            let isPublic = 0;
+            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).update({ "is_public": isPublic });
+            location.reload();
         }
 
         function ShareQuestion() {
@@ -556,7 +609,11 @@
                                                     <p class="lead">משתמשים עם גישה לשאלה</p>
                                                     <textarea type="text" id="viewersTB" class="form-control form-control-user" disabled
                                                               placeholder="להוספת משתמשים - לחץ על 'ערוך הרשאות'"></textarea>
+                                                    <p id="private">שאלה זו מוגדרת כשאלה פרטית וצפייתה תתאפשר למשתמשים הנבחרים בלבד.</p>
+                                                    <p id="public">שאלה זו מוגדרת כשאלה ציבורית וצפייתה תתאפשר לכל משתמשי המערכת.</p>
                                                     <button id="ShareBTN" class="btn_1" onclick="openForm()" disabled>ערוך הרשאות</button>
+                                                    <button id="PublicBTN" class="btn_1" onclick="setPublic()" disabled>הפוך שאלה לציבורית</button>
+                                                    <button id="PrivateBTN" class="btn_1" onclick="setPrivate()" disabled>הפוך שאלה לפרטית</button>
                                                 </div>
 
 
