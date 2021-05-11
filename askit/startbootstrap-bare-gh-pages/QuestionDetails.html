@@ -146,6 +146,7 @@
                         userInst = userP.institute;
                         userEmail = userP.email;
                         ShowQuestion();
+                        
                         //הוספת שם בצד ימין
                         var ProfileName = document.getElementById("ProfileNameid");
                         ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
@@ -211,6 +212,7 @@
             document.getElementById("ShareBTN").disabled = false;
             document.getElementById("DuplicateBTN").disabled = false;
             document.getElementById("SaveChangesBTN").disabled = false;
+            
         }
 
 
@@ -222,7 +224,7 @@
             console.log(url_string);
             questionTitle = url.searchParams.get("questionTitle");
             console.log(questionTitle);
-
+            //document.getElementById("PencilIcon").style.display = "block";
 
 
             let inst = userP.institute;
@@ -363,6 +365,18 @@
             return false;
         }
 
+        function funcDisabel() {
+            document.getElementById("quesContentTB").disabled = true;
+            document.getElementById("PencilIcon").style.display = "block";
+            
+        }
+
+        function notDisable() {
+            document.getElementById("quesContentTB").disabled = false;
+            document.getElementById("PencilIcon").style.display = "none";
+
+        }
+
 
     </script>
 </head>
@@ -476,7 +490,7 @@
                                         <div class="form-group">
                                             <p class="lead">סוג שאלה</p>
                                             <div>
-                                                <div id="PencilIcon" onclick="notDisable()"></div>
+                                                <!--<div id="PencilIcon" onclick="notDisable()"></div>-->
                                                 <select name="quesType" id="quesTypeTB" class="form-control form-control-user" onchange="showSimilarQuestions()" disabled>
                                                     <option value="-1"> בחר סוג שאלה</option>
                                                     <option value="סגורה">סגורה</option>
@@ -486,6 +500,7 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <div id="PencilIcon" onclick="notDisable()"><img src="image/pencil.svg" /></div>
                                             <p class="lead">תוכן השאלה</p>
                                             <textarea type="text" id="quesContentTB" class="form-control form-control-user" onkeyup="showSimilarQuestions()" disabled
                                                       placeholder="הזן תוכן שאלה"></textarea>
