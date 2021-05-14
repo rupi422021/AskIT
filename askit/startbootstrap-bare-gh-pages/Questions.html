@@ -93,6 +93,7 @@
                         userName = userP.firstname + " " + userP.lastname;
                         userEmail = userP.email;
                         SelectUserInstitute(userP);
+                        GetDuplicatedQuestion();
                         //הוספת שם בצד ימין
                         var ProfileName = document.getElementById("ProfileNameid");
                         ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
@@ -141,6 +142,111 @@
         function RedirectToLogin() {
             location.replace("Login-New.html");
         }
+
+        function GetDuplicatedQuestion() {
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            console.log(url_string);
+            questionTitle = url.searchParams.get("questionTitle");
+            console.log("****----****");
+            console.log(questionTitle);
+            if (questionTitle == "") {
+                return;
+            }
+            
+
+
+
+            let inst = userP.institute;
+            let userID = userP.id;
+            let courses = "";
+            let subjects = "";
+            let questions = "";
+            let questionData = '';
+            let depData = '';
+            let thisDep = "";
+            let thisCourse = "";
+            let thisSubject = "";
+
+            let question = [];
+
+            refD = firebase.database().ref("Institutes").child(inst).child("Departments");
+            console.log(refD);
+            refD.get().then(function (snapshot) {
+                if (snapshot.exists()) {
+                    depData = snapshot.val();
+                    console.log(depData);
+                    for (var i = 0; i < Object.keys(depData).length; i++) {  // Running over all of the Departments
+                        thisDep = Object.keys(depData)[i];
+                        courses = depData[Object.keys(depData)[i]].Courses;
+                        for (var j = 0; j < Object.keys(courses).length; j++) { // Running over all of the Courses
+                            thisCourse = Object.keys(courses)[j];
+                            subjects = courses[Object.keys(courses)[j]].Subjects;
+                            for (var k = 0; k < Object.keys(subjects).length; k++) { // Running over all of the Subjects
+                                thisSubject = Object.keys(subjects)[k];
+                                if (subjects[Object.keys(subjects)[k]].Questions != null) {
+                                    questions = subjects[Object.keys(subjects)[k]].Questions;
+                                }
+                                for (var m = 0; m < Object.keys(questions).length; m++) { // Running over all of the Questions
+                                    ques = questions[Object.keys(questions)[m]];
+                                    if (ques.creator_id != null && Object.keys(questions)[m] == questionTitle) {
+                                        question.push({
+                                            questionTitle: Object.keys(questions)[m],
+                                            question: ques,
+                                            department: thisDep,
+                                            course: thisCourse,
+                                            subject: thisSubject
+                                        });
+                                    }
+
+                                }
+                            }
+                        }
+
+                    }
+                    console.log(question);
+                    //pageQuestion = question;
+                    ShowDuplicateQuestionDetails(question);
+                 
+                }
+
+                else {
+                    console.log("No data available");
+                }
+            }).catch(function (error) {
+                console.error(error);
+            });
+
+        }
+
+
+        function ShowDuplicateQuestionDetails(question) {
+            debugger;
+                console.log("*********************");
+                console.log(question);
+                document.getElementById("instTB").value = userP.institute;
+                document.getElementById("depTB").value = question[0].department;
+
+                let str = "<option value = '" + question[0].course+"'>" + question[0].course+"</option>";                      
+                document.getElementById("CourseTB").innerHTML = str;
+                document.getElementById("CourseTB").value = question[0].course;
+
+                let str2 = "<option value = '" + question[0].subject + "'>" + question[0].subject+"</option>";              
+                document.getElementById("SubjectTB").innerHTML = str2;
+                document.getElementById("SubjectTB").value = question[0].subject;
+
+                document.getElementById("quesTB").value = question[0].questionTitle;
+                document.getElementById("quesTypeTB").value = question[0].question.type;
+                document.getElementById("quesContentTB").value = question[0].question.content;
+                document.getElementById("diffTB").value = question[0].question.difficulty;
+                document.getElementById("tagTB").value = question[0].question.tags;
+                document.getElementById("isPublishedTB").value = question[0].question.is_published;
+                document.getElementById("pubTypeTB").value = question[0].question.publish_type;
+                document.getElementById("pubYearTB").value = question[0].question.publish_year;
+                document.getElementById("pubAttemptTB").value = question[0].question.publish_attempt;
+
+            }
+        
 
         function AddQuestion() {
             let inst = document.getElementById("instTB").value;
@@ -216,12 +322,13 @@
 
 
         function SetCourses() {
+            debugger;
             //פונקציה זהה למחלקות
             let inst = document.getElementById("instTB").value;
             let dep = document.getElementById("depTB").value;
             let courseList = [];
 
-            refD = firebase.database().ref("Institutes").child(inst).child("Departments");
+            let refD = firebase.database().ref("Institutes").child(inst).child("Departments");
             refD.child(dep).get().then(function (snapshot) {
                 if (snapshot.exists()) {
                     depData = snapshot.val();
