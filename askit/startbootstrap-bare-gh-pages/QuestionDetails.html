@@ -311,7 +311,48 @@
             document.getElementById("pubTypeTB").value = question[0].question.publish_type;
             document.getElementById("pubYearTB").value = question[0].question.publish_year;
             document.getElementById("pubAttemptTB").value = question[0].question.publish_attempt;
-        
+
+            let viewers = [];
+            let viewersString = "";
+            if (question[0].question.Viewers != null) {
+                let viewers_ = question[0].question.Viewers;
+                for (var i = 0; i < Object.keys(viewers_).length; i++) {
+                    viewers.push(Object.keys(viewers_)[i]);
+                    viewersString += ", " + Object.keys(viewers_)[i]
+                }
+            }
+            console.log("---------------");
+            console.log(question[0].question.is_public);
+
+            if (question[0].question.is_public == 1) {
+                let x = document.getElementById("private");
+                x.style.display = "none";
+                let y = document.getElementById("PublicBTN");
+                y.style.display = "none";
+                let z = document.getElementById("viewersTB");
+                z.style.display = "none";
+                let w = document.getElementById("ShareBTN");
+                w.style.display = "none";
+            }
+            else {
+                let x = document.getElementById("PrivateBTN");
+                x.style.display = "none";
+                let y = document.getElementById("public");
+                y.style.display = "none";
+            }
+
+
+            console.log(viewers);
+            console.log(viewersString);
+            document.getElementById("viewersTB").value = viewersString;
+            let creator = document.getElementById("creatorPH");
+            creator.innerHTML = "נוצרה על ידי: " + question[0].question.creator_name;
+
+            if (userP.id == question[0].question.creator_id) {
+                EnableEditing();
+            }
+
+
         }
 
         function setPublic() {
