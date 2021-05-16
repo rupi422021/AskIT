@@ -37,6 +37,9 @@
             border: 3px solid #c5c5c7;
             z-index: 9;
         }
+        #private{
+            font-size: 10px;
+        }
 
         /* Add styles to the form container */
         .form-container {
@@ -146,7 +149,6 @@
                         userInst = userP.institute;
                         userEmail = userP.email;
                         ShowQuestion();
-                        
                         //הוספת שם בצד ימין
                         var ProfileName = document.getElementById("ProfileNameid");
                         ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
@@ -210,9 +212,13 @@
             document.getElementById("pubYearTB").disabled = false;
             document.getElementById("pubAttemptTB").disabled = false;
             document.getElementById("ShareBTN").disabled = false;
+            document.getElementById("PublicBTN").disabled = false;
             document.getElementById("DuplicateBTN").disabled = false;
             document.getElementById("SaveChangesBTN").disabled = false;
+            document.getElementById("PrivateBTN").disabled = false;
+
             
+
         }
 
 
@@ -224,7 +230,7 @@
             console.log(url_string);
             questionTitle = url.searchParams.get("questionTitle");
             console.log(questionTitle);
-            //document.getElementById("PencilIcon").style.display = "block";
+
 
 
             let inst = userP.institute;
@@ -289,6 +295,7 @@
         }
 
         function ShowQuestionHTML(question) {
+     
             console.log("*********************");
             console.log(question); 
             document.getElementById("instTB").value = userP.institute;
@@ -304,15 +311,39 @@
             document.getElementById("pubTypeTB").value = question[0].question.publish_type;
             document.getElementById("pubYearTB").value = question[0].question.publish_year;
             document.getElementById("pubAttemptTB").value = question[0].question.publish_attempt;
+
             let viewers = [];
             let viewersString = "";
-            let viewers_ = question[0].question.Viewers;
-            for (var i = 0; i < Object.keys(viewers_).length; i++) {
-                viewers.push(Object.keys(viewers_)[i]);
-                viewersString +=  ", " + Object.keys(viewers_)[i] 
+            if (question[0].question.Viewers != null) {
+                let viewers_ = question[0].question.Viewers;
+                for (var i = 0; i < Object.keys(viewers_).length; i++) {
+                    viewers.push(Object.keys(viewers_)[i]);
+                    viewersString += ", " + Object.keys(viewers_)[i]
+                }
             }
-            console.log(viewers);     
-            console.log(viewersString); 
+            console.log("---------------");
+            console.log(question[0].question.is_public);
+
+            if (question[0].question.is_public == 1) {
+                let x = document.getElementById("private");
+                x.style.display = "none";
+                let y = document.getElementById("PublicBTN");
+                y.style.display = "none";
+                let z = document.getElementById("viewersTB");
+                z.style.display = "none";
+                let w = document.getElementById("ShareBTN");
+                w.style.display = "none";
+            }
+            else {
+                let x = document.getElementById("PrivateBTN");
+                x.style.display = "none";
+                let y = document.getElementById("public");
+                y.style.display = "none";
+            }
+
+
+            console.log(viewers);
+            console.log(viewersString);
             document.getElementById("viewersTB").value = viewersString;
             let creator = document.getElementById("creatorPH");
             creator.innerHTML = "נוצרה על ידי: " + question[0].question.creator_name;
@@ -321,7 +352,30 @@
                 EnableEditing();
             }
 
-            
+
+        }
+
+        function setPublic() {
+            let question = pageQuestion;
+            let inst = userP.institute;
+            let dep = question[0].department;
+            let course = question[0].course;
+            let subject = question[0].subject;
+            let quesName = question[0].questionTitle;
+            let isPublic = 1;
+            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).update({ "is_public": isPublic });
+            location.reload();
+        }
+        function setPrivate() {
+            let question = pageQuestion;
+            let inst = userP.institute;
+            let dep = question[0].department;
+            let course = question[0].course;
+            let subject = question[0].subject;
+            let quesName = question[0].questionTitle;
+            let isPublic = 0;
+            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).update({ "is_public": isPublic });
+            location.reload();
         }
 
         function ShareQuestion() {
@@ -353,6 +407,13 @@
             ShowQuestion();
         }
 
+        function DuplicateQuestion() {
+            qustionTitle = document.getElementById("quesTB").value;
+            console.log(qustionTitle); // Question Title
+            window.location.href = "Questions.html?questionTitle=" + qustionTitle;
+        }
+
+
         function openForm() {
             document.getElementById("myForm").style.display = "block";
         }
@@ -363,18 +424,6 @@
 
         function f1() {
             return false;
-        }
-
-        function funcDisabel() {
-            document.getElementById("quesContentTB").disabled = true;
-            document.getElementById("PencilIcon").style.display = "block";
-            
-        }
-
-        function notDisable() {
-            document.getElementById("quesContentTB").disabled = false;
-            document.getElementById("PencilIcon").style.display = "none";
-
         }
 
 
@@ -490,7 +539,7 @@
                                         <div class="form-group">
                                             <p class="lead">סוג שאלה</p>
                                             <div>
-                                                <!--<div id="PencilIcon" onclick="notDisable()"></div>-->
+                                                <div id="PencilIcon" onclick="notDisable()"></div>
                                                 <select name="quesType" id="quesTypeTB" class="form-control form-control-user" onchange="showSimilarQuestions()" disabled>
                                                     <option value="-1"> בחר סוג שאלה</option>
                                                     <option value="סגורה">סגורה</option>
@@ -500,7 +549,6 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <div id="PencilIcon" onclick="notDisable()"><img src="image/pencil.svg" /></div>
                                             <p class="lead">תוכן השאלה</p>
                                             <textarea type="text" id="quesContentTB" class="form-control form-control-user" onkeyup="showSimilarQuestions()" disabled
                                                       placeholder="הזן תוכן שאלה"></textarea>
@@ -571,7 +619,11 @@
                                                     <p class="lead">משתמשים עם גישה לשאלה</p>
                                                     <textarea type="text" id="viewersTB" class="form-control form-control-user" disabled
                                                               placeholder="להוספת משתמשים - לחץ על 'ערוך הרשאות'"></textarea>
+                                                    <p id="private">שאלה זו מוגדרת כשאלה פרטית וצפייתה תתאפשר למשתמשים הנבחרים בלבד.</p>
+                                                    <p id="public">שאלה זו מוגדרת כשאלה ציבורית וצפייתה תתאפשר לכל משתמשי המערכת.</p>
                                                     <button id="ShareBTN" class="btn_1" onclick="openForm()" disabled>ערוך הרשאות</button>
+                                                    <button id="PublicBTN" class="btn_1" onclick="setPublic()" disabled>הפוך שאלה לציבורית</button>
+                                                    <button id="PrivateBTN" class="btn_1" onclick="setPrivate()" disabled>הפוך שאלה לפרטית</button>
                                                 </div>
 
 
@@ -600,7 +652,7 @@
                                         <div class="form-group">
                                             <div class="btn-group">
                                                 
-                                                <button id="DuplicateBTN" class="btn_three" onclick="DuplicateQuestion()" disabled>שכפל שאלה</button>
+                                                <button id="DuplicateBTN" class="btn_three" onclick="DuplicateQuestion()" >שכפל שאלה</button>
                                             </div>
                                         </div>
 
