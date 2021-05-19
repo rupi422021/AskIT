@@ -22,14 +22,14 @@
         u = snapshot.val();
                     if (u.password == _password) {
                         if (u.status == "Approved") {
-        storeToLS();
-    document.location.href = "Questions.html";
-    document.getElementById("logout").style.display = "block";
-}
+                            storeToLS();
+                            document.location.href = "Questions.html";
+                            document.getElementById("logout").style.display = "block";
+                        }
                         else {
-        alert("Your user is not yet approved in the system. Please contact your administrator.");
-    return;
-}
+                            alert("Your user is not yet approved in the system. Please contact your administrator.");
+                            return;
+                        }
 
 }
                     else {
