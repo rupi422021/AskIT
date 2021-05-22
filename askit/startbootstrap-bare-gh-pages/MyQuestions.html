@@ -147,7 +147,7 @@
       
   
         function showUserQuestions() {
-          //  debugger;
+           
             let inst = userP.institute;
             let userName = userP.firstname + " " + userP.lastname;
             let userID = userP.id;
@@ -166,6 +166,7 @@
             refD = firebase.database().ref("Institutes").child(inst).child("Departments");
             console.log(refD);
             refD.get().then(function (snapshot) {
+                debugger;
                 if (snapshot.exists()) {
                     console.log("test");
                     depData = snapshot.val();
@@ -194,42 +195,38 @@
                                 thisSubject = Object.keys(subjects)[k];
                                 if (subjects[Object.keys(subjects)[k]].Questions != null) {
                                     questions = subjects[Object.keys(subjects)[k]].Questions;
-                                }
-
-                                for (var m = 0; m < Object.keys(questions).length; m++) { // Running over all of the Questions
-                                    console.log("*****");
-                                    console.log(Object.keys(questions)[m]);
-                                    console.log(questions[Object.keys(questions)[m]]);
-                                    ques = questions[Object.keys(questions)[m]];
-                                    if (ques.creator_id != null && ques.creator_id == userID) {
-                                        questionList.push({
-                                            questionTitle: Object.keys(questions)[m],
-                                            question: ques,
-                                            department: thisDep,
-                                            course: thisCourse,
-                                            subject: thisSubject
-                                        });
-                                    }
-                                    else {
-                                        if (ques.Viewers != null) {
-                                            viewers = ques.Viewers;
-                                            for (var p = 0; p < Object.keys(viewers).length; p++) {
-                                                if (Object.keys(viewers)[p] == userName) {
-                                                    questionList.push({
-                                                        questionTitle: Object.keys(questions)[m],
-                                                        question: ques,
-                                                        department: thisDep,
-                                                        course: thisCourse,
-                                                        subject: thisSubject
-                                                    });
+                                    for (var m = 0; m < Object.keys(questions).length; m++) { // Running over all of the Questions
+                                        console.log("*****");
+                                        console.log(Object.keys(questions)[m]);
+                                        console.log(questions[Object.keys(questions)[m]]);
+                                        ques = questions[Object.keys(questions)[m]];
+                                        if (ques.creator_id != null && ques.creator_id == userID) {
+                                            questionList.push({
+                                                questionTitle: Object.keys(questions)[m],
+                                                question: ques,
+                                                department: thisDep,
+                                                course: thisCourse,
+                                                subject: thisSubject
+                                            });
+                                        }
+                                        else {
+                                            if (ques.Viewers != null) {
+                                                viewers = ques.Viewers;
+                                                for (var p = 0; p < Object.keys(viewers).length; p++) {
+                                                    if (Object.keys(viewers)[p] == userName) {
+                                                        questionList.push({
+                                                            questionTitle: Object.keys(questions)[m],
+                                                            question: ques,
+                                                            department: thisDep,
+                                                            course: thisCourse,
+                                                            subject: thisSubject
+                                                        });
+                                                    }
                                                 }
                                             }
                                         }
-                                       
-                                        
                                     }
-
-                                }
+                                }                         
                             }
                         }
    
@@ -280,16 +277,6 @@
             console.log(quesButton.id); // Question Title
             window.location.href = "QuestionDetails.html?questionTitle=" + quesButton.id;
         }
-
-
-       
-
-        
-
-    
-
-
-
 
 
     </script>

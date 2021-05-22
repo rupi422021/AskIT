@@ -75,6 +75,19 @@
         border-color: #fff !important;
     }
 
+.btn-card {
+    color: #fff !important;
+    background-color: #7590C7 !important;
+    border-color: #fff !important;
+    border-radius: 2.25rem !important;
+}
+
+.btn-card:hover {
+    color: #7590C7 !important;
+    background-color: #fff !important;
+    border-color: #7590C7 !important;
+}
+
 .dropdown-menu {
     text-align: center;
     min-width: 8rem;

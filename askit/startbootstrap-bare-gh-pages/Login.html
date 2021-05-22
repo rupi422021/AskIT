@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <title>Login-user</title>
     <!--css-->
-    <link href="../Login-user.css" rel="stylesheet" type="text/css" />
+    <!--<link href="../Login-user.css" rel="stylesheet" type="text/css" />-->
+    <link href="Login-user.css" rel="stylesheet" />
     <!--fire base-->
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
@@ -18,30 +19,37 @@
     <!--Your web app's Firebase configuration-->
     <script src="config.js"></script>
     <!--js-->
-    <script type="text/javascript" src="login_U.js"></script>
+
+
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="login_U.js"></script>
+
 </head>
 <body>
     <div class="loginbox">
         <img src="https://i.ibb.co/D11C0Hr/Artboard-1.png" class="avatar" alt="Artboard-1"/>
         <h1>Login Here</h1>
-        <form>
+        <div>
             <p>Id</p>
             <input type="text" name="" id="idTB" placeholder="Enter Id" pattern="[0-9]{9}"
-                                               maxlength="9"
-                                               oninvalid="this.setCustomValidity('אנא הכנס תעודת זהות כולל ספרת ביקורת')"
-                                               oninput="this.setCustomValidity('')"
-                                               required />
+                   maxlength="9"
+                   oninvalid="this.setCustomValidity('אנא הכנס תעודת זהות כולל ספרת ביקורת')"
+                   oninput="this.setCustomValidity('')"
+                   required />
             <p>Password</p>
             <input type="password" name="" id="passwordTB" placeholder="Enter Password" minlength="8"
-                                               pattern="^(?=.*\d)(?=.*[A-Z]).{8,30}$"
-                                               oninvalid="this.setCustomValidity('Password validator Requires min 8 characters and including at least 1 upper alpha, and 1 digit')"
-                                               oninput="this.setCustomValidity('')"
-                                               required />
-            <input type="submit" name="" value="Login" onclick="Login()"/>
+                   pattern="^(?=.*\d)(?=.*[A-Z]).{8,30}$"
+                   oninvalid="this.setCustomValidity('Password validator Requires min 8 characters and including at least 1 upper alpha, and 1 digit')"
+                   oninput="this.setCustomValidity('')"
+                   required />
+            <button id="loginBTN" onclick="Login()">Login</button>
+
+            <br />
             <a href="#">Lost your password?</a><br />
             <a href="#">Sign up</a>
-        </form>
+        </div>
     </div>
 </body>
 </html>
