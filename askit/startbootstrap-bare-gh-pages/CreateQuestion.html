@@ -30,7 +30,7 @@
     <!--Your web app's Firebase configuration-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="config.js"></script>
-    <script src="Home.js"></script>
+    <script src="CreateQuestion.js"></script>
 
 
 
@@ -82,132 +82,136 @@
             </nav>
         </div>
     </div>
-    <div class="row">
-        <div class="main">
-            <nav class="navbar navbar-light">
-                <a class="navbar-brand"></a>
-                <form class="form-inline">
-                    <button class="btn btn my-2 my-sm-0" type="button" id="filtershow" title="סינון">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16">
-                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" />
-                        </svg>
-                    </button>
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <i class="bi bi-search"></i>
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                        </svg>
-                    </button>
-                </form>
-            </nav>
-        </div>
-    </div>
-    <div class="row">
-        <div id="filterdiv" class="filter">
-            <section class="mb-4">
-                <h6 class="font-weight-bold mb-3">סינון</h6>
-                <div class="form-check pl-0 mb-3">
-                    <div class="col-auto">
-                        <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="יוצר השאלה">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="form-check pl-0 mb-3">
-                        <div class="col-3">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownDep" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    מחלקה
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownDep">
-                                    <button class="dropdown-item" type="button">Action</button>
-                                    <button class="dropdown-item" type="button">Another action</button>
-                                    <button class="dropdown-item" type="button">Something else here</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-check pl-0 mb-3">
-                        <div class="col-3">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownCourse" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    קורס
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownCourse">
-                                    <button class="dropdown-item" type="button">Action</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-check pl-0 mb-3 pb-1">
-                        <div class="col-3">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownSub" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    נושא
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownSub">
-                                    <button class="dropdown-item" type="button">Action</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col">
-                        <div class="form-check pl-0 mb-3 pb-1">
-                            <label class="form-check-label medium text-uppercase card-link-secondary" for="renewed">רמת קושי:</label>
-                            <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="easy" value="option1" checked>
-                                <label class="form-check-label" for="easy">
-                                    קל
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="medium" value="option2" checked>
-                                <label class="form-check-label" for="medium">
-                                    בינוני
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="hard" value="option3" checked>
-                                <label class="form-check-label" for="hard">
-                                    קשה
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="form-check-inline pl-0 mb-3 pb-1">
-                        <label class="form-check-label medium text-uppercase card-link-secondary" for="renewed">האם השאלה פורסמה?</label>
-                        <input type="checkbox" class="form-check-input filled-in" id="yespublic">
-                    </div>
-                </div>
-                <div class="form-check pl-0 mb-3 pb-1">
-                    <label class="form-check-label medium text-uppercase card-link-secondary" for="renewed">טווח תאריכי יצירת שאלה:</label>
-                    <div class="form-group row ml-auto">
-                        <div class="col-6">
-                            <label for="example-date-input" class="col-3 col-form-label">החל</label>
-                            <input class="form-control" type="date" value="2021-01-01" id="example-date-input">
-                        </div>
-                        <div class="col-6">
-                            <label for="example-date-input" class="col-3 col-form-label">עד</label>
-                            <input class="form-control" type="date" value="2021-05-19" id="example-date-input">
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </div>
 
     <div class="row">
-        <div class="container">
-            <div>
-                <p id="placeholder"></p>
+        <div class="form-group">
+          
+            <div class="form-group">
+                <p class="lead">מוסד אקדמי</p>
+                <input type="text" id="instTB" class="form-control form-control-user"
+                       placeholder="">
+                <!--<button onclick="AddDEP()">הוסף מחלקה</button>-->
             </div>
-        </div>
+            <div class="form-group">
+                <p class="lead">מחלקה</p>
+                <select name="Department" id="depTB" class="form-control form-control-user" onchange="SetCourses()">
+                </select>
+            </div>
+            <div class="form-group">
+                <p class="lead">קורס</p>
+                <select name="Course" id="CourseTB" class="form-control form-control-user" onchange="SetSubjects()">
+                </select>
+            </div>
+            <div class="form-group">
+                <p class="lead">נושא</p>
+                <select name="Subject" id="SubjectTB" class="form-control form-control-user">
+                </select>
+            </div>
+            <div class="form-group">
+                <p class="lead">שם שאלה</p>
+                <input type="text" id="quesTB" class="form-control form-control-user" onchange="showSimilarQuestions()"
+                       placeholder="הזן שם שאלה">
+            </div>
+            <div class="form-group">
+                <p class="lead">סוג שאלה</p>
+                <div>
+                    <div id="PencilIcon" onclick="notDisable()"></div>
+                    <select name="quesType" id="quesTypeTB" class="form-control form-control-user" onchange="showSimilarQuestions()">
+                        <option value="-1"> בחר סוג שאלה</option>
+                        <option value="סגורה">סגורה</option>
+                        <option value="פתוחה">פתוחה</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <p class="lead">תוכן השאלה</p>
+                <textarea type="text" id="quesContentTB" class="form-control form-control-user" onkeyup="showSimilarQuestions()"
+                          placeholder="הזן תוכן שאלה"></textarea>
+            </div>
+            <div class="form-group">
+                <p class="lead">רמת קושי</p>
+                <select name="Difficulty" id="diffTB" class="form-control form-control-user" onchange="showSimilarQuestions()">
+                    <option value="-1">בחר רמת קושי</option>
+                    <option value="קל">קל</option>
+                    <option value="בינוני">בינוני</option>
+                    <option value="קשה">קשה</option>
+                    <option value="אחר">אחר</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <p class="lead">הוספת תגיות</p>
+                <input data-role="tagsinput" type="text" name="Tags" id="tagTB" placeholder="הוסף תגיות" class="form-control form-control-user" onchange="showSimilarQuestions()"
+                       required />
+            </div>
+            <div class="form-group">
+                <p class="lead">האם פורסמה בעבר?</p>
+                <select name="isPublished" id="isPublishedTB" onchange="showpublish()" class="form-control form-control-user">
+                    <option value="-1">בחר</option>
+                    <option value="כן">כן</option>
+                    <option value="לא">לא</option>
+                </select>
+            </div>
+            <div id="published">
+                <div id="ShowHistory">
+                    <div class="form-group">
+                        <p class="lead">היכן פורסמה</p>
+                        <select name="Publish Type" id="pubTypeTB" class="form-control form-control-user">
+                            <option value="-1">בחר</option>
+                            <option value="מבחן">מבחן</option>
+                            <option value="תרגיל בית">תרגיל בית</option>
+                            <option value="תרגיל כיתה">תרגיל כיתה</option>
+                        </select>
+                    </div>
 
+                    <div class="form-group">
+                        <p class="lead">שנת פרסום</p>
+                        <select name="Publish Year" id="pubYearTB" class="form-control form-control-user">
+                            <option value="-1">בחר</option>
+                            <option value="תשפא">תשפ"א</option>
+                            <option value="תשפג">תשפ"ג</option>
+                            <option value="תשפד">תשפ"ד</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <p class="lead">מועד</p>
+                        <select name="Publish Attempt" id="pubAttemptTB" class="form-control form-control-user">
+                            <option value="-1">בחר</option>
+                            <option value="א">א</option>
+                            <option value="ב">ב</option>
+                            <option value="ג">ג</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="form-input">
+        <p class="lead">הוספת תמונה</p>
+        <input type="file" id="files" name="files" multiple="multiple" />
+    </div>-->
+            <br />
+            <br />
+
+            <!--<div class="form-group">
+        <div class="btn-group">
+            <button id="Save_Show" class="btn_three" onclick="AddQuestion()">שמור והצג</button>
+            <button id="Save_Share" class="btn_three" onclick="AddQuestion()">שמור ושתף</button>
+            <button id="Save and add another question" class="btn_three" onclick="AddQuestion()">שמור והוסף שאלה נוספת</button>
+        </div>
+    </div>-->
+
+            <button onclick="AddQuestion()" class="btn btn-primary btn-user btn-block">צור שאלה</button>
+            <hr>
+            <!--</form>-->
+            <hr>
+        </div>
+        <div >
+
+            <p id="placeholder"></p>
+
+        </div>
     </div>
+
+  
 
 
 </body>

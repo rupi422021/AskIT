@@ -12,6 +12,9 @@
     color:#fff!important;
     font-weight:500;
 }
+select{
+    min-width:150px;
+}
 #navbarNav {
     direction: rtl;
 }
@@ -125,6 +128,7 @@ input .form-control {
     text-align: center;
     padding: 10px;
     border-radius: 20px;
+
 }
 .row .filter {
     background-color: rgb(0 123 255 / 25%);
