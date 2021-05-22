@@ -158,7 +158,13 @@
             let publishAttempt = document.getElementById("pubAttemptTB").value;
             let creatorID = user.id;
             let creatorName = userName;
-            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt, "creator_id": creatorID, "creator_name":creatorName });
+            let created_at = new Date();
+            let dd = String(created_at.getDate()).padStart(2, '0');
+            let mm = String(created_at.getMonth() + 1).padStart(2, '0'); //January is 0!
+            let yyyy = created_at.getFullYear();
+            created_at = dd + '/' + mm + '/' + yyyy;
+
+            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt, "creator_id": creatorID, "creator_name": creatorName, "created_at": created_at });
             idQuesName = { // create a new JSON object
                 Qname: document.getElementById("quesTB").value
             }

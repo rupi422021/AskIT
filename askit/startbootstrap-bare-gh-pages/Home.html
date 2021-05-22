@@ -92,9 +92,10 @@
                             <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" />
                         </svg>
                     </button>
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchFilter">
                     <i class="bi bi-search"></i>
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="button">
+
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="Search()" id="searchBTN">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                         </svg>
@@ -108,46 +109,68 @@
             <section class="mb-4">
                 <h6 class="font-weight-bold mb-3">סינון</h6>
                 <div class="form-check pl-0 mb-3">
-                    <div class="col-auto">
+                    <!--<div class="col-auto">
                         <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="יוצר השאלה">
+                    </div>-->
+                    <div class="form-group">
+                        <p class="lead">יוצר השאלה</p>
+                        <select name="Creator" id="creatorTBFilter" class="form-control form-control-user" >
+                        </select>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-check pl-0 mb-3">
                         <div class="col-3">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownDep" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    מחלקה
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownDep">
-                                    <button class="dropdown-item" type="button">Action</button>
-                                    <button class="dropdown-item" type="button">Another action</button>
-                                    <button class="dropdown-item" type="button">Something else here</button>
-                                </div>
+                            <!--<div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownDep" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        מחלקה
+                    </button>-->
+                            <!--<div class="dropdown-menu" aria-labelledby="dropdownDep" id="depTBFilter">
+                    <button class="dropdown-item" type="button">Action</button>
+                    <button class="dropdown-item" type="button">Another action</button>
+                    <button class="dropdown-item" type="button">Something else here</button>
+                </div>-->
+                            <!--</div>-->
+                            <div class="form-group">
+                                <p class="lead">מחלקה</p>
+                                <select name="Department" id="depTBFilter" class="form-control form-control-user" onchange="SetFilterCourses()">
+                                </select>
                             </div>
+
                         </div>
                     </div>
                     <div class="form-check pl-0 mb-3">
                         <div class="col-3">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownCourse" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    קורס
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownCourse">
-                                    <button class="dropdown-item" type="button">Action</button>
-                                </div>
+                            <!--<div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownCourse" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        קורס
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownCourse">
+                        <button class="dropdown-item" type="button">Action</button>
+                    </div>
+                </div>-->
+                            <div class="form-group">
+                                <p class="lead">קורס</p>
+                                <select name="Course" id="CourseTBFilter" class="form-control form-control-user" onchange="SetFilterSubjects()">
+                                </select>
                             </div>
+
                         </div>
                     </div>
                     <div class="form-check pl-0 mb-3 pb-1">
                         <div class="col-3">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownSub" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    נושא
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownSub">
-                                    <button class="dropdown-item" type="button">Action</button>
-                                </div>
+                            <!--<div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownSub" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        נושא
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownSub">
+                        <button class="dropdown-item" type="button">Action</button>
+                    </div>
+                </div>-->
+                            <div class="form-group">
+                                <p class="lead">נושא</p>
+                                <select name="Subject" id="SubjectTBFilter" class="form-control form-control-user">
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -157,19 +180,19 @@
                         <div class="form-check pl-0 mb-3 pb-1">
                             <label class="form-check-label medium text-uppercase card-link-secondary" for="renewed">רמת קושי:</label>
                             <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="easy" value="option1" checked>
+                                <input class="form-check-input" type="radio" name="difRadios" id="easy" value="option1">
                                 <label class="form-check-label" for="easy">
                                     קל
                                 </label>
                             </div>
                             <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="medium" value="option2" checked>
+                                <input class="form-check-input" type="radio" name="difRadios" id="medium" value="option2">
                                 <label class="form-check-label" for="medium">
                                     בינוני
                                 </label>
                             </div>
                             <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="hard" value="option3" checked>
+                                <input class="form-check-input" type="radio" name="difRadios" id="hard" value="option3">
                                 <label class="form-check-label" for="hard">
                                     קשה
                                 </label>
@@ -178,21 +201,35 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="form-check-inline pl-0 mb-3 pb-1">
-                        <label class="form-check-label medium text-uppercase card-link-secondary" for="renewed">האם השאלה פורסמה?</label>
-                        <input type="checkbox" class="form-check-input filled-in" id="yespublic">
+                    <div class="col">
+                        <div class="form-check pl-0 mb-3 pb-1">
+                            <label class="form-check-label medium text-uppercase card-link-secondary" for="renewed">האם פורסמה בעבר</label>
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="radio" name="publishedRadios" id="yesPublishedFilter" value="option1">
+                                <label class="form-check-label" for="easy">
+                                    כן
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="radio" name="publishedRadios" id="notPublishedFilter" value="option2">
+                                <label class="form-check-label" for="medium">
+                                    לא
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
+        
                 <div class="form-check pl-0 mb-3 pb-1">
                     <label class="form-check-label medium text-uppercase card-link-secondary" for="renewed">טווח תאריכי יצירת שאלה:</label>
                     <div class="form-group row ml-auto">
                         <div class="col-6">
                             <label for="example-date-input" class="col-3 col-form-label">החל</label>
-                            <input class="form-control" type="date" value="2021-01-01" id="example-date-input">
+                            <input class="form-control" type="date" value="2021-01-01" id="startDateFilter">
                         </div>
                         <div class="col-6">
                             <label for="example-date-input" class="col-3 col-form-label">עד</label>
-                            <input class="form-control" type="date" value="2021-05-19" id="example-date-input">
+                            <input class="form-control" type="date" value="2021-05-19" id="endDateFilter">
                         </div>
                     </div>
                 </div>
