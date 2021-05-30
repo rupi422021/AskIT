@@ -1,9 +1,10 @@
 ﻿var questionList = [];
 var userName = "";
 function init() {
-    debugger;
+    
     var database = firebase.database();
     document.getElementById("published").style.display = "none";
+    document.getElementById("pubAttempt").style.display = "none";
     ref = firebase.database().ref("users");
     if (localStorage["user"] != null) { // check if the entry exists
         // after getting the localStorage string, parse it to a JSON object
@@ -105,7 +106,6 @@ function AddQuestion() {
 //}
 
 function SelectUserInstitute(userP) {
-    debugger;
     //לוקח את המוסד של המשתמש
     let inst = userP.institute;
     //רשימת מחלקות
@@ -313,28 +313,29 @@ function CalculateScore(quesData) {
 }
 
 function ShowRelatedQuestions(questionsByScore) {
-    debugger;
     questionsByScore.sort((a, b) => (a.score > b.score) ? -1 : 1);
     if (questionsByScore.length > 0) {
-        var str = "<div class='row'>" + "<h3>" + "אולי יעניין אותך גם:" + "</h3><br>";
+        var str = "<h3>" + ":אולי יעניין אותך גם" + "</h3>"+ "<div class='row'>";
         for (var i = 0; i < questionsByScore.length; i++) {
-            str += "<div class='column'>"
-                + "<div class='card'>"
+            str += "<div class='col-md-4 card'>"
                 + "<h3>" + questionsByScore[i].questionTitle + "</h3>"
                 + "<p>" + "רמת קושי: " + questionsByScore[i].question.difficulty + "</p>"
                 + "<p>" + questionsByScore[i].question.content + "</p>"
                 + "<p>" + "ציון התאמה: " + questionsByScore[i].score + "</p>"
-                + "<button class='btn-card dropdown' id='" + questionsByScore[i].questionTitle + "' onclick='ShowQuestion()'>הצג שאלה</button>"
-                + "</div>"
+                + "<button class='btn-card dropdown' id='" + questionsByScore[i].questionTitle + "' onclick='ShowQuestion(this)'>הצג שאלה</button>"
                 + "</div>"
 
         }
 
-        str += "</div> <br>"
+        str += "</div><br>"
         document.getElementById("placeholder").innerHTML = str;
     }
 
 
+}
+function ShowQuestion(quesButton) {
+    console.log(quesButton.id); // Question Title
+    window.location.href = "fullQuestion.html?questionTitle=" + quesButton.id;
 }
 
 function showpublish() {
@@ -345,7 +346,15 @@ function showpublish() {
     else
         document.getElementById("published").style.display = "none";
 }
-
+function showwherepublish() {
+    let w = document.getElementById("pubTypeTB").value;
+    if (w == "מבחן") {
+        document.getElementById("pubAttempt").style.display = "block";
+    }
+    else {
+            document.getElementById("pubAttempt").style.display = "none";
+    }
+}
 
 
 

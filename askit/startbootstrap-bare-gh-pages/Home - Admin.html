@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>My Home</title>
+    <title>Admin Home</title>
     <link href="NavBar.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
@@ -12,11 +12,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="NavBar.js"></script>
 
-    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css">-->
-    <link rel="stylesheet" href="bootstrap-tagsinput.css">
-    <link rel="stylesheet" href="cards.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="bootstrap-tagsinput.min.js"></script>
     <!--fire base-->
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
@@ -30,11 +25,22 @@
     <!--Your web app's Firebase configuration-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="config.js"></script>
-    <script src="Home.js"></script>
+    <!--<script src="Home.js"></script>-->
+    <script src="Admin_Users.js"></script>
 
+    <!--jq-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
 
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 
-
+    <link href="Home-Admin.css" rel="stylesheet" />
 
 </head>
 <body onload="init()">
@@ -53,24 +59,23 @@
                             <a class="nav-link" href="Home.html">דף הבית</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="CreateQuestion.html">יצירת שאלה</a>
+                            <a class="nav-link" href="CreateQuestion.html">ניהול מערכת</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">המועדפים שלי</a>
+                            <a class="nav-link" href="#">ניהול משתמשים</a>
                         </li>
                     </ul>
                     <ul class="proflie-dropdown btn-group navbar-nav">
                         <li class="nav-item d-inline">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              
+                                דיצה ביימל
                             </a>
-
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                                 <img class="float-right" src="img/users/kolyan.jpg" alt="">
                                 <p class="float-right">מוסד לימודים</p>
                                 <br>
                                 <p class="float-right" id="userInst"></p>
-                                <div class="dropdown-divider"></div>
+                                <div class="dropdown-divider">המרכז האקדמי רופין</div>
                                 <br />
                                 <div class="btn-group" role="group" aria-label="Basic example">
                                     <!--<a class="btn btn-secondary" href="#">עריכה</a>-->
@@ -83,7 +88,7 @@
             </nav>
         </div>
     </div>
-    <div class="row">
+    <!--<div class="row">
         <div class="main">
             <nav class="navbar navbar-light">
                 <a class="navbar-brand"></a>
@@ -104,98 +109,91 @@
                 </form>
             </nav>
         </div>
-    </div>
-    <div class="row">
-        <div id="filterdiv" class="filter">
-            <section class="mb-4">
-                <h6 class="font-weight-bold mb-3">סינון</h6>
-                <div class="form-check pl-0 mb-3">
-                    <!--<div class="col-auto">
-                        <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="יוצר השאלה">
-                    </div>-->
-                    <div class="form-group">
-                        <p class="lead">יוצר השאלה</p>
-                        <select name="Creator" id="creatorTBFilter" class="form-control form-control-user" >
+    </div>-->
+    <div class="container">
+        <input type="button" value="New" class="btn btn-primary btn-lg" id="newBTN" onclick="NewUserfunc()" />
+        <form id="pForm">
+            <table id="UsersTable" class="display nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>תעודת זהות</th>
+                        <th>שם פרטי</th>
+                        <th>שם משפחה</th>
+                        <th>תאריך הרשמה</th>
+                        <th>מוסד אקדמי</th>
+                        <th>סטטוס</th>
+                    </tr>
+                </thead>
+            </table>
+
+        </form>
+
+        <div id="editDiv">
+            <form id="USERSForm">
+                <div class="form-group row">
+                    <div class="form-group col-sm-3">
+                        <label for="FirstName"><span class="red-star">★ </span>שם פרטי</label>
+                        <input type="text" class="form-control" id="FirstName" placeholder="Enter the First Name" required>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label for="LastName"><span class="red-star">★ </span>שם משפחה</label>
+                        <input type="text" class="form-control" id="LastName" placeholder="Enter the last Name" required>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label for="RegistrationDate"><span class="red-star">★ </span>תאריך הרשמה</label>
+                        <input type="date" class="form-control" id="RegistrationDate" required>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label for="AcademicInstitution"><span class="red-star">★ </span>מוסד אקדמי</label>
+                        <select id="instTB" class="form-control" required>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label for="statusTB"><span class="red-star">★ </span>סטטוס</label>
+                        <select id="statusTB" class="form-control" required>
+                            <option value="-1">בחר סטטוס</option>
+                            <option value="Waiting for approval">Waiting for approval</option>
+                            <option value="Decline">Decline</option>
+                            <option value="Approved">Approved</option>
                         </select>
                     </div>
                 </div>
+
                 <div class="form-group row">
-                        <div class="col-4">
-                                <p class="lead">מחלקה</p>
-                                <select name="Department" id="depTBFilter" class="form-control form-control-user" onchange="SetFilterCourses()">
-                                </select>
+                    <div id="addnewU">
+                        <div class="form-group col-sm-3">
+                            <label for="idTB"><span class="red-star">★ </span>תעודת זהות</label>
+                            <input type="text" class="form-control" id="idTB" placeholder="אנא מלא תעודת זהות" pattern="[0-9]{9}" minlength="9"
+                                   maxlength="9"
+                                   oninvalid="this.setCustomValidity('אנא הכנס תעודת זהות כולל ספרת ביקורת')"
+                                   oninput="this.setCustomValidity('')"
+                                   required />
                         </div>
-                        <div class="col-4">
-                                <p class="lead">קורס</p>
-                                <select name="Course" id="CourseTBFilter" class="form-control form-control-user" onchange="SetFilterSubjects()">
-                                </select>
+
+                        <div class="form-group col-sm-3">
+                            <label for="email"><span class="red-star">★ </span>אימייל</label>
+                            <input type="email" class="form-control" id="emailTB" required>
                         </div>
-                        <div class="col-4">
-                                <p class="lead">נושא</p>
-                                <select name="Subject" id="SubjectTBFilter" class="form-control form-control-user">
-                                </select>
-                        </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col">
-                        <div class="form-check pl-0 mb-3 pb-1">
-                            <label class="form-check-label medium text-uppercase card-link-secondary" for="renewed">רמת קושי:</label>
-                            <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="difRadios" id="easy" value="option1">
-                                <label class="form-check-label" for="easy">
-                                    קל
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="difRadios" id="medium" value="option2">
-                                <label class="form-check-label" for="medium">
-                                    בינוני
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="difRadios" id="hard" value="option3">
-                                <label class="form-check-label" for="hard">
-                                    קשה
-                                </label>
-                            </div>
+                        <div class="form-group col-sm-3">
+                            <label for="password"><span class="red-star">★ </span>סיסמה</label>
+                            <input type="password" class="form-control" id="passwordTB" required>
                         </div>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <div class="col">
-                        <div class="form-check pl-0 mb-3 pb-1">
-                            <label class="form-check-label medium text-uppercase card-link-secondary" for="renewed">האם פורסמה בעבר</label>
-                            <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="publishedRadios" id="yesPublishedFilter" value="option1">
-                                <label class="form-check-label" for="easy">
-                                    כן
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="publishedRadios" id="notPublishedFilter" value="option2">
-                                <label class="form-check-label" for="medium">
-                                    לא
-                                </label>
-                            </div>
-                        </div>
+                <!--<div class="form-group row">
+                    <div class="form-group col-sm-8">
+                        <label for="description">Description</label>
+                        <textarea rows="6" class="form-control" id="description" placeholder="Enter the description"></textarea>
                     </div>
-                </div>
-        
-                <div class="form-check pl-0 mb-3 pb-1">
-                    <label class="form-check-label medium text-uppercase card-link-secondary" for="renewed">טווח תאריכי יצירת שאלה:</label>
-                    <div class="form-group row ml-auto">
-                        <div class="col-6">
-                            <label for="example-date-input" class="col-3 col-form-label">החל</label>
-                            <input class="form-control" type="date" value="2021-01-01" id="startDateFilter">
-                        </div>
-                        <div class="col-6">
-                            <label for="example-date-input" class="col-3 col-form-label">עד</label>
-                            <input class="form-control" type="date" value="2021-05-19" id="endDateFilter">
-                        </div>
-                    </div>
-                </div>
-            </section>
+
+                </div>-->
+
+                <button class="btn btn-primary btn-lg" id="saveBTN" onclick="savefunction()">Save</button>
+                <input type="button" class="btn btn-warning btn-lg" id="cancelSaveBTN" value="Cancel" onclick="cancelSaveFunc()" />
+            </form>
         </div>
+
     </div>
 
     <div class="row">

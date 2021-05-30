@@ -1,0 +1,41 @@
+﻿.lead {
+    text-align: right;
+}
+
+button {
+    margin-left: 10px;
+}
+
+.colorDiv {
+    height: 30px;
+    width: 70px;
+    border: 2px solid black
+}
+
+#newBTN {
+    background-color: #007bff;
+    margin-bottom: 10px;
+}
+
+#ProfileNameid {
+    color: #337ab7;
+}
+
+.right {
+    margin-left: 820px;
+}
+.btn-success {
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+    .btn-success:hover {
+        background-color: #1561a2;
+        border-color: #1561a2;
+    }
+#navbarNav {
+    display: flex !important;
+    justify-content: flex-start;
+}
+.navbar-brand {
+    height: 111px;
+}

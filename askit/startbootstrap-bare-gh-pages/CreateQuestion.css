@@ -1,0 +1,55 @@
+﻿.createQ {
+    direction: rtl;
+}
+.lead{
+    display:flex;
+}
+input[type="text"]{
+    height:auto;
+}
+.btn:focus {
+    background-position: 0px 0px;
+}
+.bootstrap-tagsinput {
+    display: flex;
+    justify-content: center;
+    color: #7590C7 !important;
+    background-color: #fff !important;
+    border-color: #7590C7 !important;
+    border-radius: 2.25rem !important;
+    width:100%;
+}
+input[type="file"] {
+    height: 40px;
+}
+.btn:focus {
+     outline: thin dotted #fff; 
+     outline: 0px auto -webkit-focus-ring-color; 
+     outline-offset: 0px; 
+}
+.btn-secondary:hover {
+    color: #7491c8 !important;
+    background: #fff !important;
+    border-color: #7590C7 !important;
+}
+.createQ {
+    direction: rtl;
+    border: 1px solid #7195ca;
+    text-align: center;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #82bcd92b;
+}
+.btn_three {
+    color: #fff;
+    text-shadow: 0 -1px 0 rgb(0 0 0 / 25%);
+    background-color: #006dcc;
+    border-radius: 20px;
+    background-repeat: repeat-x;
+    border-color: #04c #04c #002a80;
+    border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+    margin: 2.5px;
+}
+.middmain {
+    text-align: center;
+}

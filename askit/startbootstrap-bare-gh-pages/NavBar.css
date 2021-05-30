@@ -83,14 +83,19 @@ select{
     background-color: #7590C7 !important;
     border-color: #fff !important;
     border-radius: 2.25rem !important;
+    align-self: flex-end;
 }
 
-.btn-card:hover {
-    color: #7590C7 !important;
-    background-color: #fff !important;
-    border-color: #7590C7 !important;
+    .btn-card:hover {
+        color: #7590C7 !important;
+        background-color: #fff !important;
+        border-color: #7590C7 !important;
+        width: 80%;
+        align-self: flex-end;
+    }
+.svg .bi bi-heart {
+    color: #7491c8 !important;
 }
-
 .dropdown-menu {
     text-align: center;
     min-width: 8rem;
@@ -122,6 +127,10 @@ form-inline .bi {
 input .form-control {
     border-color: #7195ca;
 }
+
+.form-control {
+    border-radius: 1.25rem !important;
+}
 .filter {
     direction: rtl;
     border: 1px solid #7195ca;
@@ -135,6 +144,11 @@ input .form-control {
 }
 @media only screen and (max-width: 1024px) {
     .nav-link:hover {
-            border-bottom: none !important;
-        }
+        border-bottom: none !important;
     }
+    }
+@media only screen and (min-width: 992px) {
+    .navbar-expand-lg .navbar-collapse {
+        height: auto;
+    }
+}

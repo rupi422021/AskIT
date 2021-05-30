@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Create Question</title>
+    <title>Full Question</title>
     <link href="NavBar.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
@@ -32,8 +32,7 @@
     <script src="config.js"></script>
     <script src="CreateQuestion.js"></script>
     <link href="CreateQuestion.css" rel="stylesheet" />
-
-
+    <script src="fullquestion.js"></script>
 
 
 
@@ -86,48 +85,53 @@
     <div class="createQ">
         <div class="row">
             <div class="form-group">
-                <h2 class="font-weight-bold mb-3">יצירת שאלה</h2>
+                <h2 class="font-weight-bold mb-3">צפייה בפרטי שאלה</h2>
+                <div class="form-group row">
+                    <div class="col">
+                        <p class="lead" id="creatorPH"></p>
+                    </div>
+                </div>
                 <div class="form-group row">
                     <div class="col-3">
                         <div class="form-group">
                             <p class="lead">מוסד אקדמי</p>
                             <input type="text" id="instTB" class="btn btn-secondary form-control form-control-user"
-                              disabled  placeholder="">
+                                  disabled placeholder="">
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <p class="lead">מחלקה</p>
-                            <select name="Department" id="depTB" class="btn btn-secondary form-control form-control-user" onchange="SetCourses()">
-                            </select>
+                            <input type="text" name="Department" id="depTB" class="btn btn-secondary form-control form-control-user" disabled>
+      
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <p class="lead">קורס</p>
-                            <select name="Course" id="CourseTB" class="btn btn-secondary form-control form-control-user" onchange="SetSubjects()">
-                            </select>
+                            <input type="text" name="Course" id="CourseTB" class="btn btn-secondary form-control form-control-user" disabled>
+                            
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <p class="lead">נושא</p>
-                            <select name="Subject" id="SubjectTB" class="btn btn-secondary form-control form-control-user">
-                            </select>
+                            <input type="text" name="Subject" id="SubjectTB" class="btn btn-secondary form-control form-control-user" disabled>
+                            
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <p class="lead">שם שאלה</p>
                     <input type="text" id="quesTB" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()"
-                           placeholder="הזן שם שאלה">
+                          disabled placeholder="הזן שם שאלה">
                 </div>
                 <div class="row">
                     <div class="col-6">
                         <p class="lead">סוג שאלה</p>
                         <div>
                             <div id="PencilIcon" onclick="notDisable()"></div>
-                            <select name="quesType" id="quesTypeTB" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()">
+                            <select name="quesType" id="quesTypeTB" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()" disabled>
                                 <option value="-1"> בחר סוג שאלה</option>
                                 <option value="סגורה">סגורה</option>
                                 <option value="פתוחה">פתוחה</option>
@@ -136,7 +140,7 @@
                     </div>
                     <div class="col-6">
                         <p class="lead">רמת קושי</p>
-                        <select name="Difficulty" id="diffTB" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()">
+                        <select name="Difficulty" id="diffTB" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()" disabled>
                             <option value="-1">בחר רמת קושי</option>
                             <option value="קל">קל</option>
                             <option value="בינוני">בינוני</option>
@@ -146,7 +150,7 @@
                 </div>
                 <div class="form-group">
                     <p class="lead">תוכן השאלה</p>
-                    <textarea type="text" id="quesContentTB" class="btn btn-secondary form-control form-control-user" onkeyup="showSimilarQuestions()"
+                    <textarea type="text" id="quesContentTB" class="btn btn-secondary form-control form-control-user" onkeyup="showSimilarQuestions()" disabled
                               placeholder="הזן תוכן שאלה"></textarea>
                 </div>
 
@@ -159,7 +163,7 @@
                     <div class="col-6">
                         <div class="form-group">
                             <p class="lead">האם פורסמה בעבר?</p>
-                            <select name="isPublished" id="isPublishedTB" onchange="showpublish()" class="btn btn-secondary form-control form-control-user">
+                            <select name="isPublished" id="isPublishedTB" onchange="showpublish()" class="btn btn-secondary form-control form-control-user" disabled>
                                 <option value="-1">בחר</option>
                                 <option value="כן">כן</option>
                                 <option value="לא">לא</option>
@@ -171,7 +175,7 @@
                     <div class="row">
                         <div class="col-4">
                             <p class="lead">היכן פורסמה</p>
-                            <select name="Publish Type" id="pubTypeTB" class="btn btn-secondary form-control form-control-user" onchange="showwherepublish()">
+                            <select name="Publish Type" id="pubTypeTB" class="btn btn-secondary form-control form-control-user" onchange="showwherepublish()" disabled>
                                 <option value="-1">בחר</option>
                                 <option value="מבחן">מבחן</option>
                                 <option value="תרגיל בית">תרגיל בית</option>
@@ -180,7 +184,7 @@
                         </div>
                         <div class="col-4">
                             <p class="lead">שנת פרסום</p>
-                            <select name="Publish Year" id="pubYearTB" class="btn btn-secondary form-control form-control-user">
+                            <select name="Publish Year" id="pubYearTB" class="btn btn-secondary form-control form-control-user" disabled>
                                 <option value="-1">בחר</option>
                                 <option value="תשפא">תשפ"א</option>
                                 <option value="תשפג">תשפ"ג</option>
@@ -189,7 +193,7 @@
                         </div>
                         <div id="pubAttempt" class="col-4">
                             <p class="lead">מועד</p>
-                            <select name="Publish Attempt" id="pubAttemptTB" class="btn btn-secondary form-control form-control-user">
+                            <select name="Publish Attempt" id="pubAttemptTB" class="btn btn-secondary form-control form-control-user" disabled>
                                 <option value="-1">בחר</option>
                                 <option value="א">א</option>
                                 <option value="ב">ב</option>
@@ -210,12 +214,12 @@
                 </div>
 
                 <!--<div class="form-group">
-                    <div class="btn-group">
-                        <button id="Save_Show" class="btn btn-primary" onclick="AddQuestion()">שמור והצג</button>
-                        <button id="Save_Share" class="btn btn-primary" onclick="AddQuestion()">שמור ושתף</button>
-                        <button id="Save and add another question" class="btn btn-primary" onclick="AddQuestion()">שמור והוסף שאלה נוספת</button>
-                    </div>
-                </div-->
+        <div class="btn-group">
+            <button id="Save_Show" class="btn btn-primary" onclick="AddQuestion()">שמור והצג</button>
+            <button id="Save_Share" class="btn btn-primary" onclick="AddQuestion()">שמור ושתף</button>
+            <button id="Save and add another question" class="btn btn-primary" onclick="AddQuestion()">שמור והוסף שאלה נוספת</button>
+        </div>
+    </div-->
                 <div class="row">
                     <div class="col-6">
                         <button onclick="AddQuestion()" class="btn btn-primary btn-user btn-block">צור שאלה</button>
