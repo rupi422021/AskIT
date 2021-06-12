@@ -1,6 +1,5 @@
-﻿
-    var pageQuestion = [];
-    var isCreator = 0;
+﻿var pageQuestion = [];
+var isCreator = 0;
         function init() {
             var userInst = "";
     var database = firebase.database();
@@ -15,7 +14,7 @@
     userP = snapshot.val();
     userInst = userP.institute;
     userEmail = userP.email;
-    ShowQuestion();
+                        ShowQuestion();
     //הוספת שם בצד ימין
     var ProfileName = document.getElementById("ProfileNameid");
     ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
@@ -47,7 +46,7 @@ ph = document.getElementById("ph");
     alert("You are not signed in! Please log in to continue.");
     RedirectToLogin();
 }
-//הורדת העפרון ברגע שעולה הדף
+
 
 
 }
@@ -62,7 +61,7 @@ ph = document.getElementById("ph");
 }
 //////
         function RedirectToLogin() {
-        location.replace("Login-New.html");
+        location.replace("Login.html");
 }
 
 
@@ -277,7 +276,7 @@ creator.innerHTML = "נוצרה על ידי: " + question[0].question.creator_na
         function DuplicateQuestion() {
         qustionTitle = document.getElementById("quesTB").value;
     console.log(qustionTitle); // Question Title
-    window.location.href = "Questions.html?questionTitle=" + qustionTitle;
+            window.location.href = "CreateQuestion.html?questionTitle=" + qustionTitle;
 }
 
 

@@ -96,35 +96,35 @@
                         <div class="form-group">
                             <p class="lead">מוסד אקדמי</p>
                             <input type="text" id="instTB" class="btn btn-secondary form-control form-control-user"
-                                  disabled placeholder="">
+                                   disabled placeholder="">
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <p class="lead">מחלקה</p>
                             <input type="text" name="Department" id="depTB" class="btn btn-secondary form-control form-control-user" disabled>
-      
+
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <p class="lead">קורס</p>
                             <input type="text" name="Course" id="CourseTB" class="btn btn-secondary form-control form-control-user" disabled>
-                            
+
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <p class="lead">נושא</p>
                             <input type="text" name="Subject" id="SubjectTB" class="btn btn-secondary form-control form-control-user" disabled>
-                            
+
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <p class="lead">שם שאלה</p>
                     <input type="text" id="quesTB" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()"
-                          disabled placeholder="הזן שם שאלה">
+                           disabled placeholder="הזן שם שאלה">
                 </div>
                 <div class="row">
                     <div class="col-6">
@@ -212,7 +212,28 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+                    <p class="lead">משתמשים עם גישה לשאלה</p>
+                    <textarea type="text" id="viewersTB" class="form-control form-control-user" disabled
+                              placeholder="להוספת משתמשים - לחץ על 'ערוך הרשאות'"></textarea>
+                    <p id="private">שאלה זו מוגדרת כשאלה פרטית וצפייתה תתאפשר למשתמשים הנבחרים בלבד.</p>
+                    <p id="public">שאלה זו מוגדרת כשאלה ציבורית וצפייתה תתאפשר לכל משתמשי המערכת.</p>
+                    <button id="ShareBTN" class="btn btn-secondary btn_1" onclick="openForm()" disabled>ערוך הרשאות</button>
+                    <button id="PublicBTN" class="btn btn-secondary btn_1" onclick="setPublic()" disabled>הפוך שאלה לציבורית</button>
+                    <button id="PrivateBTN" class="btn btn-secondary btn_1" onclick="setPrivate()" disabled>הפוך שאלה לפרטית</button>
+                </div>
 
+
+                <div class="form-popup" id="myForm">
+                    <form action="/action_page.php" class="form-container" onsubmit="f1()">
+                        <h1>שתף שאלה</h1>
+
+                        <label for="email"><b>עם מי תרצה לשתף?</b></label>
+                        <input type="text" id="userToShareTB" placeholder="הכנס שם פרטי + משפחה" name="email" required>
+                        <button type="button" class="btn" onclick="ShareQuestion()">שתף שאלה</button>
+                        <button type="button" class="btn cancel" onclick="closeForm()">סגור</button>
+                    </form>
+                </div>
                 <!--<div class="form-group">
         <div class="btn-group">
             <button id="Save_Show" class="btn btn-primary" onclick="AddQuestion()">שמור והצג</button>
@@ -222,17 +243,22 @@
     </div-->
                 <div class="row">
                     <div class="col-6">
-                        <button onclick="AddQuestion()" class="btn btn-primary btn-user btn-block">צור שאלה</button>
+                        <button id="SaveChangesBTN" onclick="SaveChanges()" class="btn btn-primary btn-user btn-block" disabled>שמור שינויים</button>
+                        <!--<button onclick="AddQuestion()" class="btn btn-primary btn-user btn-block">צור שאלה</button>-->
                         <hr>
                         <!--</form>-->
                         <hr>
                     </div>
                 </div>
-                <div>
+                <div class="form-group">
+                    <div class="btn-group">
 
-
-
+                        <button id="DuplicateBTN" class="btn btn-primary btn_three" onclick="DuplicateQuestion()">שכפל שאלה</button>
+                    </div>
                 </div>
+                <!--<div class="col-6">
+                <button id="SaveChangesBTN" onclick="SaveChanges()" class="btn btn-primary btn-user btn-block" disabled>שמור שינויים</button>
+                </div>-->
             </div>
         </div>
     </div>
