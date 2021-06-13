@@ -27,6 +27,7 @@
     <!-- Add Firebase products that you want to use -->
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-storage.js"></script>
     <!--Your web app's Firebase configuration-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="config.js"></script>
@@ -206,8 +207,11 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-input">
-                                <p class="lead">הוספת קובץ</p>
-                                <input type="file" id="files" name="files" multiple="multiple" />
+                                <p class="lead">קובץ מצורף</p>
+                                <a id="files" download>
+                                    <img id="imgfile" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/File_alt_font_awesome.svg/768px-File_alt_font_awesome.svg.png" alt="fileimage" width="104" height="142">
+                                </a>
+                                <!--<input type="file" id="files" name="files" multiple="multiple" />-->
                             </div>
                         </div>
                     </div>

@@ -16,8 +16,10 @@ var isCreator = 0;
     userEmail = userP.email;
                         ShowQuestion();
     //הוספת שם בצד ימין
-    var ProfileName = document.getElementById("ProfileNameid");
-    ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
+                        var ProfileName = document.getElementById("dropdownMenuLink");
+                        ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
+                        var InstName = document.getElementById("userInst");
+                        InstName.innerHTML = userInst;
 }
                     else {
         console.log("No data available");
@@ -177,7 +179,7 @@ ShowQuestionHTML(question);
     document.getElementById("pubTypeTB").value = question[0].question.publish_type;
     document.getElementById("pubYearTB").value = question[0].question.publish_year;
     document.getElementById("pubAttemptTB").value = question[0].question.publish_attempt;
-
+            downloadViaUrl(question);
     let viewers = [];
     let viewersString = "";
             if (question[0].question.Viewers != null) {
@@ -292,4 +294,35 @@ creator.innerHTML = "נוצרה על ידי: " + question[0].question.creator_na
             return false;
 }
 
+function downloadViaUrl(q) {
+    
+    const storageRef = firebase.storage().ref();
+    debugger;
+    // [START storage_download_via_url]
+    storageRef.child(q[0].question.file_name).getDownloadURL()
+        .then((url) => {
+            // `url` is the download URL for 'images/stars.jpg'
 
+            // This can be downloaded directly:
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = 'blob';
+            xhr.onload = (event) => {
+                var blob = xhr.response;
+            };
+            xhr.open('GET', url);
+            xhr.send();
+            // Or inserted into an <img> element
+            var file = document.getElementById('files');
+            //var img = document.getElementById('imgfile');
+            file.setAttribute('href', url);
+            //file.setAttribute('target', '_blank');
+            file.setAttribute('download', url);
+            //img.setAttribute('src', url);
+            //file.innerText = q[0].question.file_name;
+            console.log(file);
+        })
+        .catch((error) => {
+            // Handle any errors
+        });
+    // [END storage_download_via_url]
+}

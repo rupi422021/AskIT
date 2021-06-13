@@ -2,8 +2,8 @@
 var userName = "";
 
 function init() {
-    
-    var storage = firebase.app().storage("gs://askit-35d7a.appspot.com");
+    var storage = firebase.storage();
+    //var storage = firebase.app().storage("gs://askit-35d7a.appspot.com");
     document.getElementById("published").style.display = "none";
     document.getElementById("pubAttempt").style.display = "none";
     ref = firebase.database().ref("users");
@@ -97,9 +97,10 @@ function AddQuestion() {
     console.log(selectedFile);
     console.log(selectedFile.name);
     // [END storage_upload_blob]
+ 
 
 
-    firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt, "creator_id": creatorID, "creator_name": creatorName, "created_at": created_at });
+    firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt, "creator_id": creatorID, "creator_name": creatorName, "created_at": created_at,"file_name":selectedFile.name});
     idQuesName = { // create a new JSON object
         Qname: document.getElementById("quesTB").value
     }
