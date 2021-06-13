@@ -94,7 +94,10 @@ select{
         align-self: flex-end;
     }
 .svg .bi bi-heart {
-    color: #7491c8 !important;
+    color: #7491c8 !important; 
+}
+.svg .bi bi-heart:hover  {
+    color: #000000 !important;
 }
 .dropdown-menu {
     text-align: center;
@@ -103,6 +106,18 @@ select{
 p {
     padding-right: 1rem;
 }
+
+.favouritesBTN {
+    color: #7491c8 !important;
+    border-color: #fff;
+}
+    .favouritesBTN:hover {
+        color: #fff !important;
+        border-color: #fff;
+        background-color: #7491c8;
+    }
+
+
 .btn {
     left: 10px;
     border-radius: 2.25rem !important;
