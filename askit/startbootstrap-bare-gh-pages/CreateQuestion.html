@@ -93,52 +93,52 @@
                 <div class="form-group row">
                     <div class="col-3">
                         <div class="form-group">
-                            <p class="lead">מוסד אקדמי</p>
+                            <p class="lead"><span class="red-star">★</span>מוסד אקדמי</p>
                             <input type="text" id="instTB" class="btn btn-secondary form-control form-control-user"
                               disabled  placeholder="">
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
-                            <p class="lead">מחלקה</p>
+                            <p class="lead"><span class="red-star">★</span>מחלקה</p>
                             <select name="Department" id="depTB" class="btn btn-secondary form-control form-control-user" onchange="SetCourses()">
                             </select>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
-                            <p class="lead">קורס</p>
+                            <p class="lead"><span class="red-star">★</span>קורס</p>
                             <select name="Course" id="CourseTB" class="btn btn-secondary form-control form-control-user" onchange="SetSubjects()">
                             </select>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
-                            <p class="lead">נושא</p>
+                            <p class="lead"><span class="red-star">★</span>נושא</p>
                             <select name="Subject" id="SubjectTB" class="btn btn-secondary form-control form-control-user">
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <p class="lead">שם שאלה</p>
+                    <p class="lead"><span class="red-star">★</span>שם שאלה</p>
                     <input type="text" id="quesTB" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()"
                            placeholder="הזן שם שאלה">
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <p class="lead">סוג שאלה</p>
+                        <p class="lead"><span class="red-star">★</span>סוג שאלה</p>
                         <div>
                             <div id="PencilIcon" onclick="notDisable()"></div>
                             <select name="quesType" id="quesTypeTB" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()">
-                                <option value="-1"> בחר סוג שאלה</option>
+                                <option value="-1">בחר סוג שאלה</option>
                                 <option value="סגורה">סגורה</option>
                                 <option value="פתוחה">פתוחה</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-6">
-                        <p class="lead">רמת קושי</p>
+                        <p class="lead"><span class="red-star">★</span>רמת קושי</p>
                         <select name="Difficulty" id="diffTB" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()">
                             <option value="-1">בחר רמת קושי</option>
                             <option value="קל">קל</option>
@@ -161,7 +161,7 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <p class="lead">האם פורסמה בעבר?</p>
+                            <p class="lead"><span class="red-star">★</span>האם פורסמה בעבר?</p>
                             <select name="isPublished" id="isPublishedTB" onchange="showpublish()" class="btn btn-secondary form-control form-control-user">
                                 <option value="-1">בחר</option>
                                 <option value="כן">כן</option>

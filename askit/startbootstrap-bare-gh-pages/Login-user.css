@@ -1,12 +1,12 @@
 ﻿body {
     margin: 0;
     padding: 0;
-    background: url(https://i.ibb.co/Jm72p3q/bg-4.jpg);
+    background: url(https://i.ibb.co/0hd9DNL/feb2d319-01ba-4e9f-8de6-b84393943e51.jpg);
+    /*background: url(https://i.ibb.co/Jm72p3q/bg-4.jpg);*/
     background-size: cover;
     background-position: center;
     font-family: sans-serif;
 }
-
 .loginbox {
     width: 320px;
     height: 420px;
@@ -41,8 +41,6 @@ h1{
     padding: 0;
     font-weight:bold;
 }
-
-
 
 .loginbox input {
     width: 100%;

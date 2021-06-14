@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <title>Create User</title>
+    <link href="NavBar.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.js" />-->
+    <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="NavBar.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="cards.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="bootstrap-tagsinput.min.js"></script>
+    <!--fire base-->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-storage.js"></script>
+    <!--Your web app's Firebase configuration-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="config.js"></script>
+    <link href="CreateQuestion.css" rel="stylesheet" />
+    <link href="Reg_User.css" rel="stylesheet" />
+    <link href="Login-user.css" rel="stylesheet" />
+    <script src="Reg_User.js"></script>
+
+</head>
+<body onload="Init()">
+    
+    <div class="form-group">
+        <div class="col-lg-12 text-center">
+            <h1>הרשמה</h1>
+        </div>
+    </div>
+    <form class="createUser" onsubmit="f1()" action="Login.html">
+        <div class="form-group">
+            <p class="lead">תעודת זהות</p>
+            <input type="text" id="idTB" placeholder="אנא מלא תעודת זהות" pattern="[0-9]{9}" minlength="9"
+                   maxlength="9"
+                   oninvalid="this.setCustomValidity('אנא הכנס תעודת זהות כולל ספרת ביקורת')"
+                   oninput="this.setCustomValidity('')"
+                   required />
+        </div>
+        <div class="form-group">
+            <p class="lead">שם פרטי</p>
+            <input type="text" id="nameTB" placeholder="אנא הכנס שם פרטי" pattern="[A-Z\a-z\u0590-\u05fe]{2,10}"
+                   maxlength="10"
+                   oninvalid="this.setCustomValidity('אנא הכנס את השם בעברית עד 10 תווים')"
+                   oninput="this.setCustomValidity('')"
+                   required />
+        </div>
+        <div class="form-group">
+            <p class="lead">שם משפחה</p>
+            <input type="text" id="lastnameTB" placeholder="אנא הכנס שם משפחה"
+                   pattern="[A-Z\a-z\u0590-\u05fe]{2,10}"
+                   maxlength="20"
+                   oninvalid="this.setCustomValidity('אנא הכנס את השם בעברית עד 20 תווים')"
+                   oninput="this.setCustomValidity('')"
+                   required />
+        </div>
+        <div class="form-group">
+            <p class="lead">אימייל</p>
+            <input type="email" id="emailTB" name="email" placeholder="אנא הכנס את האימייל שלך" required />
+        </div>
+        <div class="form-group">
+            <p class="lead">סיסמה</p>
+            <input type="password" name="password" id="passwordTB" placeholder="אנא הכנס את הסיסמה שלך" minlength="8"
+                   pattern="^(?=.*\d)(?=.*[A-Z]).{8,30}$"
+                   oninvalid="this.setCustomValidity('הסיסמה צריכה להכיל מינימום 8 תווים ושתכלול לפחות אות גדולה וסיפרה')"
+                   oninput="this.setCustomValidity('')"
+                   required />
+        </div>
+        <div class="form-group">
+            <p class="lead">מוסד לימודי</p>
+            <select class="btn btn-secondary" name="Institute" id="InstituteTB">
+            </select>
+        </div>
+        <div class="form-group">
+            <div class="custom-control custom-checkbox small">
+            </div>
+        </div>
+        <button id="send" class="btn btn-primary btn-user btn-block">שלח</button>
+        <hr>
+    </form>
+</body>
+</html>
