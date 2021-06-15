@@ -24,6 +24,7 @@ function init() {
                 ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
                 var InstName = document.getElementById("userInst");
                 InstName.innerHTML = userInst;
+                ShowDuplicatedQuestion();
             }
             else {
                 console.log("No data available");
@@ -369,6 +370,95 @@ function showwherepublish() {
     }
 }
 
+function ShowDuplicatedQuestion() {
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    console.log(url_string);
+    questionTitle = url.searchParams.get("questionTitle");
+    console.log(questionTitle);
+
+    if (questionTitle != null) {
+
+        let inst = userP.institute;
+        let userID = userP.id;
+        let courses = "";
+        let subjects = "";
+        let questions = "";
+        let questionData = '';
+        let depData = '';
+        let thisDep = "";
+        let thisCourse = "";
+        let thisSubject = "";
+
+        let question = [];
+
+        refD = firebase.database().ref("Institutes").child(inst).child("Departments");
+        console.log(refD);
+        refD.get().then(function (snapshot) {
+            if (snapshot.exists()) {
+                depData = snapshot.val();
+                console.log(depData);
+                for (var i = 0; i < Object.keys(depData).length; i++) {  // Running over all of the Departments
+                    thisDep = Object.keys(depData)[i];
+                    courses = depData[Object.keys(depData)[i]].Courses;
+                    for (var j = 0; j < Object.keys(courses).length; j++) { // Running over all of the Courses
+                        thisCourse = Object.keys(courses)[j];
+                        subjects = courses[Object.keys(courses)[j]].Subjects;
+                        for (var k = 0; k < Object.keys(subjects).length; k++) { // Running over all of the Subjects
+                            thisSubject = Object.keys(subjects)[k];
+                            if (subjects[Object.keys(subjects)[k]].Questions != null) {
+                                questions = subjects[Object.keys(subjects)[k]].Questions;
+                            }
+                            for (var m = 0; m < Object.keys(questions).length; m++) { // Running over all of the Questions
+                                ques = questions[Object.keys(questions)[m]];
+                                if (ques.creator_id != null && Object.keys(questions)[m] == questionTitle) {
+                                    question.push({
+                                        questionTitle: Object.keys(questions)[m],
+                                        question: ques,
+                                        department: thisDep,
+                                        course: thisCourse,
+                                        subject: thisSubject
+                                    });
+                                }
+
+                            }
+                        }
+                    }
+
+                }
+                console.log(question);
+                ShowQuestionDetails(question);
+            }
+
+            else {
+                console.log("No data available");
+            }
+        }).catch(function (error) {
+            console.error(error);
+        });
+
+    }
+
+
+
+}
+
+
+function ShowQuestionDetails(question) {
+
+    
+    // NOT WORKING
+    document.getElementById("tagTB").tagsinput = ('add', question[0].question.tags);
+
+    document.getElementById("quesTypeTB").value = question[0].question.type;
+    document.getElementById("quesContentTB").value = question[0].question.content;
+    document.getElementById("diffTB").value = question[0].question.difficulty;
+    document.getElementById("isPublishedTB").value = question[0].question.is_published;
+    document.getElementById("pubTypeTB").value = question[0].question.publish_type;
+    document.getElementById("pubYearTB").value = question[0].question.publish_year;
+    document.getElementById("pubAttemptTB").value = question[0].question.publish_attempt;
+    
+}
 
 
 

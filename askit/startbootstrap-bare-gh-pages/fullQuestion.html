@@ -157,8 +157,12 @@
 
                 <div class="form-group">
                     <p class="lead">הוספת תגיות</p>
-                    <input data-role="tagsinput" type="text" name="Tags" id="tagTB" placeholder="הוסף תגיות" class="form-control form-control-user" onchange="showSimilarQuestions()"
-                           required />
+                    <!--<input data-role="tagsinput" type="text" name="Tags" id="tagTB" placeholder="הוסף תגיות" class="form-control form-control-user" onchange="showSimilarQuestions()"
+    required />-->
+                    <!--<input data-role="tagsinput" type="text" name="Tags" id="tagTB" placeholder="הוסף תגיות" class="form-control form-control-user" onchange="showSimilarQuestions()"
+           required />-->
+                    <input type="text" name="Tags" id="tagTB" placeholder="הוסף תגיות" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()" disabled>
+                                          
                 </div>
                 <div class="row">
                     <div class="col-6">
@@ -207,7 +211,7 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-input">
-                                <p class="lead">קובץ מצורף</p>
+                                <p class="lead">קבצים מצורפים:</p>
                                 <a id="files" download>
                                     <img id="imgfile" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/File_alt_font_awesome.svg/768px-File_alt_font_awesome.svg.png" alt="fileimage" width="104" height="142">
                                 </a>

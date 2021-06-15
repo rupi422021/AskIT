@@ -75,7 +75,7 @@ ph = document.getElementById("ph");
     document.getElementById("quesTypeTB").disabled = false;
     document.getElementById("quesContentTB").disabled = false;
     document.getElementById("diffTB").disabled = false;
-    document.getElementById("tagTB").disabled = false;
+    //document.getElementById("tagTB").disabled = false;
     document.getElementById("isPublishedTB").disabled = false;
     document.getElementById("pubTypeTB").disabled = false;
     document.getElementById("pubYearTB").disabled = false;
@@ -174,13 +174,23 @@ ShowQuestionHTML(question);
     document.getElementById("quesTB").value = question[0].questionTitle;
     document.getElementById("quesTypeTB").value = question[0].question.type;
     document.getElementById("quesContentTB").value = question[0].question.content;
-    document.getElementById("diffTB").value = question[0].question.difficulty;
-    document.getElementById("tagTB").value = question[0].question.tags;
+            document.getElementById("diffTB").value = question[0].question.difficulty;
+          
+            document.getElementById("tagTB").value = question[0].question.tags;
     document.getElementById("isPublishedTB").value = question[0].question.is_published;
     document.getElementById("pubTypeTB").value = question[0].question.publish_type;
     document.getElementById("pubYearTB").value = question[0].question.publish_year;
-    document.getElementById("pubAttemptTB").value = question[0].question.publish_attempt;
-            downloadViaUrl(question);
+            document.getElementById("pubAttemptTB").value = question[0].question.publish_attempt;
+            if (question[0].question.file_name != null && question[0].question.file_name != "") {
+                downloadViaUrl(question);
+                document.getElementById("files").style.display = "block";
+            }
+            else {
+                document.getElementById("files").style.display = "none";
+            }
+
+           
+            
     let viewers = [];
     let viewersString = "";
             if (question[0].question.Viewers != null) {
