@@ -14,8 +14,9 @@ var isCreator = 0;
     userP = snapshot.val();
     userInst = userP.institute;
                         userEmail = userP.email;
-                        document.getElementById("myForm").style.display = "none";
                         ShowQuestion();
+                        document.getElementById("myForm").style.display = "none";
+                        
     //הוספת שם בצד ימין
                         var ProfileName = document.getElementById("dropdownMenuLink");
                         ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
@@ -211,7 +212,9 @@ console.log(question[0].question.is_public);
     let z = document.getElementById("viewersTB");
     z.style.display = "none";
     let w = document.getElementById("ShareBTN");
-    w.style.display = "none";
+                w.style.display = "none";
+                let m = document.getElementById("PrivateBTN");
+                m.disabled = false;
 }
             else {
         let x = document.getElementById("PrivateBTN");
