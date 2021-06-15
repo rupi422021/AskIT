@@ -13,7 +13,8 @@ var isCreator = 0;
         console.log(snapshot.val());
     userP = snapshot.val();
     userInst = userP.institute;
-    userEmail = userP.email;
+                        userEmail = userP.email;
+                        document.getElementById("myForm").style.display = "none";
                         ShowQuestion();
     //הוספת שם בצד ימין
                         var ProfileName = document.getElementById("dropdownMenuLink");
