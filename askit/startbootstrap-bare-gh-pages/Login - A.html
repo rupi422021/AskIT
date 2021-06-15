@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Login-user</title>
+    <title>Login-Admin</title>
     <!--css-->
     <!--<link href="../Login-user.css" rel="stylesheet" type="text/css" />-->
     <link href="Login-user.css" rel="stylesheet" />
@@ -19,25 +19,16 @@
     <!--Your web app's Firebase configuration-->
     <script src="config.js"></script>
     <!--js-->
-
-
-
+    <script type="text/javascript" src="Login-A.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script type="text/javascript" src="login_U.js"></script>
+    
 
 </head>
 <body>
-    <div class="header">
-        <div class="menu-bar">
-            <a class="navbar-nav" href="Login - A.html">
-                כניסת מנהל
-            </a>
-        </div>
-    </div>
     <div class="loginbox">
-        <img src="https://i.ibb.co/D11C0Hr/Artboard-1.png" class="avatar" alt="Artboard-1" />
-        <h1>Login Here</h1>
+        <img src="image/AskITCrown.svg" class="avatar" alt="Artboard-1" />
+        <h1>Login Admin</h1>
         <div>
             <p>Id</p>
             <input type="text" name="" id="idTB" placeholder="Enter Id" pattern="[0-9]{9}"
@@ -55,7 +46,7 @@
 
             <br />
             <a href="#">Lost your password?</a><br />
-            <a href="Createuser.html">Sign up</a>
+            <a href="Createuser.html" onclick="RedirectToRegistration()">Sign up</a>
         </div>
     </div>
 </body>

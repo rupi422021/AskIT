@@ -9,7 +9,27 @@
         });
 
         function init() { 
-            
+            refA = firebase.database().ref("Admins");
+            if (localStorage["Admin"] != null) { // check if the entry exists
+                // after getting the localStorage string, parse it to a JSON object
+                Admin = JSON.parse(localStorage["Admin"]);
+                refA.child(Admin.id).get().then(function (snapshot) {
+                    if (snapshot.exists()) {
+                        console.log(snapshot.val());
+                        AdminP = snapshot.val();
+                        //הוספת שם בצד ימין
+                        var ProfileName = document.getElementById("dropdownMenuLink");
+                        ProfileName.innerHTML = AdminP.firstname + " " + AdminP.lastname;
+                        var InstName = document.getElementById("userInst");
+                        InstName.innerHTML = AdminP.institute;
+                    }
+                    else {
+                        console.log("No data available");
+                    }
+                }).catch(function (error) {
+                    console.error(error);
+                });
+            }
             usersList = [];
             var database = firebase.database();
             ref = firebase.database().ref("users");
