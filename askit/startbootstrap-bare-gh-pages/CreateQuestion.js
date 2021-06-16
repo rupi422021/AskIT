@@ -446,10 +446,28 @@ function ShowDuplicatedQuestion() {
 
 function ShowQuestionDetails(question) {
 
-    
     // NOT WORKING
-    document.getElementById("tagTB").tagsinput = ('add', question[0].question.tags);
+  
+    if (question[0].question.tags.length > 0) {
+        var splitTags = question[0].question.tags.split(",");
+        console.log(question[0].question.tags);
+        console.log(splitTags);
+        console.log(splitTags[0]);
+        console.log(splitTags[1]);
+        var tagInput = $("#tagTB");
+        tagInput.tagsinput();
+        for (var i = 0; i < splitTags.length; i++) {
+            tagInput.tagsinput('add', splitTags[i]);
+        }
+    }
 
+   // $input[2].__proto__.constructor('input', "banana");
+        //.itemsArray.push(question[0].question.tags);
+
+
+    //document.getElementById("tagTB").TagsInput('input', question[0].question.tags);
+    //document.getElementById("tagTB").itemsArray.push(question[0].question.tags);
+    //console.log(document.getElementById("tagTB").itemsArray);
     document.getElementById("quesTypeTB").value = question[0].question.type;
     document.getElementById("quesContentTB").value = question[0].question.content;
     document.getElementById("diffTB").value = question[0].question.difficulty;
