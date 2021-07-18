@@ -32,6 +32,10 @@ input[type="file"] {
     background: #fff !important;
     border-color: #7590C7 !important;
 }
+.create-question-wrapper {
+   display: flex;
+   justify-content: center;
+}
 .createQ {
     direction: rtl;
     border: 1px solid #7195ca;
@@ -51,5 +55,9 @@ input[type="file"] {
     margin: 2.5px;
 }
 .middmain {
+    display: none;
     text-align: center;
+}
+.card {
+    max-width: 45%;
 }

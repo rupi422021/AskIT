@@ -86,160 +86,163 @@
             </nav>
         </div>
     </div>
-    <div class="createQ">
-        <div class="row">
-            <div class="form-group">
-                <h2 class="font-weight-bold mb-3">יצירת שאלה</h2>
-                <div class="form-group row">
-                    <div class="col-3">
-                        <div class="form-group">
-                            <p class="lead"><span class="red-star">★</span>מוסד אקדמי</p>
-                            <input type="text" id="instTB" class="btn btn-secondary form-control form-control-user"
-                              disabled  placeholder="">
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-group">
-                            <p class="lead"><span class="red-star">★</span>מחלקה</p>
-                            <select name="Department" id="depTB" class="btn btn-secondary form-control form-control-user" onchange="SetCourses()">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-group">
-                            <p class="lead"><span class="red-star">★</span>קורס</p>
-                            <select name="Course" id="CourseTB" class="btn btn-secondary form-control form-control-user" onchange="SetSubjects()">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-group">
-                            <p class="lead"><span class="red-star">★</span>נושא</p>
-                            <select name="Subject" id="SubjectTB" class="btn btn-secondary form-control form-control-user">
-                            </select>
-                        </div>
-                    </div>
-                </div>
+    <div class="create-question-wrapper flex-row-reverse">
+        <div class="createQ col-8">
+            <div class="row">
                 <div class="form-group">
-                    <p class="lead"><span class="red-star">★</span>שם שאלה</p>
-                    <input type="text" id="quesTB" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()"
-                           placeholder="הזן שם שאלה">
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <p class="lead"><span class="red-star">★</span>סוג שאלה</p>
-                        <div>
-                            <div id="PencilIcon" onclick="notDisable()"></div>
-                            <select name="quesType" id="quesTypeTB" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()">
-                                <option value="-1">בחר סוג שאלה</option>
-                                <option value="סגורה">סגורה</option>
-                                <option value="פתוחה">פתוחה</option>
-                            </select>
+                    <h2 class="font-weight-bold mb-3">יצירת שאלה</h2>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <p class="lead"><span class="red-star">★</span>מוסד אקדמי</p>
+                                <input type="text" id="instTB" class="btn btn-secondary form-control form-control-user"
+                                       disabled placeholder="">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-6">
-                        <p class="lead"><span class="red-star">★</span>רמת קושי</p>
-                        <select name="Difficulty" id="diffTB" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()">
-                            <option value="-1">בחר רמת קושי</option>
-                            <option value="קל">קל</option>
-                            <option value="בינוני">בינוני</option>
-                            <option value="קשה">קשה</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <p class="lead">תוכן השאלה</p>
-                    <textarea type="text" id="quesContentTB" class="btn btn-secondary form-control form-control-user" onkeyup="showSimilarQuestions()"
-                              placeholder="הזן תוכן שאלה"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <p class="lead">הוספת תגיות</p>
-                    <input data-role="tagsinput" type="text" name="Tags" id="tagTB" placeholder="הוסף תגיות" class="form-control form-control-user"
-                           required />
-                    <!--onchange="showSimilarQuestions()"-->
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <p class="lead"><span class="red-star">★</span>האם פורסמה בעבר?</p>
-                            <select name="isPublished" id="isPublishedTB" onchange="showpublish()" class="btn btn-secondary form-control form-control-user">
-                                <option value="-1">בחר</option>
-                                <option value="כן">כן</option>
-                                <option value="לא">לא</option>
-                            </select>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <p class="lead"><span class="red-star">★</span>מחלקה</p>
+                                <select name="Department" id="depTB" class="btn btn-secondary form-control form-control-user" onchange="SetCourses()">
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div id="published">
-                    <div class="row">
-                        <div class="col-4">
-                            <p class="lead">היכן פורסמה</p>
-                            <select name="Publish Type" id="pubTypeTB" class="btn btn-secondary form-control form-control-user" onchange="showwherepublish()">
-                                <option value="-1">בחר</option>
-                                <option value="מבחן">מבחן</option>
-                                <option value="תרגיל בית">תרגיל בית</option>
-                                <option value="תרגיל כיתה">תרגיל כיתה</option>
-                            </select>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <p class="lead"><span class="red-star">★</span>קורס</p>
+                                <select name="Course" id="CourseTB" class="btn btn-secondary form-control form-control-user" onchange="SetSubjects()">
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-4">
-                            <p class="lead">שנת פרסום</p>
-                            <select name="Publish Year" id="pubYearTB" class="btn btn-secondary form-control form-control-user">
-                                <option value="-1">בחר</option>
-                                <option value="תשפא">תשפ"א</option>
-                                <option value="תשפג">תשפ"ג</option>
-                                <option value="תשפד">תשפ"ד</option>
-                            </select>
-                        </div>
-                        <div id="pubAttempt" class="col-4">
-                            <p class="lead">מועד</p>
-                            <select name="Publish Attempt" id="pubAttemptTB" class="btn btn-secondary form-control form-control-user">
-                                <option value="-1">בחר</option>
-                                <option value="א">א</option>
-                                <option value="ב">ב</option>
-                                <option value="ג">ג</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-input">
-                                <p class="lead">הוספת קובץ</p>
-                                <input type="file" id="files" name="files" multiple="multiple" />
+                        <div class="col-3">
+                            <div class="form-group">
+                                <p class="lead"><span class="red-star">★</span>נושא</p>
+                                <select name="Subject" id="SubjectTB" class="btn btn-secondary form-control form-control-user">
+                                </select>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <p class="lead"><span class="red-star">★</span>שם שאלה</p>
+                        <input type="text" id="quesTB" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()"
+                               placeholder="הזן שם שאלה">
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="lead"><span class="red-star">★</span>סוג שאלה</p>
+                            <div>
+                                <div id="PencilIcon" onclick="notDisable()"></div>
+                                <select name="quesType" id="quesTypeTB" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()">
+                                    <option value="-1">בחר סוג שאלה</option>
+                                    <option value="סגורה">סגורה</option>
+                                    <option value="פתוחה">פתוחה</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <p class="lead"><span class="red-star">★</span>רמת קושי</p>
+                            <select name="Difficulty" id="diffTB" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()">
+                                <option value="-1">בחר רמת קושי</option>
+                                <option value="קל">קל</option>
+                                <option value="בינוני">בינוני</option>
+                                <option value="קשה">קשה</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p class="lead">תוכן השאלה</p>
+                        <textarea type="text" id="quesContentTB" class="btn btn-secondary form-control form-control-user" onkeyup="showSimilarQuestions()"
+                                  placeholder="הזן תוכן שאלה"></textarea>
+                    </div>
 
-                <!--<div class="form-group">
+                    <div class="form-group">
+                        <p class="lead">הוספת תגיות</p>
+                        <input data-role="tagsinput" type="text" name="Tags" id="tagTB" placeholder="הוסף תגיות" class="form-control form-control-user"
+                               required />
+                        <!--onchange="showSimilarQuestions()"-->
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <p class="lead"><span class="red-star">★</span>האם פורסמה בעבר?</p>
+                                <select name="isPublished" id="isPublishedTB" onchange="showpublish()" class="btn btn-secondary form-control form-control-user">
+                                    <option value="-1">בחר</option>
+                                    <option value="כן">כן</option>
+                                    <option value="לא">לא</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="published">
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="lead">היכן פורסמה</p>
+                                <select name="Publish Type" id="pubTypeTB" class="btn btn-secondary form-control form-control-user" onchange="showwherepublish()">
+                                    <option value="-1">בחר</option>
+                                    <option value="מבחן">מבחן</option>
+                                    <option value="תרגיל בית">תרגיל בית</option>
+                                    <option value="תרגיל כיתה">תרגיל כיתה</option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <p class="lead">שנת פרסום</p>
+                                <select name="Publish Year" id="pubYearTB" class="btn btn-secondary form-control form-control-user">
+                                    <option value="-1">בחר</option>
+                                    <option value="תשפא">תשפ"א</option>
+                                    <option value="תשפג">תשפ"ג</option>
+                                    <option value="תשפד">תשפ"ד</option>
+                                </select>
+                            </div>
+                            <div id="pubAttempt" class="col-4">
+                                <p class="lead">מועד</p>
+                                <select name="Publish Attempt" id="pubAttemptTB" class="btn btn-secondary form-control form-control-user">
+                                    <option value="-1">בחר</option>
+                                    <option value="א">א</option>
+                                    <option value="ב">ב</option>
+                                    <option value="ג">ג</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-input">
+                                    <p class="lead">הוספת קובץ</p>
+                                    <input type="file" id="files" name="files" multiple="multiple" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--<div class="form-group">
                     <div class="btn-group">
                         <button id="Save_Show" class="btn btn-primary" onclick="AddQuestion()">שמור והצג</button>
                         <button id="Save_Share" class="btn btn-primary" onclick="AddQuestion()">שמור ושתף</button>
                         <button id="Save and add another question" class="btn btn-primary" onclick="AddQuestion()">שמור והוסף שאלה נוספת</button>
                     </div>
                 </div-->
-                <div class="row">
-                    <div class="col-6">
-                        <button onclick="AddQuestion()" class="btn btn-primary btn-user btn-block">צור שאלה</button>
-                        <hr>
-                        <!--</form>-->
-                        <hr>
+                    <div class="row">
+                        <div class="col-6">
+                            <button onclick="AddQuestion()" class="btn btn-primary btn-user btn-block">צור שאלה</button>
+                            <hr>
+                            <!--</form>-->
+                            <hr>
+                        </div>
                     </div>
-                </div>
-                <div>
+                    <div>
 
 
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="middmain">
-        <div class="row">
-            <p id="placeholder"></p>
+        <div id="middmainid" class="middmain col-4">
+            <div class="row">
+                <p id="placeholder"></p>
+            </div>
         </div>
     </div>
+    
 </body>
 </html>

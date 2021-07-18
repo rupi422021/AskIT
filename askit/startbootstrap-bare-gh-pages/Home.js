@@ -187,9 +187,7 @@ function setFilterCreators() {
 
 function Logout() {
     localStorage.clear();
-    document.getElementById("logout").style.display = "none";
-    document.location.href = "Login-New.html";
-
+    document.location.href = "Login.html";
 }
 
 
@@ -330,7 +328,7 @@ function FilterQuestions(questionList) {
     startDateFilter = document.getElementById("startDateFilter").value;
     endDateFilter = document.getElementById("endDateFilter").value;
     creatorFilter = document.getElementById("creatorTBFilter").value;
-    debugger;
+    
     for (var i = 0; i < questionList.length; i++) {
         if (depFilter != null && depFilter != "" && depFilter != "-1" && questionList[i].department != depFilter) {
             questionList.splice(i, 1);
@@ -598,7 +596,7 @@ function ShowQuestionsHTML(questionList) {
                 + "<p>" + "נושא: " + questionList[i].subject + "</p>"
                 + "<p>" + "רמת קושי: " + questionList[i].question.difficulty + "</p>"
                 + "<p id='Content'>" + questionList[i].question.content + "</p>"
-                + "<div class='row'>"+"<div class='col-8-ml-auto'>" + "<button class='btn-card dropdown' id='" + questionList[i].questionTitle + "' onclick='ShowQuestionDetails(this)'>הצג פרטי שאלה מלאים</button></div>"
+                + "<div class='row'>" + "<div class='col-8-ml-auto'>" + "<button class='btn-card dropdown' id='" + questionList[i].questionTitle + "' onclick='ShowQuestionDetails(this)'>הצג פרטי שאלה מלאים</button></div>"
                 + "<div class='col-4'>" + "<button onclick='AddToFavourites(this)' class='favouritesBTN' id='" + questionList[i].questionTitle + "'>♡</button>"
                 + "</div></div></div>"
 

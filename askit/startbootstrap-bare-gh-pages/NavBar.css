@@ -90,15 +90,9 @@ select{
         color: #7590C7 !important;
         background-color: #fff !important;
         border-color: #7590C7 !important;
-        width: 80%;
         align-self: flex-end;
     }
-.svg .bi bi-heart {
-    color: #7491c8 !important; 
-}
-.svg .bi bi-heart:hover  {
-    color: #000000 !important;
-}
+
 .dropdown-menu {
     text-align: center;
     min-width: 8rem;
@@ -110,11 +104,13 @@ p {
 .favouritesBTN {
     color: #7491c8 !important;
     border-color: #fff;
+    background: transparent;
+    border: none;
+    font-size: 25px;
 }
     .favouritesBTN:hover {
-        color: #fff !important;
-        border-color: #fff;
-        background-color: #7491c8;
+        color: #000 !important;
+        border-color: #7491c8;
     }
 
 

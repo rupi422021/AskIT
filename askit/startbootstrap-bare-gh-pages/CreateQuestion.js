@@ -265,7 +265,6 @@ function showSimilarQuestions() {
 
 function CalculateScore(quesData) {
 
-    debugger;
     var match = '';
     let strSplit = '';
     let score = 0;
@@ -329,9 +328,10 @@ function CalculateScore(quesData) {
 function ShowRelatedQuestions(questionsByScore) {
     questionsByScore.sort((a, b) => (a.score > b.score) ? -1 : 1);
     if (questionsByScore.length > 0) {
+        document.getElementById("middmainid").style.display = "block";
         var str = "<h3>" + ":אולי יעניין אותך גם" + "</h3>"+ "<div class='row'>";
         for (var i = 0; i < questionsByScore.length; i++) {
-            str += "<div class='col-md-4 card'>"
+            str += "<div class='col-md-6 card'>"
                 + "<h3>" + questionsByScore[i].questionTitle + "</h3>"
                 + "<p>" + "רמת קושי: " + questionsByScore[i].question.difficulty + "</p>"
                 + "<p>" + questionsByScore[i].question.content + "</p>"

@@ -20,7 +20,6 @@ function Login() {
     console.log(ref);
     ref.child(_id).get().then(function (snapshot) {
         if (snapshot.exists()) {
-            debugger;
             u = snapshot.val();
             if (u.password == _password) {
                 if (u.status == "Approved") {
