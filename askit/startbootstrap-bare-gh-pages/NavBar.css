@@ -112,7 +112,13 @@ p {
         color: #000 !important;
         border-color: #7491c8;
     }
-
+.favouritesBTNred {
+    color: red;
+    border-color: red;
+    background: transparent;
+    border: none;
+    font-size: 25px;
+}
 
 .btn {
     left: 10px;

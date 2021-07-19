@@ -1,5 +1,5 @@
 ﻿var questionList = [];
-
+var favouriteList = [];
 function init() {
     var userInst = "";
     var database = firebase.database();
@@ -14,6 +14,7 @@ function init() {
                 userP = snapshot.val();
                 userInst = userP.institute;
                 userEmail = userP.email;
+                getUserFavourites();
                 showUserQuestions();
                 setFilterOptions();
                 setFilterCreators();
@@ -54,6 +55,25 @@ function init() {
 
 
 }
+//פונקציה שמביאה לי את המועדפים
+function getUserFavourites() {
+    refUF = firebase.database().ref("users").child(userP.id).child("Favourites");
+    refUF.get().then(function (snapshot) {
+        if (snapshot.exists()) {
+            favouriteQuestions = snapshot.val();
+            for (var i = 0; i < Object.values(favouriteQuestions).length; i++) {
+                favouriteList.push(Object.values(favouriteQuestions)[i]);
+            }
+            console.log(favouriteList);
+        }
+        else {
+            console.log("No data available");
+        }
+    }).catch(function (error) {
+        console.error(error);
+    });
+}
+//התנתקות
 function Logout() {
     localStorage.clear();
     RedirectToLogin();
@@ -582,12 +602,22 @@ function AddToFavourites(quesButton) {
 
 function ShowQuestionsHTML(questionList) {
  
-
+    
     if (questionList.length > 0) {
         var str = "<div class='row'>";
+        let btnfav = '';
         for (var i = 0; i < questionList.length; i++) {
-            
-          
+            let flag = false;
+            for (var j = 0; j < favouriteList.length; j++) {
+                if (favouriteList[j].title == questionList[i].questionTitle) {
+                    flag = true;
+                    btnfav = "<button onclick='AddToFavourites(this)' class='favouritesBTNred' id='" + questionList[i].questionTitle + "'>";
+                }
+                else if (flag == false)
+                {
+                    btnfav = "<button onclick='AddToFavourites(this)' class='favouritesBTN' id='" + questionList[i].questionTitle + "'>";
+                }
+            }
             str += "<div class='col-md-4 card'>"
                 + "<h3>" + questionList[i].questionTitle + "</h3>"
                 + "<p>" + "מחלקה: " + questionList[i].department + "</p>"
@@ -597,18 +627,54 @@ function ShowQuestionsHTML(questionList) {
                 + "<p>" + "רמת קושי: " + questionList[i].question.difficulty + "</p>"
                 + "<p id='Content'>" + questionList[i].question.content + "</p>"
                 + "<div class='row'>" + "<div class='col-8-ml-auto'>" + "<button class='btn-card dropdown' id='" + questionList[i].questionTitle + "' onclick='ShowQuestionDetails(this)'>הצג פרטי שאלה מלאים</button></div>"
-                + "<div class='col-4'>" + "<button onclick='AddToFavourites(this)' class='favouritesBTN' id='" + questionList[i].questionTitle + "'>♡</button>"
+                + "<div class='col-4'>" + btnfav + "♡</button>"
                 + "</div></div></div>"
-
-           
-
         }
-
+        //+ "<div class='col-4'>" + "<button onclick='AddToFavourites(this)' class='favouritesBTN' id='" + questionList[i].questionTitle + "'>♡</button>"
         str += "</div><br>";
         document.getElementById("placeholder").innerHTML = str;
     }
     else {
         document.getElementById("placeholder").innerHTML =""
+    }
+
+}
+
+function ShowQuestionsHTMLcopy(questionList) {
+
+
+    if (questionList.length > 0) {
+        var str = "<div class='row'>";
+
+        for (var i = 0; i < questionList.length; i++) {
+            let btnfav = '';
+            for (var j = 0; j < favouriteList.length; j++) {
+                if (favouriteList[j].title == questionList[i].questionTitle)
+                    btnfav = "<button onclick='AddToFavourites(this)' class='favouritesBTNred' id='";
+                else
+                    btnfav = "<button onclick='AddToFavourites(this)' class='favouritesBTN' id='";
+            }
+            str += "<div class='col-md-4 card'>"
+                + "<h3>" + questionList[i].questionTitle + "</h3>"
+                + "<p>" + "מחלקה: " + questionList[i].department + "</p>"
+                + "<p>" + "יוצר השאלה: " + questionList[i].question.creator_name + "</p>"
+                + "<p>" + "קורס: " + questionList[i].course + "</p>"
+                + "<p>" + "נושא: " + questionList[i].subject + "</p>"
+                + "<p>" + "רמת קושי: " + questionList[i].question.difficulty + "</p>"
+                + "<p id='Content'>" + questionList[i].question.content + "</p>"
+                + "<div class='row'>" + "<div class='col-8-ml-auto'>" + "<button class='btn-card dropdown' id='" + questionList[i].questionTitle + "' onclick='ShowQuestionDetails(this)'>הצג פרטי שאלה מלאים</button></div>"
+                + "<div class='col-4'>" + btnfav + questionList[i].questionTitle + "'>♡</button>"
+                + "</div></div></div>"
+
+
+
+        }
+        //+ "<div class='col-4'>" + "<button onclick='AddToFavourites(this)' class='favouritesBTN' id='" + questionList[i].questionTitle + "'>♡</button>"
+        str += "</div><br>";
+        document.getElementById("placeholder").innerHTML = str;
+    }
+    else {
+        document.getElementById("placeholder").innerHTML = ""
     }
 
 }

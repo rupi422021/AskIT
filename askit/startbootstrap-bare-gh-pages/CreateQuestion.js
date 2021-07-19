@@ -101,7 +101,7 @@ function AddQuestion() {
  
 
 
-    firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt, "creator_id": creatorID, "creator_name": creatorName, "created_at": created_at,"file_name":selectedFile.name});
+    firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt, "creator_id": creatorID, "creator_name": creatorName, "created_at": created_at,"is_public":0,"file_name":selectedFile.name});
     idQuesName = { // create a new JSON object
         Qname: document.getElementById("quesTB").value
     }

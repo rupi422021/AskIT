@@ -1,21 +1,24 @@
 ﻿var pageQuestion = [];
 var isCreator = 0;
+var userName = "";
         function init() {
-            var userInst = "";
-    var database = firebase.database();
-    ref = firebase.database().ref("users");
-            if (localStorage["user"] != null) { // check if the entry exists
+        var userInst = "";
+        var database = firebase.database();
+        ref = firebase.database().ref("users");
+        if (localStorage["user"] != null) { // check if the entry exists
         // after getting the localStorage string, parse it to a JSON object
         user = JSON.parse(localStorage["user"]);
     console.log(user);
                 ref.child(user.id).get().then(function (snapshot) {
                     if (snapshot.exists()) {
-        console.log(snapshot.val());
-    userP = snapshot.val();
-    userInst = userP.institute;
+                        console.log(snapshot.val());
+                        userP = snapshot.val();
+                        userInst = userP.institute;
+                        userName = userP.firstname + " " + userP.lastname;
                         userEmail = userP.email;
                         ShowQuestion();
                         document.getElementById("myForm").style.display = "none";
+                        document.getElementById("SaveChangesBTN").style.display = "none";
                         
     //הוספת שם בצד ימין
                         var ProfileName = document.getElementById("dropdownMenuLink");
@@ -71,13 +74,16 @@ ph = document.getElementById("ph");
 
 
 
-        function EnableEditing() {
-        console.log("Enable Editing!");
+    function EnableEditing() {
+    console.log("Enable Editing!");
     document.getElementById("quesTypeTB").disabled = false;
     document.getElementById("quesContentTB").disabled = false;
     document.getElementById("diffTB").disabled = false;
     //document.getElementById("tagTB").disabled = false;
-    document.getElementById("isPublishedTB").disabled = false;
+        document.getElementById("isPublishedTB").disabled = false;
+        if (document.getElementById("isPublishedTB").value == 'לא') {
+            document.getElementById("published").style.display = "none";
+        }
     document.getElementById("pubTypeTB").disabled = false;
     document.getElementById("pubYearTB").disabled = false;
     document.getElementById("pubAttemptTB").disabled = false;
@@ -85,17 +91,15 @@ ph = document.getElementById("ph");
     document.getElementById("PublicBTN").disabled = false;
     document.getElementById("DuplicateBTN").disabled = false;
     document.getElementById("SaveChangesBTN").disabled = false;
+    document.getElementById("SaveChangesBTN").style.display = "block";
     document.getElementById("PrivateBTN").disabled = false;
-
-   
-
 }
 
 
 
 
-        function ShowQuestion() {
-            var url_string = window.location.href;
+    function ShowQuestion() {
+    var url_string = window.location.href;
     var url = new URL(url_string);
     console.log(url_string);
     questionTitle = url.searchParams.get("questionTitle");
@@ -163,7 +167,7 @@ ShowQuestionHTML(question);
 });
 
 }
-
+var filename='';
         function ShowQuestionHTML(question) {
 
         console.log("*********************");
@@ -184,6 +188,7 @@ ShowQuestionHTML(question);
             document.getElementById("pubAttemptTB").value = question[0].question.publish_attempt;
             if (question[0].question.file_name != null && question[0].question.file_name != "") {
                 downloadViaUrl(question);
+                filename = question[0].question.file_name;
                 document.getElementById("files").style.display = "block";
             }
             else {
@@ -340,3 +345,54 @@ function downloadViaUrl(q) {
         });
     // [END storage_download_via_url]
 }
+//הוספתי את זה לא עובד טוב צריך לסדר שיעדכן את השאלה
+function SaveChanges() {
+    let inst = document.getElementById("instTB").value;
+    let dep = document.getElementById("depTB").value;
+    let course = document.getElementById("CourseTB").value;
+    let subject = document.getElementById("SubjectTB").value;
+    let quesName = document.getElementById("quesTB").value;
+    let quesType = document.getElementById("quesTypeTB").value;
+    let quesContent = document.getElementById("quesContentTB").value;
+    let difficulty = document.getElementById("diffTB").value;
+    let tags = document.getElementById("tagTB").value;
+    let isPublished = document.getElementById("isPublishedTB").value;
+    let publishType = document.getElementById("pubTypeTB").value;
+    let publishYear = document.getElementById("pubYearTB").value;
+    let publishAttempt = document.getElementById("pubAttemptTB").value;
+    let creatorID = user.id;
+    let creatorName = userName;
+    console.log(creatorName);
+    let created_at = new Date();
+    let dd = String(created_at.getDate()).padStart(2, '0');
+    let mm = String(created_at.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = created_at.getFullYear();
+    created_at = dd + '/' + mm + '/' + yyyy;
+    //console.log(document.getElementById('files').files[0]);
+    //selectedFile = document.getElementById('files').files[0];
+    //var storageRef = firebase.storage().ref();
+    //var fileRef = storageRef.child(selectedFile.name);
+    //fileRef.put(selectedFile).then((snapshot) => {
+    //    console.log('Uploaded a file!');
+    //});
+    console.log(filename);
+    //console.log(selectedFile);
+    //console.log(selectedFile.name);
+    // [END storage_upload_blob]
+
+    if (isPublished == 'לא') {
+        publishType = -1;
+        publishYear = -1;
+        publishAttempt = -1;
+        document.getElementById("pubTypeTB").disabled = true;
+        document.getElementById("pubYearTB").disabled = true;
+        document.getElementById("pubAttemptTB").disabled = true;
+    }
+    firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt, "creator_id": creatorID, "creator_name": creatorName, "created_at": created_at, "file_name": filename });
+    idQuesName = { // create a new JSON object
+        Qname: document.getElementById("quesTB").value
+    }
+    // stringify before storing in localstorage
+    localStorage["idQuesName"] = JSON.stringify(idQuesName);
+}
+
