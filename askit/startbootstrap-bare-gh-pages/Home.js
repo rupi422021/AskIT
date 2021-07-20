@@ -23,6 +23,17 @@ function init() {
                 ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
                 var InstName = document.getElementById("userInst");
                 InstName.innerHTML = userInst;
+
+                var input = document.getElementById("searchFilter");
+                console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
+                console.log(input);
+
+                input.addEventListener("keyup", function (event) {
+                    if (event.keyCode === 13) {
+                        event.preventDefault();
+                        document.getElementById("searchBTN").click();
+                    }
+                });
             }
             else {
                 console.log("No data available");
@@ -82,6 +93,10 @@ function Logout() {
 //////
 function RedirectToLogin() {
     location.replace("Login.html");
+}
+function f1() {
+    return false;
+
 }
 
 function setFilterOptions() {
@@ -212,7 +227,7 @@ function Logout() {
 
 
 function Search() {
-    
+    document.getElementById("noResultPH").innerHTML = "";
     let inst = userP.institute;
     let userName = userP.firstname + " " + userP.lastname;
     let userID = userP.id;
@@ -308,13 +323,6 @@ function Search() {
     });
 }
 
-var input = document.getElementById("searchFilter");
-input.addEventListener("keyup", function (event) {
-    if (event.keyCode === 13) {
-        event.preventDefault();
-        document.getElementById("searchBTN").click();
-    }
-});
 
 function FilterQuestions(questionList) {
     console.log(questionList);
@@ -345,8 +353,7 @@ function FilterQuestions(questionList) {
     if (document.getElementById('notPublishedFilter').checked) {
         isPublishedFilter = "לא";
     }
-    startDateFilter = document.getElementById("startDateFilter").value;
-    endDateFilter = document.getElementById("endDateFilter").value;
+
     creatorFilter = document.getElementById("creatorTBFilter").value;
     
     for (var i = 0; i < questionList.length; i++) {
@@ -379,12 +386,7 @@ function FilterQuestions(questionList) {
                                 questionList.splice(i, 1);
                                 i--;
                             }
-                            else {
-                                if (questionList[i].question.created_at != null && (questionList[i].question.created_at > endDateFilter || questionList[i].question.created_at < startDateFilter)) {
-                                    questionList.splice(i, 1);
-                                    i--;
-                                }
-                            }
+
                         }
                     }
                 }
@@ -472,7 +474,9 @@ function CalculateSearchScore(filteredUserQuestions) {
     filteredSortedSearchResults = questionsByScore;
     console.log(totalScore);
     if (totalScore == 0 && searchFilter != "") {
-        alert("No Results found that match your search")
+        let str = "<p>No results that match your search</p>" + "<img src='https://i.ibb.co/pJTmQz2/download.jpg' alt='download' border='0' width='600px' height='300px' />";
+        document.getElementById("noResultPH").innerHTML = str;
+        //alert("No Results found that match your search")
     }
     ShowQuestionsHTML(filteredSortedSearchResults);
 }
@@ -687,3 +691,5 @@ function ShowQuestionDetails(quesButton) {
     console.log(quesButton.id); // Question Title
     window.location.href = "fullQuestion.html?questionTitle=" + quesButton.id;
 }
+
+

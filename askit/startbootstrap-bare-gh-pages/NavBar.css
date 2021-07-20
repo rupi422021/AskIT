@@ -18,9 +18,14 @@ select{
 #navbarNav {
     direction: rtl;
 }
-.navbar-nav{
-    text-align:right;
-    margin-right:20px;
+#noResultPH{
+    color:#000;
+    font-size:25px;
+    text-align:center;
+}
+.navbar-nav {
+    text-align: right;
+    margin-right: 20px;
 }
 .menu-bar .navbar-toggler {
     padding-right: 20px;

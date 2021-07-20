@@ -1,12 +1,15 @@
 ﻿var questionList = [];
 var userName = "";
+var allQuestions = [];
 
 function init() {
     var storage = firebase.storage();
+    
     //var storage = firebase.app().storage("gs://askit-35d7a.appspot.com");
     document.getElementById("published").style.display = "none";
     document.getElementById("pubAttempt").style.display = "none";
     ref = firebase.database().ref("users");
+
     if (localStorage["user"] != null) { // check if the entry exists
         // after getting the localStorage string, parse it to a JSON object
         user = JSON.parse(localStorage["user"]);
@@ -19,12 +22,16 @@ function init() {
                 userName = userP.firstname + " " + userP.lastname;
                 userEmail = userP.email;
                 SelectUserInstitute(userP);
+                GetAllQuestionsList();
                 //הוספת שם בצד ימין
                 var ProfileName = document.getElementById("dropdownMenuLink");
                 ProfileName.innerHTML = userP.firstname + " " + userP.lastname;
                 var InstName = document.getElementById("userInst");
                 InstName.innerHTML = userInst;
                 ShowDuplicatedQuestion();
+                
+                console.log("TTTTTTTTTT");
+                console.log(allQuestions);
             }
             else {
                 console.log("No data available");
@@ -87,26 +94,45 @@ function AddQuestion() {
     let dd = String(created_at.getDate()).padStart(2, '0');
     let mm = String(created_at.getMonth() + 1).padStart(2, '0'); //January is 0!
     let yyyy = created_at.getFullYear();
+    let fileName = '';
     created_at = dd + '/' + mm + '/' + yyyy;
     selectedFile = document.getElementById('files').files[0];
-    var storageRef = firebase.storage().ref();
-    var fileRef = storageRef.child(selectedFile.name);
-    fileRef.put(selectedFile).then((snapshot) => {
-        console.log('Uploaded a blob or file!');
-    });
-    console.log(fileRef);
-    console.log(selectedFile);
-    console.log(selectedFile.name);
-    // [END storage_upload_blob]
- 
-
-
-    firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt, "creator_id": creatorID, "creator_name": creatorName, "created_at": created_at,"is_public":0,"file_name":selectedFile.name});
-    idQuesName = { // create a new JSON object
-        Qname: document.getElementById("quesTB").value
+    if (selectedFile != null) {
+        fileName = selectedFile.name;
+        var storageRef = firebase.storage().ref();
+        var fileRef = storageRef.child(selectedFile.name);
+        fileRef.put(selectedFile).then((snapshot) => {
+            console.log('Uploaded a blob or file!');
+        });
     }
-    // stringify before storing in localstorage
-    localStorage["idQuesName"] = JSON.stringify(idQuesName);
+    else {
+        fileName = "-1";
+    }
+
+    
+    let flag = 1;
+    for (var i = 0; i < allQuestions.length; i++) {
+        if (allQuestions[i] == quesName) {
+            flag = 0;
+        }
+    }
+    
+    if (flag == 1) {
+        firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt, "creator_id": creatorID, "creator_name": creatorName, "created_at": created_at, "is_public": 0, "file_name": fileName });
+        idQuesName = { // create a new JSON object
+            Qname: document.getElementById("quesTB").value
+        }
+        // stringify before storing in localstorage
+        localStorage["idQuesName"] = JSON.stringify(idQuesName);
+    }
+    else {
+        swal({
+            icon: 'error',
+            title: 'אנא בחר שם אחר לשאלה',
+            text: 'קיימת שאלה עם שם זהה במערכת'
+        });   
+    }
+
 }
 
 //function storeToLS(quesName) {
@@ -224,6 +250,51 @@ function Logout() {
     document.getElementById("logout").style.display = "none";
     document.location.href = "Login-New.html";
 
+}
+
+function GetAllQuestionsList(){
+    let inst = userP.institute;
+    allQuestionsList = [];
+
+    refD = firebase.database().ref("Institutes").child(inst).child("Departments");
+    console.log(refD);
+    refD.get().then(function (snapshot) {
+
+        if (snapshot.exists()) {
+            console.log("test");
+            depData = snapshot.val();
+            console.log(depData);
+            for (var i = 0; i < Object.keys(depData).length; i++) {  // Running over all of the Departments             
+                courses = depData[Object.keys(depData)[i]].Courses;
+
+                for (var j = 0; j < Object.keys(courses).length; j++) { // Running over all of the Courses
+                    subjects = courses[Object.keys(courses)[j]].Subjects;
+
+                    for (var k = 0; k < Object.keys(subjects).length; k++) { // Running over all of the Subjects
+
+                        if (subjects[Object.keys(subjects)[k]].Questions != null) {
+                            questions = subjects[Object.keys(subjects)[k]].Questions;
+                            for (var m = 0; m < Object.keys(questions).length; m++) { // Running over all of the Questions
+
+                                ques = questions[Object.keys(questions)[m]];
+                                allQuestionsList.push(Object.keys(questions)[m]);
+                            }
+                        }
+                    }
+                }
+
+            }
+            console.log("***BANANA***");
+            console.log(allQuestionsList);
+            allQuestions= allQuestionsList;
+        }
+
+        else {
+            console.log("No data available");
+        }
+    }).catch(function (error) {
+        console.error(error);
+    });
 }
 
 

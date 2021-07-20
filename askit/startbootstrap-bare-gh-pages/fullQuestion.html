@@ -158,11 +158,11 @@
                 <div class="form-group">
                     <p class="lead">הוספת תגיות</p>
                     <!--<input data-role="tagsinput" type="text" name="Tags" id="tagTB" placeholder="הוסף תגיות" class="form-control form-control-user" onchange="showSimilarQuestions()"
-    required />-->
+        required />-->
                     <!--<input data-role="tagsinput" type="text" name="Tags" id="tagTB" placeholder="הוסף תגיות" class="form-control form-control-user" onchange="showSimilarQuestions()"
-           required />-->
+        required />-->
                     <input type="text" name="Tags" id="tagTB" placeholder="הוסף תגיות" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()" disabled>
-                                          
+
                 </div>
                 <div class="row">
                     <div class="col-6">
@@ -233,15 +233,26 @@
 
 
                 <div class="form-popup" id="myForm">
-                    <form action="/action_page.php" class="form-container" onsubmit="f1()">
+                    <form action="/action_page.php" autocomplete="off" class="form-container" onsubmit="f1()">
                         <h1>שתף שאלה</h1>
-
                         <label for="email"><b>עם מי תרצה לשתף?</b></label>
-                        <input type="text" id="userToShareTB" placeholder="הכנס שם פרטי + משפחה" name="email" required>
+                        <div class="autocomplete" style="width:300px;">
+                            <input type="text" id="userToShareTB" placeholder="הכנס שם פרטי + משפחה" name="myUser" required>
+                        </div>
+                       
                         <button type="button" class="btn" onclick="ShareQuestion()">שתף שאלה</button>
                         <button type="button" class="btn cancel" onclick="closeForm()">סגור</button>
                     </form>
                 </div>
+
+                <!--<form autocomplete="off" action="/action_page.php">
+                    <div class="autocomplete" style="width:300px;">
+                        <input id="myInput" type="text" name="myCountry" placeholder="Country">
+                    </div>
+                    <input type="submit">
+                </form>-->
+
+
                 <!--<div class="form-group">
         <div class="btn-group">
             <button id="Save_Show" class="btn btn-primary" onclick="AddQuestion()">שמור והצג</button>
@@ -252,16 +263,16 @@
                 <div class="row">
                     <div class="col ">
                         <!--div class="btn-group">-->
-                            <button id="DuplicateBTN" class="btn btn-primary btn_three" onclick="DuplicateQuestion()">שכפל שאלה</button>
+                        <button id="DuplicateBTN" class="btn btn-primary btn_three" onclick="DuplicateQuestion()">שכפל שאלה</button>
                         <!--</div>-->
                     </div>
-                
-                        <div class="col ">
-                            <!--<button id="SaveChangesBTN" onclick="SaveChanges()" class="btn btn-primary btn-user btn-block" disabled>שמור שינויים</button>-->
-                            <!--<button onclick="AddQuestion()" class="btn btn-primary btn-user btn-block">צור שאלה</button>-->
-                            <button id="SaveChangesBTN" onclick="SaveChanges()" class="btn btn-primary btn-user" disabled>שמור שינויים</button>
-                        </div>
+
+                    <div class="col ">
+                        <!--<button id="SaveChangesBTN" onclick="SaveChanges()" class="btn btn-primary btn-user btn-block" disabled>שמור שינויים</button>-->
+                        <!--<button onclick="AddQuestion()" class="btn btn-primary btn-user btn-block">צור שאלה</button>-->
+                        <button id="SaveChangesBTN" onclick="SaveChanges()" class="btn btn-primary btn-user" disabled>שמור שינויים</button>
                     </div>
+                </div>
             </div>
         </div>
     </div>
