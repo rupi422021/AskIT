@@ -607,17 +607,21 @@ function ShowQuestionsHTML(questionList) {
         var str = "<div class='row'>";
         let btnfav = '';
         for (var i = 0; i < questionList.length; i++) {
-            let flag = false;
-            for (var j = 0; j < favouriteList.length; j++) {
-                if (favouriteList[j].title == questionList[i].questionTitle) {
-                    flag = true;
-                    btnfav = "<button onclick='AddToFavourites(this)' class='favouritesBTNred' id='" + questionList[i].questionTitle + "'>";
+            if (favouriteList.length) {
+                let flag = false;
+                for (var j = 0; j < favouriteList.length; j++) {
+                    if (favouriteList[j].title == questionList[i].questionTitle) {
+                        flag = true;
+                        btnfav = "<button onclick='AddToFavourites(this)' class='favouritesBTNred' id='" + questionList[i].questionTitle + "'>";
+                    }
+                    else if (flag == false) {
+                        btnfav = "<button onclick='AddToFavourites(this)' class='favouritesBTN' id='" + questionList[i].questionTitle + "'>";
+                    }
                 }
-                else if (flag == false)
-                {
-                    btnfav = "<button onclick='AddToFavourites(this)' class='favouritesBTN' id='" + questionList[i].questionTitle + "'>";
-                }
+            } else {
+                btnfav = "<button onclick='AddToFavourites(this)' class='favouritesBTN' id='" + questionList[i].questionTitle + "'>";
             }
+            
             str += "<div class='col-md-4 card'>"
                 + "<h3>" + questionList[i].questionTitle + "</h3>"
                 + "<p>" + "מחלקה: " + questionList[i].department + "</p>"
