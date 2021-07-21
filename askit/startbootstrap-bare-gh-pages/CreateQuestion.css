@@ -61,9 +61,9 @@ input[type="file"] {
 .card {
     max-width: 100%;
 }
-
-
-
+.btn-group {
+    font-size: 16px;
+}
 /*the container must be positioned relative:*/
 .autocomplete {
     position: relative;

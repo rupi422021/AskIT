@@ -402,7 +402,7 @@ function ShowRelatedQuestions(questionsByScore) {
         document.getElementById("middmainid").style.display = "block";
         var str = "<h3>" + ":אולי יעניין אותך גם" + "</h3>"+ "<div class='row'>";
         for (var i = 0; i < questionsByScore.length; i++) {
-            str += "<div class='col-md-6 card'>"
+            str += "<div class='col-md-8 card'>"
                 + "<h3>" + questionsByScore[i].questionTitle + "</h3>"
                 + "<p>" + "רמת קושי: " + questionsByScore[i].question.difficulty + "</p>"
                 + "<p>" + questionsByScore[i].question.content + "</p>"
