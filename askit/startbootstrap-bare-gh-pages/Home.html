@@ -41,7 +41,7 @@
     <div class="header">
         <div class="menu-bar">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" >
                     <img src="https://i.ibb.co/D11C0Hr/Artboard-1.png" class="avatar" alt="Artboard-1" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,7 +96,7 @@
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchFilter" onkeyup="Search()">
                     <i class="bi bi-search"></i>
 
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="Search()" id="searchBTN">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="DelayedSearch()()" id="searchBTN">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                         </svg>
@@ -158,6 +158,12 @@
                                     קשה
                                 </label>
                             </div>
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="radio" name="difRadios" id="nofilter" value="option4">
+                                <label class="form-check-label" for="nofilter">
+                                    ללא סינון
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -175,6 +181,12 @@
                                 <input class="form-check-input" type="radio" name="publishedRadios" id="notPublishedFilter" value="option2">
                                 <label class="form-check-label" for="medium">
                                     לא
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="radio" name="publishedRadios" id="nofilter2" value="option3">
+                                <label class="form-check-label" for="nofilter2">
+                                    ללא סינון
                                 </label>
                             </div>
                         </div>

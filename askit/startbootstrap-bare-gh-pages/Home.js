@@ -225,6 +225,9 @@ function Logout() {
     document.location.href = "Login.html";
 }
 
+function DelayedSearch(){
+    setTimeout(Search(), 5000);
+}
 
 function Search() {
     document.getElementById("noResultPH").innerHTML = "";
@@ -312,7 +315,8 @@ function Search() {
                 }
 
             }
-            // console.log(questionList);
+            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            console.log(questionList);
             FilterQuestions(questionList);         
         }
         else {
@@ -346,12 +350,18 @@ function FilterQuestions(questionList) {
     if (document.getElementById('hard').checked) {
         difficultyFilter = "קשה";
     }
-    debugger;
+    if (document.getElementById('nofilter').checked) {
+        difficultyFilter = "";
+    }
+
     if (document.getElementById('yesPublishedFilter').checked) {
         isPublishedFilter = "כן";
     }
     if (document.getElementById('notPublishedFilter').checked) {
         isPublishedFilter = "לא";
+    }
+    if (document.getElementById('nofilter2').checked) {
+        isPublishedFilter = "";
     }
 
     creatorFilter = document.getElementById("creatorTBFilter").value;
@@ -397,13 +407,30 @@ function FilterQuestions(questionList) {
     console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     console.log(questionList);
     let filteredUserQuestions = questionList;
-    CalculateSearchScore(filteredUserQuestions);
+    RemoveDuplicates(filteredUserQuestions);
+   // CalculateSearchScore(filteredUserQuestions);
 }
 
-
+function RemoveDuplicates(quesList) {
+    let unique = [];
+    let flag = 0;
+    for (var i = 0; i < quesList.length; i++) {
+        flag = 0;
+        for (var j = 0; j < unique.length; j++) {
+            if (quesList[i].questionTitle == unique[j].questionTitle) {
+                flag = 1;
+            }
+        }
+        if (flag==0) {
+            unique.push(quesList[i])
+        }
+    }
+    CalculateSearchScore(unique);
+    console.log("BBBBBBBBBBBBBBB");
+    console.log(unique);
+}
 
 function CalculateSearchScore(filteredUserQuestions) {
-
     var match = '';
     let strSplit = '';
     let score = 0;
@@ -414,7 +441,7 @@ function CalculateSearchScore(filteredUserQuestions) {
 
     let searchFilter = document.getElementById("searchFilter").value;
     searchTextSplit = searchFilter.split(" ");
-    debugger;
+
     for (var i = 0; i < filteredUserQuestions.length; i++) {
         for (var j = 0; j < searchTextSplit.length; j++) {
             match = filteredUserQuestions[i].questionTitle.match(searchTextSplit[j]);
@@ -603,6 +630,8 @@ function AddToFavourites(quesButton) {
 
 
 }
+
+
 
 function ShowQuestionsHTML(questionList) {
  

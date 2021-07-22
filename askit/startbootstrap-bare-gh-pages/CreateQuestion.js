@@ -124,6 +124,8 @@ function AddQuestion() {
         }
         // stringify before storing in localstorage
         localStorage["idQuesName"] = JSON.stringify(idQuesName);
+        alert("השאלה נוצרה בהצלחה!")
+        window.location.href = "fullQuestion.html?questionTitle=" + quesName;
     }
     else {
         swal({
