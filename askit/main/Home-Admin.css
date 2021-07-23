@@ -11,6 +11,9 @@ button {
     width: 70px;
     border: 2px solid black
 }
+#title1{
+    text-align: center;
+}
 
 #newBTN {
     background-color: #007bff;

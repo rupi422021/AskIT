@@ -240,9 +240,20 @@
                         <div class="autocomplete" style="width:300px;">
                             <input type="text" id="userToShareTB" placeholder="הכנס שם פרטי + משפחה" name="myUser" required>
                         </div>
-                       
-                        <button type="button" class="btn" onclick="ShareQuestion()">שתף שאלה</button>
-                        <button type="button" class="btn cancel" onclick="closeForm()">סגור</button>
+
+                        <button type="button" class="btn btn-secondary btn_1" onclick="ShareQuestion()">שתף שאלה</button>
+                        
+                    </form>
+                    <form action="/action_page.php" autocomplete="off" class="form-container" onsubmit="f1()">
+                        <label for="email"><b>הסר גישה למשתמש קיים</b></label>
+                        <div class="autocomplete" style="width:300px;">
+                            <input type="text" id="userToUnShareTB" placeholder="בחר משתמש להסרה" name="myUser" required>
+                        </div>
+
+                        <button type="button" class="btn btn-secondary btn_1" onclick="UnShareQuestion()">הסר משתמש</button>
+                        <br /><br />
+                        <button type="button" class="btn btn-secondary btn_1" onclick="closeForm()">סגור חלון שיתוף</button>
+                        <br />  <br />  <br />
                     </form>
                 </div>
 

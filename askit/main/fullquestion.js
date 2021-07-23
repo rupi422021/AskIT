@@ -4,6 +4,7 @@ var userName = "";
 var userList = [];
 var quesViewers = [];
 var sharableUsersList = [];
+var unSharableUsersList = [];
         function init() {
         var userInst = "";
         var database = firebase.database();
@@ -242,7 +243,9 @@ console.log(question[0].question.is_public);
             console.log("BATATAAAAAAAA");
             quesViewers = viewers;
             UpdateSharableUsers();
+            UpdateUnSharableUsers();
             autocomplete(document.getElementById("userToShareTB"), sharableUsersList);
+            autocomplete(document.getElementById("userToUnShareTB"), unSharableUsersList);
  
 console.log(viewers);
 console.log(viewersString);
@@ -310,6 +313,24 @@ creator.innerHTML = "נוצרה על ידי: " + question[0].question.creator_na
             
 }
 
+function UnShareQuestion() {
+    
+
+    let userToUnShare = document.getElementById("userToUnShareTB").value;
+    let question = pageQuestion;
+    let inst = userP.institute;
+    let dep = question[0].department;
+    let course = question[0].course;
+    let subject = question[0].subject;
+    let quesName = question[0].questionTitle;
+
+    firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).child("Viewers").child(userToUnShare).remove();
+    alert("משתמש הוסר בהצלחה!");
+    document.getElementById("userToUnShareTB").value = "";
+
+    ShowQuestion();
+}
+
         function DuplicateQuestion() {
         qustionTitle = document.getElementById("quesTB").value;
     console.log(qustionTitle); // Question Title
@@ -336,13 +357,34 @@ function UpdateSharableUsers() {
     }
 }
 
+function UpdateUnSharableUsers() {
+    unSharableUsersList = [];
+    let flag = 0;
+    for (var i = 0; i < userList.length; i++) {
+        flag = 0;
+        for (var j = 0; j < quesViewers.length; j++) {
+            if (userList[i] == quesViewers[j]) {
+                flag = 1;
+            }
+        }
+
+        if (flag == 1) {
+            unSharableUsersList.push(userList[i]);
+        }
+    }
+}
+
 function openForm() {
     UpdateSharableUsers();
+    UpdateUnSharableUsers();
     console.log("PIZZA");
     console.log(sharableUsersList);
+    console.log("UN-PIZZA");
+    console.log(unSharableUsersList);
 
     document.getElementById("myForm").style.display = "block";
     autocomplete(document.getElementById("userToShareTB"), sharableUsersList);
+    autocomplete(document.getElementById("userToUnShareTB"), unSharableUsersList);
       
 }
 

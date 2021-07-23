@@ -99,6 +99,15 @@ function f1() {
 
 }
 
+function ClearFilter() {
+    document.getElementById("depTBFilter").value = '-1';
+    document.getElementById("CourseTBFilter").value = '-1';
+    document.getElementById("SubjectTBFilter").value = '-1';
+    document.getElementById("creatorTBFilter").value = '-1';
+    document.getElementById('nofilter').checked = true;
+    document.getElementById('nofilter2').checked = true;
+}
+
 function setFilterOptions() {
 
     let inst = userP.institute;
