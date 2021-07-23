@@ -625,13 +625,21 @@ function AddToFavourites(quesButton) {
     refF = firebase.database().ref("users").child(user_id).child("Favourites");
     refF.child(ques_title).get().then(function (snapshot) {
         if (snapshot.exists()) {
-            alert("This question already exists!");
+
+            swal({
+                icon: 'error',
+                title: 'This question already exists!'
+            }); 
             return;
         }
 
         else {
             firebase.database().ref("users").child(user_id).child("Favourites").child(ques_title).set({ "title": ques_title });
-            alert("Question Added to Favourites!");
+       
+            swal({
+                icon: 'success',
+                title: 'Question Added to Favourites!'
+            }); 
         }
     }).catch(function (error) {
         console.error(error);

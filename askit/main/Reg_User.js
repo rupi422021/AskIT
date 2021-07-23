@@ -25,7 +25,11 @@ function insertuser() {
         dateReg: getDateString(today),
         status: "Waiting for approval"
     });
-    alert("User Created Successfully!");
+    swal({
+        icon: 'success',
+        title: 'User Created Successfully!'
+    }); 
+
 
 
 }

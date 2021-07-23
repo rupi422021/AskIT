@@ -55,8 +55,13 @@ dref = firebase.database().ref("Departments");
 ph = document.getElementById("ph");
 }
             else {
-        userA = {};
-    alert("You are not signed in! Please log in to continue.");
+            userA = {};
+            swal({
+                icon: 'error',
+                title: 'You are not signed in!',
+                text: 'Please log in to continue.'
+            });  
+
     RedirectToLogin();
 }
 
@@ -64,13 +69,8 @@ ph = document.getElementById("ph");
 
 }
         function Logout() {
-        firebase.auth().signOut().then(() => {
-            // Sign-out successful.
             localStorage.clear();
-        }).catch((error) => {
-            alert(error);
-            // An error happened.
-        });
+            RedirectToLogin();
 }
 //////
         function RedirectToLogin() {
@@ -306,7 +306,11 @@ creator.innerHTML = "נוצרה על ידי: " + question[0].question.creator_na
 
 
             firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).child("Viewers").child(userToShare).set({"name": userToShare });
-    alert("השאלה שותפה בהצלחה!");
+
+            swal({
+                icon: 'success',
+                title: 'השאלה שותפה בהצלחה!'  
+            });  
     document.getElementById("userToShareTB").value = "";
            
             ShowQuestion();
@@ -325,7 +329,12 @@ function UnShareQuestion() {
     let quesName = question[0].questionTitle;
 
     firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).child("Viewers").child(userToUnShare).remove();
-    alert("משתמש הוסר בהצלחה!");
+
+    swal({
+        icon: 'success',
+        title: 'משתמש הוסר בהצלחה!'
+ 
+    });  
     document.getElementById("userToUnShareTB").value = "";
 
     ShowQuestion();

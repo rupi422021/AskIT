@@ -228,7 +228,7 @@
                     updateSuccess(dataU);
                 }
                 else if (mode == "new") {
-                    alert("in mode new");
+                   
                     let idu = document.getElementById("idTB").value;
                     let usertoInsert = {
                         id: idu,

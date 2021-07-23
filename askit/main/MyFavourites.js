@@ -479,8 +479,11 @@ function CalculateSearchScore(filteredUserQuestions) {
     questionsByScore.sort((a, b) => (a.score > b.score) ? -1 : 1);
     filteredSortedSearchResults = questionsByScore;
     console.log(totalScore);
-    if (totalScore == 0 && searchFilter != "") {
-        alert("No Results found that match your search")
+    if (totalScore == 0 && searchFilter != "") {   
+        swal({
+            icon: 'error',
+            title: 'No Results found that match your search'
+        }); 
     }
     ShowQuestionsHTML(filteredSortedSearchResults);
 }

@@ -57,7 +57,11 @@ function init() {
     }
     else {
         userA = {};
-        alert("You are not signed in! Please log in to continue.");
+        swal({
+            icon: 'error',
+            title: 'You are not signed in!',
+            text: 'Please log in to continue.'
+        });  
         RedirectToLogin();
     }
     //הורדת העפרון ברגע שעולה הדף
@@ -124,7 +128,10 @@ function AddQuestion() {
         }
         // stringify before storing in localstorage
         localStorage["idQuesName"] = JSON.stringify(idQuesName);
-        alert("השאלה נוצרה בהצלחה!")
+        swal({
+            icon: 'success',
+            title: 'השאלה נוצרה בהצלחה!'
+        }); 
         window.location.href = "fullQuestion.html?questionTitle=" + quesName;
     }
     else {
