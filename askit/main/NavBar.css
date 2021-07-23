@@ -84,12 +84,14 @@ select{
     }
 
 .btn-card {
+    padding: 10px;
     color: #fff !important;
     background-color: #7590C7 !important;
-    border-color: #fff !important;
+    border-color: #7590C7;
     border-radius: 2.25rem !important;
     align-self: flex-end;
 }
+
 
     .btn-card:hover {
         color: #7590C7 !important;
