@@ -213,7 +213,7 @@ var filename='';
         let viewers_ = question[0].question.Viewers;
                 for (var i = 0; i < Object.keys(viewers_).length; i++) {
         viewers.push(Object.keys(viewers_)[i]);
-                    viewersString += ", " + Object.keys(viewers_)[i]
+                    viewersString += Object.keys(viewers_)[i] + ", "
                     quesViewers = viewers;
 }
             }
@@ -486,6 +486,10 @@ function SaveChanges() {
     }
     // stringify before storing in localstorage
     localStorage["idQuesName"] = JSON.stringify(idQuesName);
+    swal({
+        icon: 'success',
+        title: 'השאלה נשמרה בהצלחה!'
+    });
 }
 
 

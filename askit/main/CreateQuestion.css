@@ -5,11 +5,9 @@
     display:flex;
 }
 /*input[type="text"]{
-    height:auto;
+    height:auto;`
 }*/
-.btn:focus {
-    background-position: 0px 0px;
-}
+
 .bootstrap-tagsinput {
     display: flex;
     justify-content: center;
@@ -21,11 +19,15 @@
 }
 input[type="file"] {
     height: 40px;
+    line-height: unset;
+    background: transparent;
 }
 .btn:focus {
-     outline: thin dotted #fff; 
-     outline: 0px auto -webkit-focus-ring-color; 
-     outline-offset: 0px; 
+     outline: none; 
+     background-position: unset;
+}
+.padding-sm {
+    padding: 0 10px;
 }
 .btn-secondary:hover {
     color: #7491c8 !important;
@@ -52,7 +54,9 @@ input[type="file"] {
     background-repeat: repeat-x;
     border-color: #04c #04c #002a80;
     border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
-    margin: 2.5px;
+}
+.duplicateB {
+    text-align: end;
 }
 .middmain {
     display: none;

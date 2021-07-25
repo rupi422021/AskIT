@@ -84,12 +84,13 @@ select{
     }
 
 .btn-card {
-    padding: 10px;
+    padding: .375rem .75rem;
     color: #fff !important;
     background-color: #7590C7 !important;
     border-color: #7590C7;
     border-radius: 2.25rem !important;
-    align-self: flex-end;
+    outline: none !important;
+    /*align-self: flex-end;*/
 }
 
 
@@ -97,7 +98,7 @@ select{
         color: #7590C7 !important;
         background-color: #fff !important;
         border-color: #7590C7 !important;
-        align-self: flex-end;
+        /*align-self: flex-end;*/
     }
 
 .dropdown-menu {
@@ -165,6 +166,12 @@ input .form-control {
 }
 .row .filter {
     background-color: rgb(0 123 255 / 25%);
+}
+#searchFilter {
+    direction: rtl;
+}
+.marginbtn{
+    margin-top:5px;
 }
 @media only screen and (max-width: 1024px) {
     .nav-link:hover {

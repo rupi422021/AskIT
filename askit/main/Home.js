@@ -634,12 +634,15 @@ function AddToFavourites(quesButton) {
         }
 
         else {
-            firebase.database().ref("users").child(user_id).child("Favourites").child(ques_title).set({ "title": ques_title });
-       
-            swal({
-                icon: 'success',
-                title: 'Question Added to Favourites!'
-            }); 
+            firebase.database().ref("users").child(user_id).child("Favourites").child(ques_title).set({ "title": ques_title }).then(function () {
+                quesButton.classList.remove('favouritesBTN');
+                quesButton.classList.add('favouritesBTNred');
+                swal({
+                    icon: 'success',
+                    title: 'Question Added to Favourites!'
+                }); 
+            });
+        
         }
     }).catch(function (error) {
         console.error(error);
@@ -672,7 +675,7 @@ function ShowQuestionsHTML(questionList) {
                 btnfav = "<button onclick='AddToFavourites(this)' class='favouritesBTN' id='" + questionList[i].questionTitle + "'>";
             }
             
-            str += "<div class='col-md-4 card'>"
+            str += "<div class='col-md-3 col-sm-12 col-xs-12 card'>"
                 + "<h3>" + questionList[i].questionTitle + "</h3>"
                 + "<p>" + "מחלקה: " + questionList[i].department + "</p>"
                 + "<p>" + "יוצר השאלה: " + questionList[i].question.creator_name + "</p>"
@@ -699,7 +702,7 @@ function ShowQuestionsHTMLcopy(questionList) {
 
     if (questionList.length > 0) {
         var str = "<div class='row'>";
-
+        
         for (var i = 0; i < questionList.length; i++) {
             let btnfav = '';
             for (var j = 0; j < favouriteList.length; j++) {
@@ -709,7 +712,7 @@ function ShowQuestionsHTMLcopy(questionList) {
                     btnfav = "<button onclick='AddToFavourites(this)' class='favouritesBTN' id='";
             }
             str += "<div class='col-md-4 card'>"
-                + "<h3>" + questionList[i].questionTitle + "</h3>"
+                + "<h3 class='titleq'>" + questionList[i].questionTitle + "</h3>"
                 + "<p>" + "מחלקה: " + questionList[i].department + "</p>"
                 + "<p>" + "יוצר השאלה: " + questionList[i].question.creator_name + "</p>"
                 + "<p>" + "קורס: " + questionList[i].course + "</p>"
@@ -718,17 +721,16 @@ function ShowQuestionsHTMLcopy(questionList) {
                 + "<p id='Content'>" + questionList[i].question.content + "</p>"
                 + "<div class='row'>" + "<div class='col-8-ml-auto'>" + "<button class='btn-card dropdown' id='" + questionList[i].questionTitle + "' onclick='ShowQuestionDetails(this)'>הצג פרטי שאלה מלאים</button></div>"
                 + "<div class='col-4'>" + btnfav + questionList[i].questionTitle + "'>♡</button>"
-                + "</div></div></div>"
+                + "</div></div></div>";
 
 
 
         }
-        //+ "<div class='col-4'>" + "<button onclick='AddToFavourites(this)' class='favouritesBTN' id='" + questionList[i].questionTitle + "'>♡</button>"
         str += "</div><br>";
         document.getElementById("placeholder").innerHTML = str;
     }
     else {
-        document.getElementById("placeholder").innerHTML = ""
+        document.getElementById("placeholder").innerHTML = "";
     }
 
 }

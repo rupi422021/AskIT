@@ -93,28 +93,28 @@
                 <div class="form-group">
                     <h2 class="font-weight-bold mb-3">יצירת שאלה</h2>
                     <div class="form-group row">
-                        <div class="col-3">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <p class="lead"><span class="red-star">★</span>מוסד אקדמי</p>
                                 <input type="text" id="instTB" class="btn btn-secondary form-control form-control-user"
                                        disabled placeholder="">
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <p class="lead"><span class="red-star">★</span>מחלקה</p>
                                 <select name="Department" id="depTB" class="btn btn-secondary form-control form-control-user" onchange="SetCourses()">
                                 </select>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <p class="lead"><span class="red-star">★</span>קורס</p>
                                 <select name="Course" id="CourseTB" class="btn btn-secondary form-control form-control-user" onchange="SetSubjects()">
                                 </select>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <p class="lead"><span class="red-star">★</span>נושא</p>
                                 <select name="Subject" id="SubjectTB" class="btn btn-secondary form-control form-control-user">
@@ -122,7 +122,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group padding-sm">
                         <p class="lead"><span class="red-star">★</span>שם שאלה</p>
                         <input type="text" id="quesTB" class="btn btn-secondary form-control form-control-user" onchange="showSimilarQuestions()"
                                placeholder="הזן שם שאלה">
@@ -149,13 +149,13 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group padding-sm">
                         <p class="lead">תוכן השאלה</p>
                         <textarea type="text" id="quesContentTB" class="btn btn-secondary form-control form-control-user" onkeyup="showSimilarQuestions()"
                                   placeholder="הזן תוכן שאלה"></textarea>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group padding-sm">
                         <p class="lead">הוספת תגיות</p>
                         <input data-role="tagsinput" type="text" name="Tags" id="tagTB" placeholder="הוסף תגיות" class="form-control form-control-user"
                                required />

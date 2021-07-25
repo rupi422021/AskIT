@@ -15,12 +15,18 @@ body {
 
 }
 
+h3,p {
+    direction: rtl;
+}
+
 #Content {
     color: #7590C7;
+    direction: rtl;
 }
 /* Remove extra left and right margins, due to padding */
 .row {
     margin: 0 -5px;
+    margin-top: auto;
 }
 
     /* Clear floats after the columns */
@@ -47,7 +53,7 @@ body {
     background-color: #f1f1f1;
     width: 100%;
     margin: 5px;
-    max-width: 30%;
+    /*max-width: 30%;*/
 
 }
 

@@ -618,7 +618,7 @@ function ShowQuestionsHTML(questionList) {
         for (var i = 0; i < filteredQuestionList.length; i++) {
             
           
-            str += "<div class='col-md-4 card'>"
+            str += "<div class='col-md-3 col-sm-12 col-xs-12 card'>"
                 + "<h3>" + filteredQuestionList[i].questionTitle + "</h3>"
                 + "<p>" + "מחלקה: " + filteredQuestionList[i].department + "</p>"
                 + "<p>" + "יוצר השאלה: " + filteredQuestionList[i].question.creator_name + "</p>"
@@ -627,7 +627,7 @@ function ShowQuestionsHTML(questionList) {
                 + "<p>" + "רמת קושי: " + filteredQuestionList[i].question.difficulty + "</p>"
                 + "<p id='Content'>" + filteredQuestionList[i].question.content + "</p>"
                 + "<div class='row'>" + "<div class='col-8-ml-auto'>" + "<button class='btn-card dropdown' id='" + filteredQuestionList[i].questionTitle + "' onclick='ShowQuestionDetails(this)'>הצג פרטי שאלה מלאים</button></div>"
-                + "<div class='col-4'>" + "<button onclick='RemoveFromFavourites(this)' class='btn btn-danger' id='" + filteredQuestionList[i].questionTitle + "'>הסר</button>"
+                + "<div class='col-4 marginbtn'>" + "<button onclick='RemoveFromFavourites(this)' class='btn btn-danger' id='" + filteredQuestionList[i].questionTitle + "'>הסר</button>"
                 + "</div></div></div>"
 
            

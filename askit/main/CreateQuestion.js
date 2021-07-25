@@ -113,33 +113,42 @@ function AddQuestion() {
         fileName = "-1";
     }
 
-    
-    let flag = 1;
-    for (var i = 0; i < allQuestions.length; i++) {
-        if (allQuestions[i] == quesName) {
-            flag = 0;
-        }
-    }
-    
-    if (flag == 1) {
-        firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt, "creator_id": creatorID, "creator_name": creatorName, "created_at": created_at, "is_public": 0, "file_name": fileName });
-        idQuesName = { // create a new JSON object
-            Qname: document.getElementById("quesTB").value
-        }
-        // stringify before storing in localstorage
-        localStorage["idQuesName"] = JSON.stringify(idQuesName);
-        swal({
-            icon: 'success',
-            title: 'השאלה נוצרה בהצלחה!'
-        }); 
-        window.location.href = "fullQuestion.html?questionTitle=" + quesName;
-    }
-    else {
+    if (dep == "-1" || course == "-1" || subject == "-1" || quesName == "" || quesType== "-1" || difficulty=="-1" || isPublished=="-1") {
         swal({
             icon: 'error',
-            title: 'אנא בחר שם אחר לשאלה',
-            text: 'קיימת שאלה עם שם זהה במערכת'
-        });   
+            title: 'חלק מפרטי השאלה חסרים',
+            text: 'אנא השלם את השדות המצויינים עם כוכב'
+        });
+    }
+    else {
+
+        let flag = 1;
+        for (var i = 0; i < allQuestions.length; i++) {
+            if (allQuestions[i] == quesName) {
+                flag = 0;
+            }
+        }
+
+        if (flag == 1) {
+            firebase.database().ref("Institutes").child(inst).child("Departments").child(dep).child("Courses").child(course).child("Subjects").child(subject).child("Questions").child(quesName).set({ "type": quesType, "content": quesContent, "difficulty": difficulty, "tags": tags, "is_published": isPublished, "publish_type": publishType, "publish_year": publishYear, "publish_attempt": publishAttempt, "creator_id": creatorID, "creator_name": creatorName, "created_at": created_at, "is_public": 0, "file_name": fileName });
+            idQuesName = { // create a new JSON object
+                Qname: document.getElementById("quesTB").value
+            }
+            // stringify before storing in localstorage
+            localStorage["idQuesName"] = JSON.stringify(idQuesName);
+            swal({
+                icon: 'success',
+                title: 'השאלה נוצרה בהצלחה!'
+            });
+            window.location.href = "fullQuestion.html?questionTitle=" + quesName;
+        }
+        else {
+            swal({
+                icon: 'error',
+                title: 'אנא בחר שם אחר לשאלה',
+                text: 'קיימת שאלה עם שם זהה במערכת'
+            });
+        }
     }
 
 }
@@ -257,7 +266,7 @@ function SetSubjects() {
 function Logout() {
     localStorage.clear();
     document.getElementById("logout").style.display = "none";
-    document.location.href = "Login-New.html";
+    document.location.href = "Login.html";
 
 }
 
@@ -409,12 +418,12 @@ function ShowRelatedQuestions(questionsByScore) {
     questionsByScore.sort((a, b) => (a.score > b.score) ? -1 : 1);
     if (questionsByScore.length > 0) {
         document.getElementById("middmainid").style.display = "block";
-        var str = "<h3>" + ":אולי יעניין אותך גם" + "</h3>"+ "<div class='row'>";
+        var str = "<h3>" + "אולי יעניין אותך גם:" + "</h3>"+ "<div class='row'>";
         for (var i = 0; i < questionsByScore.length; i++) {
             str += "<div class='col-md-8 card'>"
                 + "<h3>" + questionsByScore[i].questionTitle + "</h3>"
                 + "<p>" + "רמת קושי: " + questionsByScore[i].question.difficulty + "</p>"
-                + "<p>" + questionsByScore[i].question.content + "</p>"
+                + "<p class='titleq'>" + questionsByScore[i].question.content + "</p>"
                 + "<p>" + "ציון התאמה: " + questionsByScore[i].score + "</p>"
                 + "<button class='btn-card dropdown' id='" + questionsByScore[i].questionTitle + "' onclick='ShowQuestion(this)'>הצג שאלה</button>"
                 + "</div>"
